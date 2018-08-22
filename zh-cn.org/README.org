@@ -1,0 +1,22 @@
+* HASKELL 趣学指南
+
+*** 简介
+
+    LEARN YOU A HASKELL FOR GREAT GOOD 中文版
+
+*** Top 贡献者
+
+    - Fleuria
+    - letoh
+    - jiyinyiyong
+    - douglarek
+
+*** 社区
+
+    - [[http://meetup.com/Functional-Thursday][functional thursaday]]
+    - [[http://webchat.freenode.net/][haskell.tw]]
+    - [[http://www.meetup.com/haskell-sg][haskell.sg]]
+
+*** 贡献
+
+    - [[https://github.com/MnO2/learnyouahaskell-zh][github repo]]
