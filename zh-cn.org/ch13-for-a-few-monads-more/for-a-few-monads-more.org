@@ -25,9 +25,9 @@
    context， =Writer= 则是加进一个附加值的 context，好比 log一般。 =Writer= 可以
    让我们在计算的同时搜集所有 log 纪录，并汇集成一个 log并附加在结果上。
 
-   例如我们想要附加一个 String好说明我们的值在干么（有可能是为了除错）。想像有一
-   个函数接受一个代表帮派人数的数字，然后会回传值告诉我们这是否算是一个庞大的帮
-   派：
+   例如我们想要附加一个 String 好说明我们的值在干么（有可能是为了除错）。想像有
+   一个函数接受一个代表帮派人数的数字，然后会回传值告诉我们这是否算是一个庞大的
+   帮派：
 
    #+BEGIN_SRC haskell
      isBigGang :: Int -> Bool
@@ -61,11 +61,11 @@
    具有 context 的值？
 
    当我们在研究 =Maybe= monad 的时候，我们写了一个 =applyMaybe= 。他接受一个
-    =Maybe a= 值跟一个 =a -> Maybe b= 型态的函数，他会把 =Maybe a= 喂给这个
-    function，即便这个 function 其实是接受 =a= 而非 =Maybe a= 。 =applyMaybe= 有
-    针对这样的 context 做处理，也就是会留意有可能发生的失败情况。但在 =a ->
-    Maybe b= 里面，我们可以只专心处理正常数值即可。因为 =applyMaybe= (之后变成了
-    ~>>=~ )会帮我们处理需要检查 =Nothing= 或 =Just= 的情况。
+   =Maybe a= 值跟一个 =a -> Maybe b= 型态的函数，他会把 =Maybe a= 喂给这个
+   function，即便这个 function 其实是接受 =a= 而非 =Maybe a= 。 =applyMaybe= 有
+   针对这样的 context 做处理，也就是会留意有可能发生的失败情况。但在 =a -> Maybe
+   b= 里面，我们可以只专心处理正常数值即可。因为 =applyMaybe= (之后变成了 ~>>=~
+   )会帮我们处理需要检查 =Nothing= 或 =Just= 的情况。
 
    我们再来写一个接受附加 log 值的函数，也就是 =(a, String)= 型态的值跟 =a ->
    (b, String)= 型态的函数。我们称呼这个函数为 =applyLog= 。这个函数有的 context
@@ -109,7 +109,7 @@
 *** Monoids 的好处
 
     #+BEGIN_EXAMPLE
-        请确定你了解什么是 Monoids。
+      请确定你了解什么是 Monoids。
     #+END_EXAMPLE
 
     到目前为止 =applyLog= 接受 =(a,String)= 型态的值，但为什么 log 一定要是
@@ -606,7 +606,7 @@
     我们会看到整个运算卡卡的。
 
     当然这不是一个严谨的测试方法，但足以表显出 difference list是比较有效率的写法。
-
+    
 ** Reader Monad
 
    [[file:revolver.png]]
@@ -754,8 +754,8 @@
 
    #+BEGIN_EXAMPLE
      在其他的语言中，赋值大多是被当作会改变状态的操作。举例来说，当我们在命令式
-     语言写 ``x = 5``， 这通常代表的是把 ``5`` 指定给 ``x`` 这变量。而且这边
-     ``5`` 是一个 expression。 如果你用函数语言的角度去思考，你可以把他想做是一
+     语言写 `x = 5`， 这通常代表的是把 `5` 指定给 `x` 这变量。而且这边
+     `5` 是一个 expression。 如果你用函数语言的角度去思考，你可以把他想做是一
      个函数，接受一个状态，并回传结果跟新的状态。那新的状态代表所有已指定的值与
      新加入的变量。
    #+END_EXAMPLE

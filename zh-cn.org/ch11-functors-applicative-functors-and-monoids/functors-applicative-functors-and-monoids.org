@@ -25,9 +25,9 @@
 
    来快速复习一下：Functors 是可以被 map over 的对象，像是lists， =Maybe= ，
    trees 等等。在 Haskell 中我们是用 =Functor= 这个typeclass 来描述他。这个
-   typeclass 只有一个 method，叫做=fmap=，他的型态是 =fmap :: (a -> b) -> f a ->
-   f b= 。这型态说明了如果给我一个从 =a= 映到 =b= 的函数，以及一个装了 =a= 的盒
-   子，我会回给你一个装了 =b= 的盒子。就好像用这个函数将每个元素都转成 =b= 一样
+   typeclass 只有一个 method，叫做 =fmap= ，他的型态是 =fmap :: (a -> b) -> f a
+   -> f b= 。这型态说明了如果给我一个从 =a= 映到 =b= 的函数，以及一个装了 =a= 的
+   盒子，我会回给你一个装了 =b= 的盒子。就好像用这个函数将每个元素都转成 =b= 一样
 
    #+BEGIN_EXAMPLE
      *给一点建议*。这盒子的比喻尝试让你抓到些 functors 是如何运作的感觉。在之后我们也
@@ -44,9 +44,9 @@
    Int= ，或是 =Maybe String= 。如果一个 type constructor 接受两个参数，像是
    =Either= ，我们必须给他两个 type parameter。所以我们不能这样写： =instance
    Functor Either where= ，但我们可以写 =instance Functor (Either a) where= ，如
-   果我们把 =fmap= 限缩成只是=Either a= 的，那他的型态就是 =fmap :: (b -> c) ->
+   果我们把 =fmap= 限缩成只是 =Either a= 的，那他的型态就是 =fmap :: (b -> c) ->
    Either a b -> Either a c= 。就像你看到的， =Either a= 的是固定的一部分，因为
-   =Either a= 只恰好接受一个 type parameter，但=Either= 则要接受两个 type
+   =Either a= 只恰好接受一个 type parameter，但 =Either= 则要接受两个 type
    parameters。这样 fmap 的型态变成 =fmap :: (b -> c) -> Either b -> Either c=
    ，这不太合理。
 
@@ -71,12 +71,12 @@
              return (f result)
    #+END_SRC
 
-   对一个 I/O action 做 map over 动作的结果仍会是一个 I/O action，所以我们才用
-   do syntax 来把两个 I/O action 黏成一个。在 =fmap= 的实作中，我们先执行了原本
-   传进的 I/O action，并把结果绑定成 =result= 。然后我们写了 =return (f result)=
-   。 =return= 就如你所知道的，是一个只会回传包了你传给他东西的 I/O action。还有
-   一个 do block 的回传值一定是他最后一个 I/O action 的回传值。这也是为什么我们
-   需要return。其实他只是回传包了 =f result= 的 I/O action。
+   对一个 I/O action 做 map over 动作的结果仍会是一个 I/O action，所以我们才用do
+   syntax 来把两个 I/O action 黏成一个。在 =fmap= 的实作中，我们先执行了原本传进
+   的 I/O action，并把结果绑定成 =result= 。然后我们写了 =return (f result)= 。
+   =return= 就如你所知道的，是一个只会回传包了你传给他东西的 I/O action。还有一
+   个 do block 的回传值一定是他最后一个 I/O action 的回传值。这也是为什么我们需
+   要return。其实他只是回传包了 =f result= 的 I/O action。
 
    我们可以再多实验一下来找到些感觉。来看看这段 code：
 
@@ -99,11 +99,11 @@
 
    就像我们用 =fmap= =reverse= 来 map over =Just "blah"​= 会得到 =Just "halb"​= ，
    我们也可以 =fmap= =reverse= 来 map over =getLine= 。 =getLine= 是一个 I/O
-   action，他的 type 是 =IO String=，而用=reverse= 来 map over 他会回传一个取回
-   一个字串并 =reverse= 他的 I/O action。就像我们 apply 一个 function 到一个
+   action，他的 type 是 =IO String= ，而用 =reverse= 来 map over 他会回传一个取
+   回一个字串并 =reverse= 他的 I/O action。就像我们 apply 一个 function 到一个
    =Maybe= 一样，我们也可以apply 一个 function 到一个 =IO= ，只是这个 =IO= 会跑
-   去外面拿回某些值。然后我们把结果用 =<-=绑定到某个名称，而这个名称绑定的值是已
-   经 =reverse= 过了。
+   去外面拿回某些值。然后我们把结果用 =<-= 绑定到某个名称，而这个名称绑定的值是
+   已经 =reverse= 过了。
 
    而 =fmap (++"!") getLine= 这个 I/O action 表现得就像 =getLine= ，只是他的结果
    多了一个 =​"!"​= 在最后。
@@ -136,13 +136,13 @@
    比较漂亮版本的 =(\xs -> intersperse '-' (reverse (map toUpper xs)))= 。
 
    另一个 =Functor= 的案例是 =(->) r= ，只是我们先前没有注意到。你可能会困惑到底
-    =(->) r= 究竟代表什么？一个 =r -> a= 的型态可以写成 =(->) r a= ，就像是 =2 +
-    3= 可以写成 =(+) 2 3= 一样。我们可以从一个不同的角度来看待=(->) r a=，他其实
-    只是一个接受两个参数的 type constructor，好比 =Either= 。但记住我们说过
-    =Functor= 只能接受一个 type constructor。这也是为什么 =(->)= 不是 =Functor=
-    的一个 instance，但 =(->) r= 则是。如果程序的语法允许的话，你也可以将 =(->)
-    r= 写成 =(r ->)= 。就如 =(2+)= 代表的其实是 =(+) 2= 。至于细节是如何呢？我们
-    可以看看 =Control.Monad.Instances= 。
+   =(->) r= 究竟代表什么？一个 =r -> a= 的型态可以写成 =(->) r a= ，就像是 =2 +
+   3= 可以写成 =(+) 2 3= 一样。我们可以从一个不同的角度来看待 =(->) r a= ，他其
+   实只是一个接受两个参数的 type constructor，好比 =Either= 。但记住我们说过
+   =Functor= 只能接受一个 type constructor。这也是为什么 =(->)= 不是 =Functor=
+   的一个 instance，但 =(->) r= 则是。如果程序的语法允许的话，你也可以将 =(->)
+   r= 写成 =(r ->)= 。就如 =(2+)= 代表的其实是 =(+) 2= 。至于细节是如何呢？我们
+   可以看看 =Control.Monad.Instances= 。
 
    #+BEGIN_EXAMPLE
      我们通常说一个接受任何东西以及回传随便一个东西的函数型态是 ``a -> b``。 ``r ->
@@ -173,7 +173,7 @@
    就如 map over 一个 function 到 =Maybe= 会得到一个 =Maybe= ，而map over 一个
    function 到一个 list 会得到一个 list。而 =fmap :: (a -> b) -> (r -> a) -> (r
    -> b)= 告诉我们什么？他接受一个从 =a= 到 =b= 的 function，跟一个从 =r= 到 =a=
-   的 function，并回传一个从=r= 到 =b= 的 function。这根本就是 function
+   的 function，并回传一个从 =r= 到 =b= 的 function。这根本就是 function
    composition。把 =r -> a= 的输出接到 =a -> b= 的输入，的确是 function
    composition在做的事。如果你再仔细看看 instance 的定义，会发现真的就是一个
    function composition。
@@ -200,8 +200,8 @@
    #+END_SRC
 
    我们调用 =fmap= 的方式是 infix 的方式，这跟 =.= 很像。在第二行，我们把 =(*3)=
-   map over 到 =(+100)= 上，这会回传一个先把输入值 =(+100)= 再 =(*3)= 的
-   function，我们再用 =1= 去调用他。
+   map over 到 =(+100)= 上，这会回传一个先把输入值 =(+100)= 再 =(*3)= 的function，
+   我们再用 =1= 去调用他。
 
    到这边为止盒子的比喻还适用吗？如果你硬是要解释的话还是解释得通。当我们将
    =fmap (+3)= map over =Just 3= 的时候，对于 =Maybe= 我们很容易把他想成是装了值
@@ -210,10 +210,10 @@
    对=(+100)= 使用 =fmap (*3)= 会产生另一个表现得像 =(+100)= 的function。只是在
    算出值之前，会再多计算 =(*3)= 。这样我们可以看出来 =fmap= 表现得就像 =.= 一样。
 
-   =fmap= 等同于 function composition这件事对我们来说并不是很实用，但至少是一个
+    =fmap= 等同于 function composition这件事对我们来说并不是很实用，但至少是一个
    有趣的观点。这也让我们打开视野，看到盒子的比喻不是那么恰当，functors其实比较
-   像 computation。function 被 map over 到一个 computation会产生经由那个
-   function 映射过后的 computation。
+   像 computation。function 被 map over 到一个 computation会产生经由那个function
+   映射过后的 computation。
 
    [[file:lifter.png]]
 
@@ -237,7 +237,7 @@
      fmap (replicate 3) :: (Functor f) => f a -> f [a]
    #+END_SRC
 
-   =fmap (*2)= 接受一个 functor =f= ，并回传一个基于数字的 functor。那个functor
+    =fmap (*2)= 接受一个 functor =f= ，并回传一个基于数字的 functor。那个functor
    可以是 list，可以是 =Maybe= ，可以是 =Either String= 。 =fmap (replicate 3)=
    可以接受一个基于任何型态的functor，并回传一个基于 list 的 functor。
 
@@ -328,10 +328,10 @@
    = fmap f (fmap g F)~ 。
 
    如果我们能够证明某个型别遵守两个定律，那我们就可以保证他跟其他 functor对于映
-   射方面都拥有相同的性质。我们知道如果对他用 =fmap= ，我们知道不会有除了
-   mapping以外的事会发生，而他就仅仅会表现成某个可以被 map over 的东西。也就是一
-   个functor。你可以再仔细查看 =fmap= 对于某些型别的实作来了解第二定律。正如我们
-   先前对 =Maybe= 查看第一定律一般。
+   射方面都拥有相同的性质。我们知道如果对他用 =fmap= ，我们知道不会有除了mapping
+   以外的事会发生，而他就仅仅会表现成某个可以被 map over 的东西。也就是一个
+   functor。你可以再仔细查看 =fmap= 对于某些型别的实作来了解第二定律。正如我们先
+   前对 =Maybe= 查看第一定律一般。
 
    如果你需要的话，我们能在这边演练一下 =Maybe= 是如何遵守第二定律的。首先 =fmap
    (f . g)= 来 map over =Nothing= 的话，我们会得到 =Nothing= 。因为用任何函数来
@@ -374,8 +374,8 @@
 
    如果我们使用 =CNothing= ，就代表不含有 field。如果我们用的是 =CJust= ，那第一
    个 field 是整数，而第二个 field可以为任何型别。我们来定义一个 =Functor= 的
-   instance，这样每次我们使用=fmap= 的时候，函数会被套用在第二个 field，而第一个
-   field 会被加一。
+   instance，这样每次我们使用 =fmap= 的时候，函数会被套用在第二个 field，而第一
+   个field 会被加一。
 
    #+BEGIN_SRC haskell
      instance Functor CMaybe where
@@ -409,7 +409,7 @@
    候，他的结果应该跟只对 functor 调用 =id= 的结果一样。但我们可以看到这个例子中，
    这对于 =CMaybe= 并不遵守。尽管他的确是 =Functor= typeclass 的一个 instance。
    但他并不遵守functor law 因此不是一个 functor。如果有人使用我们的 =CMaybe= 型
-   别，把他当作 functor 用，那他就会期待 functor laws 会被遵守。但=CMaybe= 并没
+   别，把他当作 functor 用，那他就会期待 functor laws 会被遵守。但 =CMaybe= 并没
    办法满足，便会造成错误的程序。当我们使用一个 functor的时候，函数合成跟 map
    over 的先后顺序不应该有影响。但对于 =CMaybe= 他是有影响的，因为他纪录了被 map
    over 的次数。如果我们希望 =CMaybe= 遵守functor law，我们必须要让 =Int= 字段在
@@ -426,9 +426,9 @@
    有什么样的性质跟行为。而且 functor laws也会觉得显而易见。但就算没有这些直觉，
    你仍然可以一行一行地来找看看有没有反例让这些定律失效。
 
-   我们可以把 functor 看作输出具有 context 的值。例如说 =Just 3= 就是输出=3=，但
-   他又带有一个可能没有值的 context。 =[1,2,3]= 输出三个值， =1= , =2= 跟 =3= ，
-   同时也带有可能有多个值或没有值的 context。 =(+3)= 则会带有一个依赖于参数的
+   我们可以把 functor 看作输出具有 context 的值。例如说 =Just 3= 就是输出 =3= ，
+   但他又带有一个可能没有值的 context。 =[1,2,3]= 输出三个值， =1= , =2= 跟 =3=
+   ，同时也带有可能有多个值或没有值的 context。 =(+3)= 则会带有一个依赖于参数的
    context。
 
    如果你把 functor 想做是输出值这件事，那你可以把 map over 一个 functor这件事想
@@ -451,16 +451,16 @@
 
    你还记得 Haskell 中函数缺省就是 Curried的，那代表接受多个参数的函数实际上是接
    受一个参数然后回传一个接受剩余参数的函数，以此类推。如果一个函数的型别是 =a
-   -> b -> c= ，我们通常会说这个函数接受两个参数并回传=c=，但他实际上是接受 =a=
-   并回传一个 =b -> c= 的函数。这也是为什么我们可以用 =(f x) y= 的方式调用=f x
-   y=。这个机制让我们可以 partially apply一个函数，可以用比较少的参数调用他们。
-   可以做成一个函数再喂给其他函数。
+   -> b -> c= ，我们通常会说这个函数接受两个参数并回传 =c= ，但他实际上是接受
+   =a= 并回传一个 =b -> c= 的函数。这也是为什么我们可以用 =(f x) y= 的方式调用
+   =f x y= 。这个机制让我们可以 partially apply一个函数，可以用比较少的参数调用
+   他们。可以做成一个函数再喂给其他函数。
 
    到目前为止，当我们要对 functor map over一个函数的时候，我们用的函数都是只接受
    一个参数的。但如果我们要 map一个接受两个参数的函数呢？我们来看几个具体的例子。
    如果我们有 =Just 3= 然后我们做 =fmap (*) (Just 3)= ，那我们会获得什么样的结果？
-   从 =Maybe= 对=Functor= 的 instance 实作来看，我们知道如果他是 =Just
-   something= ，他会对在 =Just= 中的 =something= 做映射。因此当=fmap (*) (Just
+   从 =Maybe= 对 =Functor= 的 instance 实作来看，我们知道如果他是 =Just
+   something= ，他会对在 =Just= 中的 =something= 做映射。因此当 =fmap (*) (Just
    3)= 会得到 =Just ((*) 3)= ，也可以写做 =Just (* 3)= 。我们得到了一个包在
    =Just= 中的函数。
 
@@ -494,8 +494,8 @@
      [9,18,27,36]
    #+END_SRC
 
-   但如果我们的有一个 functor 里面是 =Just (3 *)= 还有另一个 functor 里面是=Just
-   5=，但我们想要把第一个 =Just (3 *)= map over =Just 5= 呢？如果是普通的
+   但如果我们的有一个 functor 里面是 =Just (3 *)= 还有另一个 functor 里面是
+   =Just 5= ，但我们想要把第一个 =Just (3 *)= map over =Just 5= 呢？如果是普通的
    functor，那就没救了。因为他们只允许 map一个普通的函数。即使我们用 =\f -> f 9=
    来 map 一个装了很多函数的functor，我们也是使用了普通的函数。我们是无法单纯用
    =fmap= 来把包在一个functor 的函数 map 另一个包在 functor 中的值。我们能用模式
@@ -521,15 +521,16 @@
 
    第一个定义的是 =pure= 。他的型别宣告是 =pure :: a -> f a= 。 =f= 代表
    applicative functor 的 instance。由于 Haskell有一个优秀的型别系统，其中函数又
-   是将一些参数映射成结果，我们可以从型别宣告中读出许多消息。=pure=应该要接受一
-   个值，然后回传一个包含那个值的 applicative functor。我们这边是用盒子来作比喻，
-   即使有一些比喻不完全符合现实的情况。尽管这样， =a -> f a= 仍有许多丰富的信息，
-   他确实告诉我们他会接受一个值并回传一个 applicative functor，里面装有结果。
+   是将一些参数映射成结果，我们可以从型别宣告中读出许多消息。 =pure= 应该要接受
+   一个值，然后回传一个包含那个值的 applicative functor。我们这边是用盒子来作比
+   喻，即使有一些比喻不完全符合现实的情况。尽管这样， =a -> f a= 仍有许多丰富的
+   信息，他确实告诉我们他会接受一个值并回传一个 applicative functor，里面装有结
+   果。
 
    对于 =pure= 比较好的说法是把一个普通值放到一个缺省的 context下，一个最小的
    context 但仍然包含这个值。
 
-   =<*>= 也非常有趣。他的型别是 =f (a -> b) -> f a -> f b= 。这有让你联想到什么
+    =<*>= 也非常有趣。他的型别是 =f (a -> b) -> f a -> f b= 。这有让你联想到什么
    吗？没错！就是 =fmap :: (a -> b) -> f a -> f b= 。他有点像加强版的 =fmap= 。
    然而 =fmap= 接受一个函数跟一个 functor，然后套用 functor 之中的函数。 =<*>=
    则是接受一个装有函数的 functor 跟另一个 functor，然后取出第一个 functor中的函
@@ -549,19 +550,19 @@
    Applicative (Maybe a) where= 。
 
    首先看到 =pure= 。他只不过是接受一个东西然后包成 applicative functor。我们写
-   成 =pure = Just= 是因为 =Just=不过就是一个普通函数。我们其实也可以写成 ~pure
+   成 ~pure = Just~ 是因为 =Just= 不过就是一个普通函数。我们其实也可以写成 ~pure
    x = Just x~ 。
 
    接着我们定义了 =<*>= 。我们无法从 =Nothing= 中抽出一个函数，因为 =Nothing= 并
    不包含一个函数。所以我们说如果我们要尝试从 =Nothing= 中取出一个函数，结果必定
    是 =Nothing= 。如果你看看 =Applicative= 的定义，你会看到他有 =Functor= 的限制，
-   他代表 =<*>= 的两个参数都会是functors。如果第一个参数不是 =Nothing=，而是一个
-   装了函数的=Just=，而且我们希望将这个函数对第二个参数做map。这个也考虑到第二个
-   参数是 =Nothing= 的情况，因为 =fmap=任何一个函数至 =Nothing= 会回传 =Nothing=
-   。
+   他代表 =<*>= 的两个参数都会是functors。如果第一个参数不是 =Nothing= ，而是一
+   个装了函数的 =Just= ，而且我们希望将这个函数对第二个参数做map。这个也考虑到第
+   二个参数是 =Nothing= 的情况，因为 =fmap= 任何一个函数至 =Nothing= 会回传
+   =Nothing= 。
 
-   对于 =Maybe= 而言，如果左边是 =Just=，那 =<*>= 会从其中抽出了一个函数来map 右
-   边的值。如果有任何一个参数是 =Nothing= 。那结果便是 =Nothing= 。
+   对于 =Maybe= 而言，如果左边是 =Just= ，那 =<*>= 会从其中抽出了一个函数来map
+   右边的值。如果有任何一个参数是 =Nothing= 。那结果便是 =Nothing= 。
 
    来试试看吧！
 
@@ -1196,7 +1197,7 @@
    们要怎么要让 list可以被定义成第二种方式呢？如果你还记得我们说过我们是有很好的
    理由定义了 =ZipList a= ，其中他里面只包含一个值构造子跟只包含一个字段。其实他
    的理由就是要让 =ZipList= 定义成用拉链的方式来表现 applicative 行为。我们只不
-   过用=ZipList = 这个构造子将他包起来，然后用 = getZipList= 来解开来。
+   过用=ZipList = 这个构造子将他包起来，然后用 =getZipList= 来解开来。
 
    #+BEGIN_SRC haskell
      ghci> getZipList $ ZipList [(+1),(*100),(*5)] <*> ZipList [1,2,3]
@@ -1477,7 +1478,7 @@
     们 =++= 然后再转回 =CharList= 。
 
     当我们在 =newtype= 宣告中使用 record syntax的时候，我们会得到将新的型别转成
-    旧的型别的函数，也就是我们 =newtype=的值构造子，以及一个函数将他的字段取出。
+    旧的型别的函数，也就是我们 =newtype= 的值构造子，以及一个函数将他的字段取出。
     新的型别并不会被自动定义成原有型别所属的typeclass 的一个 instance，所以我们
     必须自己来 derive 他们。
 
@@ -1583,9 +1584,9 @@
    在 typeclass 定义中的最后一个函数是 =mconcat= 。他接受一串 monoid值，并将他们
    用 =mappend= 简化成单一的值。他有一个缺省的实作，就是从 =mempty= 作为起始值，
    然后用 =mappend= 来 fold。由于对于大部分的 instance缺省的实作就没什么问题，我
-   们不会想要实作自己的=mconcat=。当我们定义一个型别属于 =Monoid= 的时候，多半实
-   作 =mempty= 跟=mappend= 就可以了。而 =mconcat= 就是因为对于一些instance，有可
-   能有比较有效率的方式来实作 =mconcat= 。不过大多数情况都不需要。
+   们不会想要实作自己的 =mconcat= 。当我们定义一个型别属于 =Monoid= 的时候，多半
+   实作 =mempty= 跟 =mappend= 就可以了。而 =mconcat= 就是因为对于一些instance，
+   有可能有比较有效率的方式来实作 =mconcat= 。不过大多数情况都不需要。
 
    在我们继续接下去看几个 =Monoid= 的例子前，我们来看一下 monoid law。我们提过必
    须有一个值作为 identity以及一个遵守结合律的二元函数当作前提。我们是可以定义一
@@ -1665,7 +1666,7 @@
 
 *** Product and Sum
 
-    我们已经描述过将数值表现成一种 monoid 的方式。只要将 =*= 当作二元函数而=1=
+    我们已经描述过将数值表现成一种 monoid 的方式。只要将 =*= 当作二元函数而 =1=
     当作 identity 就好了。而且这不是唯一一种方式，另一种方式是将 =+= 作为二元函
     数而 =0= 作为 identity。
 
