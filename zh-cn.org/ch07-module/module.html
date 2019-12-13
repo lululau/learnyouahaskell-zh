@@ -1,0 +1,1920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2019-12-13 五 22:01 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>模块</title>
+<meta name="generator" content="Org mode">
+<meta name="author" content="刘向">
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="https://liuxiang.coding.me/liuxiang/style/org/spacemacs-wide/htmlize.css"/>
+ <script src="https://liuxiang.coding.me/liuxiang/js/org/spacemacs-wide/jquery.min.js"></script>
+ <script src="https://liuxiang.coding.me/liuxiang/js/org/spacemacs-wide/bootstrap.min.js"></script>
+ <script src="https://liuxiang.coding.me/liuxiang/js/org/spacemacs-wide/readtheorg.js"></script>
+ <link rel="stylesheet" type="text/css" href="https://liuxiang.coding.me/liuxiang/style/org/spacemacs-wide/readtheorg.css"/>
+ <link rel="stylesheet" type="text/css" href="https://liuxiang.coding.me/liuxiang/style/org/spacemacs-wide/font-awesome.min.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">模块</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org75e296a">1. 模块 (Modules)</a>
+<ul>
+<li><a href="#orga19d04f">1.1. 装载模块</a></li>
+<li><a href="#orgd10531a">1.2. Data.List</a></li>
+<li><a href="#org38d2337">1.3. Data.Char</a></li>
+<li><a href="#orgb6b620d">1.4. Data.Map</a></li>
+<li><a href="#org6f9e443">1.5. Data.Set</a></li>
+<li><a href="#org1fdc2a4">1.6. 建立自己的模块</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org75e296a" class="outline-2">
+<h2 id="org75e296a"><span class="section-number-2">1</span> 模块 (Modules)</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-orga19d04f" class="outline-3">
+<h3 id="orga19d04f"><span class="section-number-3">1.1</span> 装载模块</h3>
+<div class="outline-text-3" id="text-1-1">
+
+<div class="figure">
+<p><img src="modules.png" alt="modules.png">
+</p>
+</div>
+
+<p>
+Haskell 中的模块是含有一组相关的函数，型别和型别类的组合。而 Haskell进程的本质便是从主模块中引用其它模块并调用其中的函数来执行操作。这样可以把代码分成多块，只要一个模块足够的独立，它里面的函数便可以被不同的进程反复重用。这就让不同的代码各司其职，提高了代码的健壮性。
+</p>
+
+<p>
+Haskell的标准库就是一组模块，每个模块都含有一组功能相近或相关的函数和型别。有处理List的模块，有处理并发的模块，也有处理复数的模块，等等。目前为止我们谈及的所有函数,型别以及型别类都是 <code>Prelude</code> 模块的一部分，它缺省自动装载。在本章，我们看一下几个常用的模块，在开始浏览其中的函数之前，我们先得知道如何装载模块.
+</p>
+
+<p>
+在 Haskell中，装载模块的语法为 <code>import</code> ，这必须得在函数的定义之前，所以一般都是将它置于代码的顶部。无疑，一段代码中可以装载很多模块，只要将 <code>import</code> 语句分行写开即可。装载 <code>Data.List</code> 试下，它里面有很多实用的List 处理函数.
+</p>
+
+<p>
+执行 <code>import Data.List</code> ，这样一来 <code>Data.List</code> 中包含的所有函数就都进入了全局命名空间。也就是说，你可以在代码的任意位置调用这些函数. <code>Data.List</code> 模块中有个 <code>nub</code> 函数，它可以筛掉一个 List 中的所有重复元素。用点号将 <code>length</code> 和
+<code>nub</code> 组合: <code>length . nub</code> ，即可得到一个与 <code>(\xs -&gt; length (nub xs))</code> 等价的函数。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #268bd2; font-weight: bold;">import</span> <span style="color: #df005f; font-weight: bold;">Data.List</span>
+
+<span style="color: #d75fd7; font-weight: bold;">numUniques</span> <span style="color: #8787d7;">::</span> <span style="color: #268bd2;">(</span><span style="color: #df005f; font-weight: bold;">Eq</span> a<span style="color: #268bd2;">)</span> <span style="color: #8787d7;">=&gt;</span> <span style="color: #268bd2;">[</span>a<span style="color: #268bd2;">]</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #df005f; font-weight: bold;">Int</span>
+<span style="color: #d75fd7; font-weight: bold;">numUniques</span> <span style="color: #8787d7;">=</span> length <span style="color: #8787d7;">.</span> nub
+</pre>
+</div>
+
+<p>
+你也可以在 ghci 中装载模块，若要调用 <code>Data.List</code> 中的函数，就这样:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> <span style="color: #df005f; font-weight: bold;">:</span>m <span style="color: #df005f; font-weight: bold;">Data.List</span>
+</pre>
+</div>
+
+<p>
+若要在 ghci 中装载多个模块，不必多次 <code>:m</code> 命令，一下就可以全部搞定:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> <span style="color: #df005f; font-weight: bold;">:</span>m <span style="color: #df005f; font-weight: bold;">Data.List</span> <span style="color: #df005f; font-weight: bold;">Data.Map</span> <span style="color: #df005f; font-weight: bold;">Data.Set</span>
+</pre>
+</div>
+
+<p>
+而你的进程中若已经有包含的代码，就不必再用 <code>:m</code> 了.
+</p>
+
+<p>
+如果你只用得到某模块的两个函数，大可仅包含它俩。若仅装载 <code>Data.List</code> 模块
+ <code>nub</code> 和 <code>sort</code> ，就这样:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #268bd2; font-weight: bold;">import</span> <span style="color: #df005f; font-weight: bold;">Data.List</span> <span style="color: #268bd2;">(</span>nub<span style="color: #8787d7;">&#65292;</span>sort<span style="color: #268bd2;">)</span>
+</pre>
+</div>
+
+<p>
+也可以只包含除去某函数之外的其它函数，这在避免多个模块中函数的命名冲突很有用。假设我们的代码中已经有了一个叫做 <code>nub</code> 的函数，而装入 <code>Data.List</code> 模块时就要把它里面的 <code>nub</code> 除掉.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #268bd2; font-weight: bold;">import</span> <span style="color: #df005f; font-weight: bold;">Data.List</span> <span style="color: #268bd2; font-weight: bold;">hiding</span> <span style="color: #268bd2;">(</span>nub<span style="color: #268bd2;">)</span>
+</pre>
+</div>
+
+<p>
+避免命名冲突还有个方法，便是 <code>qualified import</code> ， <code>Data.Map</code> 模块提供一了一个按键索值的数据结构，它里面有几个和 <code>Prelude</code> 模块重名的函数。如 <code>filter</code> 和
+<code>null</code> ，装入 <code>Data.Map</code> 模块之后再调用 <code>filter</code> ，Haskell 就不知道它究竟是哪个函数。如下便是解决的方法:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #268bd2; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">qualified</span> <span style="color: #df005f; font-weight: bold;">Data.Map</span>
+</pre>
+</div>
+
+<p>
+这样一来，再调用 <code>Data.Map</code> 中的 <code>filter</code> 函数，就必须得 <code>Data.Map.filter</code> ，而 <code>filter</code> 依然是为我们熟悉喜爱的样子。但是要在每个函数前面都加 <code>个
+    Data.Map</code> 实在是太烦人了! 那就给它起个别名，让它短些:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #268bd2; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">qualified</span> <span style="color: #df005f; font-weight: bold;">Data.Map</span> <span style="color: #268bd2; font-weight: bold;">as</span> <span style="color: #df005f; font-weight: bold;">M</span>
+</pre>
+</div>
+
+<p>
+好，再调用 <code>Data.Map</code> 模块的 <code>filter</code> 函数的话仅需 <code>M.filter</code> 就行了
+</p>
+
+<p>
+要浏览所有的标准库模块，参考这个手册。翻阅标准库中的模块和函数是提升个人
+Haskell 水平的重要途径。你也可以各个模块的源代码，这对 Haskell的深入学习及掌握都是大有好处的.
+</p>
+
+<p>
+检索函数或搜索函数字置就用 [<a href="http://www.haskell.org/hoogle/">http://www.haskell.org/hoogle/</a> Hoogle]，相当了不起的 Haskell 搜索引擎! 你可以用函数名，模块名甚至型别声明来作为检索的条件.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd10531a" class="outline-3">
+<h3 id="orgd10531a"><span class="section-number-3">1.2</span> Data.List</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+显而易见， <code>Data.List</code> 是关于 List 操作的模块，它提供了一组非常有用的List 处理函数。在前面我们已经见过了其中的几个函数(如 <code>map</code> 和 <code>filter</code> )，这是
+<code>Prelude</code> 模块出于方便起见，导出了几个 <code>Data.List</code> 里的函数。因为这几个函数是直接引用自 <code>Data.List</code> ，所以就无需使用 <code>qualified import</code> 。在下面，我们来看看几个以前没见过的函数:
+</p>
+
+<p>
+<b>intersperse</b> 取一个元素与 List 作参数，并将该元素置于 List中每对元素的中间。如下是个例子:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> intersperse <span style="color: #2aa198;">'.'</span> <span style="color: #2aa198;">"MONKEY"</span>
+<span style="color: #2aa198;">"M.O.N.K.E.Y"</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> intersperse <span style="color: #d75fd7;">0</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">6</span><span style="color: #268bd2;">]</span>
+<span style="color: #268bd2;">[</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">0</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">0</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">0</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">0</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">0</span>,<span style="color: #d75fd7;">6</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+
+<p>
+<b>intercalate</b> 取两个 List 作参数。它会将第一个 List 交叉插入第二个 List中间，并返回一个 List.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> intercalate <span style="color: #2aa198;">" "</span> <span style="color: #268bd2;">[</span><span style="color: #2aa198;">"hey"</span>,<span style="color: #2aa198;">"there"</span>,<span style="color: #2aa198;">"guys"</span><span style="color: #268bd2;">]</span>
+<span style="color: #2aa198;">"hey there guys"</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> intercalate <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">0</span>,<span style="color: #d75fd7;">0</span>,<span style="color: #d75fd7;">0</span><span style="color: #268bd2;">]</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">[</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span><span style="color: #d75fd7;">]</span>,<span style="color: #d75fd7;">[</span><span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">6</span><span style="color: #d75fd7;">]</span>,<span style="color: #d75fd7;">[</span><span style="color: #d75fd7;">7</span>,<span style="color: #d75fd7;">8</span>,<span style="color: #d75fd7;">9</span><span style="color: #d75fd7;">]</span><span style="color: #268bd2;">]</span>
+<span style="color: #268bd2;">[</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">0</span>,<span style="color: #d75fd7;">0</span>,<span style="color: #d75fd7;">0</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">6</span>,<span style="color: #d75fd7;">0</span>,<span style="color: #d75fd7;">0</span>,<span style="color: #d75fd7;">0</span>,<span style="color: #d75fd7;">7</span>,<span style="color: #d75fd7;">8</span>,<span style="color: #d75fd7;">9</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+
+<p>
+<b>transpose</b> 函数可以反转一组 List 的 List。你若把一组 List 的 List看作是个 2D
+的矩阵，那 <code>transpose</code> 的操作就是将其列为行。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> transpose <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">[</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span><span style="color: #d75fd7;">]</span>,<span style="color: #d75fd7;">[</span><span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">6</span><span style="color: #d75fd7;">]</span>,<span style="color: #d75fd7;">[</span><span style="color: #d75fd7;">7</span>,<span style="color: #d75fd7;">8</span>,<span style="color: #d75fd7;">9</span><span style="color: #d75fd7;">]</span><span style="color: #268bd2;">]</span>
+<span style="color: #268bd2;">[</span><span style="color: #d75fd7;">[</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">7</span><span style="color: #d75fd7;">]</span>,<span style="color: #d75fd7;">[</span><span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">8</span><span style="color: #d75fd7;">]</span>,<span style="color: #d75fd7;">[</span><span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">6</span>,<span style="color: #d75fd7;">9</span><span style="color: #d75fd7;">]</span><span style="color: #268bd2;">]</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> transpose <span style="color: #268bd2;">[</span><span style="color: #2aa198;">"hey"</span>,<span style="color: #2aa198;">"there"</span>,<span style="color: #2aa198;">"guys"</span><span style="color: #268bd2;">]</span>
+<span style="color: #268bd2;">[</span><span style="color: #2aa198;">"htg"</span>,<span style="color: #2aa198;">"ehu"</span>,<span style="color: #2aa198;">"yey"</span>,<span style="color: #2aa198;">"rs"</span>,<span style="color: #2aa198;">"e"</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+
+<p>
+假如有两个多项式 <code>3x&lt;sup&gt;2&lt;/sup&gt; + 5x + 9</code> ， <code>10x&lt;sup&gt;3&lt;/sup&gt; + 9</code> 和
+ <code>8x&lt;sup&gt;3&lt;/sup&gt; + 5x&lt;sup&gt;2&lt;/sup&gt; + x - 1</code> ，将其相加，我们可以列三个List:
+ <code>[0,3,5,9]</code> ， <code>[10,0,0,9]</code> 和 <code>[8,5,1,-1]</code> 来表示。再用如下的方法取得结果.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> map sum <span style="color: #8787d7;">$</span> transpose <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">[</span><span style="color: #d75fd7;">0</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">9</span><span style="color: #d75fd7;">]</span>,<span style="color: #d75fd7;">[</span><span style="color: #d75fd7;">10</span>,<span style="color: #d75fd7;">0</span>,<span style="color: #d75fd7;">0</span>,<span style="color: #d75fd7;">9</span><span style="color: #d75fd7;">]</span>,<span style="color: #d75fd7;">[</span><span style="color: #d75fd7;">8</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">1</span>,<span style="color: #8787d7;">-</span><span style="color: #d75fd7;">1</span><span style="color: #d75fd7;">]</span><span style="color: #268bd2;">]</span>
+<span style="color: #268bd2;">[</span><span style="color: #d75fd7;">18</span>,<span style="color: #d75fd7;">8</span>,<span style="color: #d75fd7;">6</span>,<span style="color: #d75fd7;">17</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="legolists.png" alt="legolists.png">
+</p>
+</div>
+
+<p>
+使用 <code>transpose</code> 处理这三个 List之后，三次幂就到了第一行，二次幂到了第二行，以此类推。在用 <code>sum</code> 函数将其映射，即可得到正确的结果。
+</p>
+
+<p>
+<b>foldl'​</b> 和 <b>foldl1'​</b> 是它们各自惰性实现的严格版本。在用 <code>fold</code> 处理较大的
+List 时，经常会遇到堆栈溢出的问题。而这罪魁祸首就是 <code>fold</code> 的惰性: 在执行
+<code>fold</code> 时，累加器的值并不会被立即更新，而是做一个"在必要时会取得所需的结果"的承诺。每过一遍累加器，这一行为就重复一次。而所有的这堆"承诺"最终就会塞满你的堆栈。严格的 <code>fold</code> 就不会有这一问题，它们不会作"承诺"，而是直接计算中间值的结果并继续执行下去。如果用惰性 <code>fold</code> 时经常遇到溢出错误，就应换用它们的严格版。
+</p>
+
+<p>
+<b>concat</b> 把一组 List 连接为一个 List。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> concat <span style="color: #268bd2;">[</span><span style="color: #2aa198;">"foo"</span>,<span style="color: #2aa198;">"bar"</span>,<span style="color: #2aa198;">"car"</span><span style="color: #268bd2;">]</span>
+<span style="color: #2aa198;">"foobarcar"</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> concat <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">[</span><span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">5</span><span style="color: #d75fd7;">]</span>,<span style="color: #d75fd7;">[</span><span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span><span style="color: #d75fd7;">]</span>,<span style="color: #d75fd7;">[</span><span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">1</span><span style="color: #d75fd7;">]</span><span style="color: #268bd2;">]</span>
+<span style="color: #268bd2;">[</span><span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">1</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+
+<p>
+它相当于移除一级嵌套。若要彻底地连接其中的元素，你得 <code>concat</code> 它两次才行.
+</p>
+
+<p>
+<b>concatMap</b> 函数与 <code>map</code> 一个 List 之后再 <code>concat</code> 它等价.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> concatMap <span style="color: #268bd2;">(</span>replicate <span style="color: #d75fd7;">4</span><span style="color: #268bd2;">)</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">1</span><span style="color: #8787d7;">..</span><span style="color: #d75fd7;">3</span><span style="color: #268bd2;">]</span>
+<span style="color: #268bd2;">[</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">3</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+
+<p>
+<b>and</b> 取一组布林值 List 作参数。只有其中的值全为 <code>True</code> 的情况下才会返回
+ <code>True</code> 。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> and <span style="color: #8787d7;">$</span> map <span style="color: #268bd2;">(</span><span style="color: #8787d7;">&gt;</span><span style="color: #d75fd7;">4</span><span style="color: #268bd2;">)</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">6</span>,<span style="color: #d75fd7;">7</span>,<span style="color: #d75fd7;">8</span><span style="color: #268bd2;">]</span>
+<span style="color: #df005f; font-weight: bold;">True</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> and <span style="color: #8787d7;">$</span> map <span style="color: #268bd2;">(</span><span style="color: #8787d7;">==</span><span style="color: #d75fd7;">4</span><span style="color: #268bd2;">)</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span><span style="color: #268bd2;">]</span>
+<span style="color: #df005f; font-weight: bold;">False</span>
+</pre>
+</div>
+
+<p>
+<b>or</b> 与 <code>and</code> 相似，一组布林值 List 中若存在一个 <code>True</code> 它就返回 <code>True</code> .
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> or <span style="color: #8787d7;">$</span> map <span style="color: #268bd2;">(</span><span style="color: #8787d7;">==</span><span style="color: #d75fd7;">4</span><span style="color: #268bd2;">)</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">6</span>,<span style="color: #d75fd7;">1</span><span style="color: #268bd2;">]</span>
+<span style="color: #df005f; font-weight: bold;">True</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> or <span style="color: #8787d7;">$</span> map <span style="color: #268bd2;">(</span><span style="color: #8787d7;">&gt;</span><span style="color: #d75fd7;">4</span><span style="color: #268bd2;">)</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span><span style="color: #268bd2;">]</span>
+<span style="color: #df005f; font-weight: bold;">False</span>
+</pre>
+</div>
+
+<p>
+<b>any</b> 和 <b>all</b> 取一个限制条件和一组布林值 List 作参数，检查是否该 List的某个元素或每个元素都符合该条件。通常较 <code>map</code> 一个 List 到 <code>and</code> 或 <code>or</code> 而言，使用 <code>any</code> 或 <code>all</code> 会更多些。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> any <span style="color: #268bd2;">(</span><span style="color: #8787d7;">==</span><span style="color: #d75fd7;">4</span><span style="color: #268bd2;">)</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">6</span>,<span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">4</span><span style="color: #268bd2;">]</span>
+<span style="color: #df005f; font-weight: bold;">True</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> all <span style="color: #268bd2;">(</span><span style="color: #8787d7;">&gt;</span><span style="color: #d75fd7;">4</span><span style="color: #268bd2;">)</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">6</span>,<span style="color: #d75fd7;">9</span>,<span style="color: #d75fd7;">10</span><span style="color: #268bd2;">]</span>
+<span style="color: #df005f; font-weight: bold;">True</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> all <span style="color: #268bd2;">(</span><span style="color: #8787d7;">`elem`</span> <span style="color: #d75fd7;">[</span><span style="color: #2aa198;">'A'</span><span style="color: #8787d7;">..</span><span style="color: #2aa198;">'Z'</span><span style="color: #d75fd7;">]</span><span style="color: #268bd2;">)</span> <span style="color: #2aa198;">"HEYGUYSwhatsup"</span>
+<span style="color: #df005f; font-weight: bold;">False</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> any <span style="color: #268bd2;">(</span><span style="color: #8787d7;">`elem`</span> <span style="color: #d75fd7;">[</span><span style="color: #2aa198;">'A'</span><span style="color: #8787d7;">..</span><span style="color: #2aa198;">'Z'</span><span style="color: #d75fd7;">]</span><span style="color: #268bd2;">)</span> <span style="color: #2aa198;">"HEYGUYSwhatsup"</span>
+<span style="color: #df005f; font-weight: bold;">True</span>
+</pre>
+</div>
+
+<p>
+<b>iterate</b> 取一个函数和一个值作参数。它会用该值去调用该函数并用所得的结果再次调用该函数，产生一个无限的List.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> take <span style="color: #d75fd7;">10</span> <span style="color: #8787d7;">$</span> iterate <span style="color: #268bd2;">(</span><span style="color: #8787d7;">*</span><span style="color: #d75fd7;">2</span><span style="color: #268bd2;">)</span> <span style="color: #d75fd7;">1</span>
+<span style="color: #268bd2;">[</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">8</span>,<span style="color: #d75fd7;">16</span>,<span style="color: #d75fd7;">32</span>,<span style="color: #d75fd7;">64</span>,<span style="color: #d75fd7;">128</span>,<span style="color: #d75fd7;">256</span>,<span style="color: #d75fd7;">512</span><span style="color: #268bd2;">]</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> take <span style="color: #d75fd7;">3</span> <span style="color: #8787d7;">$</span> iterate <span style="color: #268bd2;">(</span><span style="color: #8787d7;">++</span> <span style="color: #2aa198;">"haha"</span><span style="color: #268bd2;">)</span> <span style="color: #2aa198;">"haha"</span>
+<span style="color: #268bd2;">[</span><span style="color: #2aa198;">"haha"</span>,<span style="color: #2aa198;">"hahahaha"</span>,<span style="color: #2aa198;">"hahahahahaha"</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+
+<p>
+<b>splitAt</b> 取一个 List 和数值作参数，将该 List在特定的位置断开。返回一个包含两个 List 的二元组.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> splitAt <span style="color: #d75fd7;">3</span> <span style="color: #2aa198;">"heyman"</span>
+<span style="color: #268bd2;">(</span><span style="color: #2aa198;">"hey"</span>,<span style="color: #2aa198;">"man"</span><span style="color: #268bd2;">)</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> splitAt <span style="color: #d75fd7;">100</span> <span style="color: #2aa198;">"heyman"</span>
+<span style="color: #268bd2;">(</span><span style="color: #2aa198;">"heyman"</span>,<span style="color: #2aa198;">""</span><span style="color: #268bd2;">)</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> splitAt <span style="color: #268bd2;">(</span><span style="color: #8787d7;">-</span><span style="color: #d75fd7;">3</span><span style="color: #268bd2;">)</span> <span style="color: #2aa198;">"heyman"</span>
+<span style="color: #268bd2;">(</span><span style="color: #2aa198;">""</span>,<span style="color: #2aa198;">"heyman"</span><span style="color: #268bd2;">)</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> <span style="color: #268bd2; font-weight: bold;">let</span> <span style="color: #268bd2;">(</span>a,b<span style="color: #268bd2;">)</span> <span style="color: #8787d7;">=</span> splitAt <span style="color: #d75fd7;">3</span> <span style="color: #2aa198;">"foobar"</span> <span style="color: #268bd2; font-weight: bold;">in</span> b <span style="color: #8787d7;">++</span> a
+<span style="color: #2aa198;">"barfoo"</span>
+</pre>
+</div>
+
+<p>
+<b>takeWhile</b> 这一函数十分的实用。它从一个 List中取元素，一旦遇到不符合条件的某元素就停止.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> takeWhile <span style="color: #268bd2;">(</span><span style="color: #8787d7;">&gt;</span><span style="color: #d75fd7;">3</span><span style="color: #268bd2;">)</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">6</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">1</span><span style="color: #268bd2;">]</span>
+<span style="color: #268bd2;">[</span><span style="color: #d75fd7;">6</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">4</span><span style="color: #268bd2;">]</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> takeWhile <span style="color: #268bd2;">(</span><span style="color: #8787d7;">/=</span><span style="color: #2aa198;">' '</span><span style="color: #268bd2;">)</span> <span style="color: #2aa198;">"This is a sentence"</span>
+<span style="color: #2aa198;">"This"</span>
+</pre>
+</div>
+
+<p>
+如果要求所有三次方小于 1000 的数的和，用 <code>filter</code> 来过滤 <code>map (^3) [1..]</code> 所得结果中所有小于 1000 的数是不行的。因为对无限 List执行的 <code>filter</code> 永远都不会停止。你已经知道了这个 List 是单增的，但Haskell 不知道。所以应该这样：
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> sum <span style="color: #8787d7;">$</span> takeWhile <span style="color: #268bd2;">(</span><span style="color: #8787d7;">&lt;</span><span style="color: #d75fd7;">10000</span><span style="color: #268bd2;">)</span> <span style="color: #8787d7;">$</span> map <span style="color: #268bd2;">(</span><span style="color: #8787d7;">^</span><span style="color: #d75fd7;">3</span><span style="color: #268bd2;">)</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">1</span><span style="color: #8787d7;">..</span><span style="color: #268bd2;">]</span>
+<span style="color: #d75fd7;">53361</span>
+</pre>
+</div>
+
+<p>
+用 <code>(^3)</code> 处理一个无限 List，而一旦出现了大于 10000 的元素这个 List就被切断了，
+sum 到一起也就轻而易举.
+</p>
+
+<p>
+<b>dropWhile</b> 与此相似，不过它是扔掉符合条件的元素。一旦限制条件返回 <code>False</code> ，它就返回 List 的余下部分。方便实用!
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> dropWhile <span style="color: #268bd2;">(</span><span style="color: #8787d7;">/=</span><span style="color: #2aa198;">' '</span><span style="color: #268bd2;">)</span> <span style="color: #2aa198;">"This is a sentence"</span>
+<span style="color: #2aa198;">" is a sentence"</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> dropWhile <span style="color: #268bd2;">(</span><span style="color: #8787d7;">&lt;</span><span style="color: #d75fd7;">3</span><span style="color: #268bd2;">)</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">1</span><span style="color: #268bd2;">]</span>
+<span style="color: #268bd2;">[</span><span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">1</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+
+<p>
+给一 <code>Tuple</code> 组成的 List，这 Tuple的首项表示股票价格，第二三四项分别表示年,月,日。我们想知道它是在哪天首次突破$1000 的!
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> <span style="color: #268bd2; font-weight: bold;">let</span> <span style="color: #268bd2; font-weight: bold;">stock</span> <span style="color: #8787d7;">=</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">994.4</span>,<span style="color: #d75fd7;">2008</span>,<span style="color: #d75fd7;">9</span>,<span style="color: #d75fd7;">1</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">995.2</span>,<span style="color: #d75fd7;">2008</span>,<span style="color: #d75fd7;">9</span>,<span style="color: #d75fd7;">2</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">999.2</span>,<span style="color: #d75fd7;">2008</span>,<span style="color: #d75fd7;">9</span>,<span style="color: #d75fd7;">3</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">1001.4</span>,<span style="color: #d75fd7;">2008</span>,<span style="color: #d75fd7;">9</span>,<span style="color: #d75fd7;">4</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">998.3</span>,<span style="color: #d75fd7;">2008</span>,<span style="color: #d75fd7;">9</span>,<span style="color: #d75fd7;">5</span><span style="color: #d75fd7;">)</span><span style="color: #268bd2;">]</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> head <span style="color: #268bd2;">(</span>dropWhile <span style="color: #d75fd7;">(</span><span style="color: #8787d7;">\</span><span style="color: #2aa198;">(</span>val,y,m,d<span style="color: #2aa198;">)</span> <span style="color: #8787d7;">-&gt;</span> val <span style="color: #8787d7;">&lt;</span> <span style="color: #d75fd7;">1000</span><span style="color: #d75fd7;">)</span> <span style="color: #268bd2; font-weight: bold;">stock</span><span style="color: #268bd2;">)</span>
+<span style="color: #268bd2;">(</span><span style="color: #d75fd7;">1001.4</span>,<span style="color: #d75fd7;">2008</span>,<span style="color: #d75fd7;">9</span>,<span style="color: #d75fd7;">4</span><span style="color: #268bd2;">)</span>
+</pre>
+</div>
+
+<p>
+<b>span</b> 与 <code>takeWhile</code> 有点像，只是它返回两个 List。第一个 List与同参数调用
+ <code>takeWhile</code> 所得的结果相同，第二个 List 就是原 List中余下的部分。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> <span style="color: #268bd2; font-weight: bold;">let</span> <span style="color: #268bd2;">(</span>fw<span style="color: #8787d7;">&#65292;</span>rest<span style="color: #268bd2;">)</span> <span style="color: #8787d7;">=</span> span <span style="color: #268bd2;">(</span><span style="color: #8787d7;">/=</span><span style="color: #2aa198;">' '</span><span style="color: #268bd2;">)</span> <span style="color: #2aa198;">"This is a sentence"</span> <span style="color: #268bd2; font-weight: bold;">in</span> <span style="color: #2aa198;">"First word:"</span> <span style="color: #8787d7;">++</span> fw <span style="color: #8787d7;">++</span> <span style="color: #2aa198;">"&#65292;the rest:"</span> <span style="color: #8787d7;">++</span> rest
+<span style="color: #2aa198;">"First word: This&#65292;the rest: is a sentence"</span>
+</pre>
+</div>
+
+<p>
+<b>span</b> 是在条件首次为 <code>False</code> 时断开 List，而 <code>break</code> 则是在条件首次为 <code>True</code>
+时断开 <code>List</code> 。 <code>break p</code> 与 <code>span (not . p)</code> 是等价的.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> break <span style="color: #268bd2;">(</span><span style="color: #8787d7;">==</span><span style="color: #d75fd7;">4</span><span style="color: #268bd2;">)</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">6</span>,<span style="color: #d75fd7;">7</span><span style="color: #268bd2;">]</span>
+<span style="color: #268bd2;">(</span><span style="color: #d75fd7;">[</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span><span style="color: #d75fd7;">]</span>,<span style="color: #d75fd7;">[</span><span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">6</span>,<span style="color: #d75fd7;">7</span><span style="color: #d75fd7;">]</span><span style="color: #268bd2;">)</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> span <span style="color: #268bd2;">(</span><span style="color: #8787d7;">/=</span><span style="color: #d75fd7;">4</span><span style="color: #268bd2;">)</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">6</span>,<span style="color: #d75fd7;">7</span><span style="color: #268bd2;">]</span>
+<span style="color: #268bd2;">(</span><span style="color: #d75fd7;">[</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span><span style="color: #d75fd7;">]</span>,<span style="color: #d75fd7;">[</span><span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">6</span>,<span style="color: #d75fd7;">7</span><span style="color: #d75fd7;">]</span><span style="color: #268bd2;">)</span>
+</pre>
+</div>
+
+<p>
+<b>break</b> 返回的第二个 List 就会以第一个符合条件的元素开头。
+</p>
+
+<p>
+<b>sort</b> 可以排序一个 List，因为只有能够作比较的元素才可以被排序，所以这一List
+的元素必须是 Ord 型别类的实例型别。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> sort <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">8</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">6</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">2</span><span style="color: #268bd2;">]</span>
+<span style="color: #268bd2;">[</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">6</span>,<span style="color: #d75fd7;">8</span><span style="color: #268bd2;">]</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> sort <span style="color: #2aa198;">"This will be sorted soon"</span>
+<span style="color: #2aa198;">" Tbdeehiillnooorssstw"</span>
+</pre>
+</div>
+
+<p>
+<b>group</b> 取一个 List作参数，并将其中相邻并相等的元素各自归类，组成一个个子
+List.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> group <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">6</span>,<span style="color: #d75fd7;">7</span><span style="color: #268bd2;">]</span>
+<span style="color: #268bd2;">[</span><span style="color: #d75fd7;">[</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">1</span><span style="color: #d75fd7;">]</span>,<span style="color: #d75fd7;">[</span><span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">2</span><span style="color: #d75fd7;">]</span>,<span style="color: #d75fd7;">[</span><span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">3</span><span style="color: #d75fd7;">]</span>,<span style="color: #d75fd7;">[</span><span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">2</span><span style="color: #d75fd7;">]</span>,<span style="color: #d75fd7;">[</span><span style="color: #d75fd7;">5</span><span style="color: #d75fd7;">]</span>,<span style="color: #d75fd7;">[</span><span style="color: #d75fd7;">6</span><span style="color: #d75fd7;">]</span>,<span style="color: #d75fd7;">[</span><span style="color: #d75fd7;">7</span><span style="color: #d75fd7;">]</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+
+<p>
+若在 <code>group</code> 一个 List 之前给它排序就可以得到每个元素在该 List中的出现次数。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> map <span style="color: #268bd2;">(</span><span style="color: #8787d7;">\</span>l<span style="color: #8787d7;">@</span><span style="color: #d75fd7;">(</span>x<span style="color: #df005f; font-weight: bold;">:</span>xs<span style="color: #d75fd7;">)</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #d75fd7;">(</span>x,length l<span style="color: #d75fd7;">)</span><span style="color: #268bd2;">)</span> <span style="color: #8787d7;">.</span> group <span style="color: #8787d7;">.</span> sort <span style="color: #8787d7;">$</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">6</span>,<span style="color: #d75fd7;">7</span><span style="color: #268bd2;">]</span>
+<span style="color: #268bd2;">[</span><span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">4</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">7</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">2</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">1</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">6</span>,<span style="color: #d75fd7;">1</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">7</span>,<span style="color: #d75fd7;">1</span><span style="color: #d75fd7;">)</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+
+<p>
+<b>inits</b> 和 <b>tails</b> 与 <code>init</code> 和 <code>tail</code> 相似，只是它们会递归地调用自身直到什么都不剩，看:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> inits <span style="color: #2aa198;">"w00t"</span>
+<span style="color: #268bd2;">[</span><span style="color: #2aa198;">""</span>,<span style="color: #2aa198;">"w"</span>,<span style="color: #2aa198;">"w0"</span>,<span style="color: #2aa198;">"w00"</span>,<span style="color: #2aa198;">"w00t"</span><span style="color: #268bd2;">]</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> tails <span style="color: #2aa198;">"w00t"</span>
+<span style="color: #268bd2;">[</span><span style="color: #2aa198;">"w00t"</span>,<span style="color: #2aa198;">"00t"</span>,<span style="color: #2aa198;">"0t"</span>,<span style="color: #2aa198;">"t"</span>,<span style="color: #2aa198;">""</span><span style="color: #268bd2;">]</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> <span style="color: #268bd2; font-weight: bold;">let</span> w <span style="color: #8787d7;">=</span> <span style="color: #2aa198;">"w00t"</span> <span style="color: #268bd2; font-weight: bold;">in</span> zip <span style="color: #268bd2;">(</span>inits w<span style="color: #268bd2;">)</span> <span style="color: #268bd2;">(</span>tails w<span style="color: #268bd2;">)</span>
+<span style="color: #268bd2;">[</span><span style="color: #d75fd7;">(</span><span style="color: #2aa198;">""</span>,<span style="color: #2aa198;">"w00t"</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #2aa198;">"w"</span>,<span style="color: #2aa198;">"00t"</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #2aa198;">"w0"</span>,<span style="color: #2aa198;">"0t"</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #2aa198;">"w00"</span>,<span style="color: #2aa198;">"t"</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #2aa198;">"w00t"</span>,<span style="color: #2aa198;">""</span><span style="color: #d75fd7;">)</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+
+<p>
+我们用 <code>fold</code> 实现一个搜索子 List 的函数:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #d75fd7; font-weight: bold;">search</span> <span style="color: #8787d7;">::</span> <span style="color: #268bd2;">(</span><span style="color: #df005f; font-weight: bold;">Eq</span> a<span style="color: #268bd2;">)</span> <span style="color: #8787d7;">=&gt;</span> <span style="color: #268bd2;">[</span>a<span style="color: #268bd2;">]</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #268bd2;">[</span>a<span style="color: #268bd2;">]</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #df005f; font-weight: bold;">Bool</span>
+<span style="color: #d75fd7; font-weight: bold;">search</span> needle haystack <span style="color: #8787d7;">=</span>
+  <span style="color: #268bd2; font-weight: bold;">let</span> nlen <span style="color: #8787d7;">=</span> length needle
+  <span style="color: #268bd2; font-weight: bold;">in</span> foldl <span style="color: #268bd2;">(</span><span style="color: #8787d7;">\</span>acc x <span style="color: #8787d7;">-&gt;</span> <span style="color: #268bd2; font-weight: bold;">if</span> take nlen x <span style="color: #8787d7;">==</span> needle <span style="color: #268bd2; font-weight: bold;">then</span> <span style="color: #df005f; font-weight: bold;">True</span> <span style="color: #268bd2; font-weight: bold;">else</span> acc<span style="color: #268bd2;">)</span> <span style="color: #df005f; font-weight: bold;">False</span> <span style="color: #268bd2;">(</span>tails haystack<span style="color: #268bd2;">)</span>
+</pre>
+</div>
+
+<p>
+首先，对搜索的 List 调用 <code>tails</code> ，然后遍历每个 List来检查它是不是我们想要的.
+</p>
+
+<p>
+由此我们便实现了一个类似 <b>isInfixOf</b> 的函数，*isInfixOf* 从一个 List中搜索一个子 List，若该 List 包含子 List，则返回 <code>True</code> .
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> <span style="color: #2aa198;">"cat"</span> <span style="color: #8787d7;">`isInfixOf`</span> <span style="color: #2aa198;">"im a cat burglar"</span>
+<span style="color: #df005f; font-weight: bold;">True</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> <span style="color: #2aa198;">"Cat"</span> <span style="color: #8787d7;">`isInfixOf`</span> <span style="color: #2aa198;">"im a cat burglar"</span>
+<span style="color: #df005f; font-weight: bold;">False</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> <span style="color: #2aa198;">"cats"</span> <span style="color: #8787d7;">`isInfixOf`</span> <span style="color: #2aa198;">"im a cat burglar"</span>
+<span style="color: #df005f; font-weight: bold;">False</span>
+</pre>
+</div>
+
+<p>
+<b>isPrefixOf</b> 与 <b>isSuffixOf</b> 分别检查一个 List 是否以某子 List开头或者结尾.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> <span style="color: #2aa198;">"hey"</span> <span style="color: #8787d7;">`isPrefixOf`</span> <span style="color: #2aa198;">"hey there!"</span>
+<span style="color: #df005f; font-weight: bold;">True</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> <span style="color: #2aa198;">"hey"</span> <span style="color: #8787d7;">`isPrefixOf`</span> <span style="color: #2aa198;">"oh hey there!"</span>
+<span style="color: #df005f; font-weight: bold;">False</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> <span style="color: #2aa198;">"there!"</span> <span style="color: #8787d7;">`isSuffixOf`</span> <span style="color: #2aa198;">"oh hey there!"</span>
+<span style="color: #df005f; font-weight: bold;">True</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> <span style="color: #2aa198;">"there!"</span> <span style="color: #8787d7;">`isSuffixOf`</span> <span style="color: #2aa198;">"oh hey there"</span>
+<span style="color: #df005f; font-weight: bold;">False</span>
+</pre>
+</div>
+
+<p>
+<b>elem</b> 与 <b>notElem</b> 检查一个 List 是否包含某元素.
+</p>
+
+<p>
+<b>partition</b> 取一个限制条件和 List 作参数，返回两个 List，第一个 List中包含所有符合条件的元素，而第二个 List 中包含余下的.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> partition <span style="color: #268bd2;">(</span><span style="color: #8787d7;">`elem`</span> <span style="color: #d75fd7;">[</span><span style="color: #2aa198;">'A'</span><span style="color: #8787d7;">..</span><span style="color: #2aa198;">'Z'</span><span style="color: #d75fd7;">]</span><span style="color: #268bd2;">)</span> <span style="color: #2aa198;">"BOBsidneyMORGANeddy"</span>
+<span style="color: #268bd2;">(</span><span style="color: #2aa198;">"BOBMORGAN"</span>,<span style="color: #2aa198;">"sidneyeddy"</span><span style="color: #268bd2;">)</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> partition <span style="color: #268bd2;">(</span><span style="color: #8787d7;">&gt;</span><span style="color: #d75fd7;">3</span><span style="color: #268bd2;">)</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">6</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">0</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">7</span><span style="color: #268bd2;">]</span>
+<span style="color: #268bd2;">(</span><span style="color: #d75fd7;">[</span><span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">6</span>,<span style="color: #d75fd7;">7</span><span style="color: #d75fd7;">]</span>,<span style="color: #d75fd7;">[</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">0</span>,<span style="color: #d75fd7;">3</span><span style="color: #d75fd7;">]</span><span style="color: #268bd2;">)</span>
+</pre>
+</div>
+
+<p>
+了解这个与 <code>span</code> 和 <code>break</code> 的差异是很重要的.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> span <span style="color: #268bd2;">(</span><span style="color: #8787d7;">`elem`</span> <span style="color: #d75fd7;">[</span><span style="color: #2aa198;">'A'</span><span style="color: #8787d7;">..</span><span style="color: #2aa198;">'Z'</span><span style="color: #d75fd7;">]</span><span style="color: #268bd2;">)</span> <span style="color: #2aa198;">"BOBsidneyMORGANeddy"</span>
+<span style="color: #268bd2;">(</span><span style="color: #2aa198;">"BOB"</span>,<span style="color: #2aa198;">"sidneyMORGANeddy"</span><span style="color: #268bd2;">)</span>
+</pre>
+</div>
+
+<p>
+ <code>span</code> 和 <code>break</code> 会在遇到第一个符合或不符合条件的元素处断开，而 <code>partition</code>
+则会遍历整个 List。
+</p>
+
+<p>
+<b>find</b> 取一个 List和限制条件作参数，并返回首个符合该条件的元素，而这个元素是个 <code>Maybe</code> 值。在下章，我们将深入地探讨相关的算法和数据结构，但在这里你只需了解 <code>Maybe</code> 值是 <code>Just something</code> 或 <code>Nothing</code> 就够了。与一个 List可以为空也可以包含多个元素相似，一个 <code>Maybe</code> 可以为空，也可以是单一元素。同样与 List 类似，一个 Int 型的 List可以写作 <code>[Int]</code> ， <code>Maybe</code> 有个 Int 型可以写作 <code>Maybe Int</code>
+。先试一下 <code>find</code> 函数再说.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> find <span style="color: #268bd2;">(</span><span style="color: #8787d7;">&gt;</span><span style="color: #d75fd7;">4</span><span style="color: #268bd2;">)</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">6</span><span style="color: #268bd2;">]</span>
+<span style="color: #df005f; font-weight: bold;">Just</span> <span style="color: #d75fd7;">5</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> find <span style="color: #268bd2;">(</span><span style="color: #8787d7;">&gt;</span><span style="color: #d75fd7;">9</span><span style="color: #268bd2;">)</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">6</span><span style="color: #268bd2;">]</span>
+<span style="color: #df005f; font-weight: bold;">Nothing</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> <span style="color: #df005f; font-weight: bold;">:</span>t find
+<span style="color: #d75fd7; font-weight: bold;">find</span> <span style="color: #8787d7;">::</span> <span style="color: #268bd2;">(</span>a <span style="color: #8787d7;">-&gt;</span> <span style="color: #df005f; font-weight: bold;">Bool</span><span style="color: #268bd2;">)</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #268bd2;">[</span>a<span style="color: #268bd2;">]</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #df005f; font-weight: bold;">Maybe</span> a
+</pre>
+</div>
+
+<p>
+注意一下 <code>find</code> 的型别，它的返回结果为 <code>Maybe a</code> ，这与 <code>[a]</code> 的写法有点像，只是 <code>Maybe</code> 型的值只能为空或者单一元素，而 List可以为空,一个元素，也可以是多个元素.
+</p>
+
+<p>
+想想前面那段找股票的代码， <code>head (dropWhile (\(val,y,m,d) -&gt; val &lt; 1000)
+   stock)</code> 。但 <code>head</code> 并不安全! 如果我们的股票没涨过 $1000 会怎样? <code>dropWhile</code>
+会返回一个空 List，而对空 List 取 <code>head</code> 就会引发一个错误。把它改成 <code>find
+   (\(val,y,m,d) -&gt; val &gt; 1000) stock</code> 就安全多啦，若存在合适的结果就得到它, 像
+<code>Just (1001.4,2008,9,4)</code> ，若不存在合适的元素(即我们的股票没有涨到过$1000)，就会得到一个 <code>Nothing</code> .
+</p>
+
+<p>
+<b>elemIndex</b> 与 <code>elem</code> 相似，只是它返回的不是布林值，它只是'可能' (Maybe)返回我们找的元素的索引，若这一元素不存在，就返回 <code>Nothing</code> 。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> <span style="color: #df005f; font-weight: bold;">:</span>t elemIndex
+<span style="color: #d75fd7; font-weight: bold;">elemIndex</span> <span style="color: #8787d7;">::</span> <span style="color: #268bd2;">(</span><span style="color: #df005f; font-weight: bold;">Eq</span> a<span style="color: #268bd2;">)</span> <span style="color: #8787d7;">=&gt;</span> a <span style="color: #8787d7;">-&gt;</span> <span style="color: #268bd2;">[</span>a<span style="color: #268bd2;">]</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #df005f; font-weight: bold;">Maybe</span> <span style="color: #df005f; font-weight: bold;">Int</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> <span style="color: #d75fd7;">4</span> <span style="color: #8787d7;">`elemIndex`</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">6</span><span style="color: #268bd2;">]</span>
+<span style="color: #df005f; font-weight: bold;">Just</span> <span style="color: #d75fd7;">3</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> <span style="color: #d75fd7;">10</span> <span style="color: #8787d7;">`elemIndex`</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">6</span><span style="color: #268bd2;">]</span>
+<span style="color: #df005f; font-weight: bold;">Nothing</span>
+</pre>
+</div>
+
+<p>
+<b>elemIndices</b> 与 <code>elemIndex</code> 相似，只不过它返回的是 List，就不需要 <code>Maybe</code> 了。因为不存在用空 List 就可以表示，这就与 <code>Nothing</code> 相似了.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> <span style="color: #2aa198;">' '</span> <span style="color: #8787d7;">`elemIndices`</span> <span style="color: #2aa198;">"Where are the spaces?"</span>
+<span style="color: #268bd2;">[</span><span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">9</span>,<span style="color: #d75fd7;">13</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+
+<p>
+<b>findIndex</b> 与 <code>find</code> 相似，但它返回的是可能存在的首个符合该条件元素的索引。
+*findIndices*会返回所有符合条件的索引.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> findIndex <span style="color: #268bd2;">(</span><span style="color: #8787d7;">==</span><span style="color: #d75fd7;">4</span><span style="color: #268bd2;">)</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">6</span>,<span style="color: #d75fd7;">4</span><span style="color: #268bd2;">]</span>
+<span style="color: #df005f; font-weight: bold;">Just</span> <span style="color: #d75fd7;">5</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> findIndex <span style="color: #268bd2;">(</span><span style="color: #8787d7;">==</span><span style="color: #d75fd7;">7</span><span style="color: #268bd2;">)</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">6</span>,<span style="color: #d75fd7;">4</span><span style="color: #268bd2;">]</span>
+<span style="color: #df005f; font-weight: bold;">Nothing</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> findIndices <span style="color: #268bd2;">(</span><span style="color: #8787d7;">`elem`</span> <span style="color: #d75fd7;">[</span><span style="color: #2aa198;">'A'</span><span style="color: #8787d7;">..</span><span style="color: #2aa198;">'Z'</span><span style="color: #d75fd7;">]</span><span style="color: #268bd2;">)</span> <span style="color: #2aa198;">"Where Are The Caps?"</span>
+<span style="color: #268bd2;">[</span><span style="color: #d75fd7;">0</span>,<span style="color: #d75fd7;">6</span>,<span style="color: #d75fd7;">10</span>,<span style="color: #d75fd7;">14</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+
+<p>
+在前面，我们讲过了 <code>zip</code> 和 <code>zipWith</code> ，它们只能将两个 List组到一个二元组数或二参函数中，但若要组三个 List 该怎么办? 好说~ 有 <code>zip3</code> , <code>zip4</code> &#x2026;,和
+<code>zipWith3</code> , <code>zipWith4</code> &#x2026;直到 7。这看起来像是个hack，但工作良好。连着组 8
+个 List的情况很少遇到。还有个聪明办法可以组起无限多个List，但限于我们目前的水平，就先不谈了.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> zipWith3 <span style="color: #268bd2;">(</span><span style="color: #8787d7;">\</span>x y z <span style="color: #8787d7;">-&gt;</span> x <span style="color: #8787d7;">+</span> y <span style="color: #8787d7;">+</span> z<span style="color: #268bd2;">)</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span><span style="color: #268bd2;">]</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">2</span><span style="color: #268bd2;">]</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span><span style="color: #268bd2;">]</span>
+<span style="color: #268bd2;">[</span><span style="color: #d75fd7;">7</span>,<span style="color: #d75fd7;">9</span>,<span style="color: #d75fd7;">8</span><span style="color: #268bd2;">]</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> zip4 <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">3</span><span style="color: #268bd2;">]</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">2</span><span style="color: #268bd2;">]</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">3</span><span style="color: #268bd2;">]</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">2</span><span style="color: #268bd2;">]</span>
+<span style="color: #268bd2;">[</span><span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">2</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">2</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">2</span><span style="color: #d75fd7;">)</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+
+<p>
+与普通的 <code>zip</code> 操作相似，以返回的 List 中长度最短的那个为准.
+</p>
+
+<p>
+在处理来自文件或其它地方的输入时，*lines*会非常有用。它取一个字串作参数。并返回由其中的每一行组成的 List.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> lines <span style="color: #2aa198;">"first line\nsecond line\nthird line"</span>
+<span style="color: #268bd2;">[</span><span style="color: #2aa198;">"first line"</span>,<span style="color: #2aa198;">"second line"</span>,<span style="color: #2aa198;">"third line"</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+
+<p>
+=​'\n'​= 表示unix下的换行符，在 Haskell 的字符中，反斜杠表示特殊字符.
+</p>
+
+<p>
+<b>unlines</b> 是 <code>lines</code> 的反函数，它取一组字串的 List，并将其通过 =​'\n'​= 合并到一块.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> unlines <span style="color: #268bd2;">[</span><span style="color: #2aa198;">"first line"</span><span style="color: #8787d7;">&#65292;</span><span style="color: #2aa198;">"second line"</span><span style="color: #8787d7;">&#65292;</span><span style="color: #2aa198;">"third line"</span><span style="color: #268bd2;">]</span>
+<span style="color: #2aa198;">"first line\nsecond line\nthird line\n"</span>
+</pre>
+</div>
+
+<p>
+<b>words</b> 和 <b>unwords</b> 可以把一个字串分为一组单词或执行相反的操作，很有用.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> words <span style="color: #2aa198;">"hey these are the words in this sentence"</span>
+<span style="color: #268bd2;">[</span><span style="color: #2aa198;">"hey"</span>,<span style="color: #2aa198;">"these"</span>,<span style="color: #2aa198;">"are"</span>,<span style="color: #2aa198;">"the"</span>,<span style="color: #2aa198;">"words"</span>,<span style="color: #2aa198;">"in"</span>,<span style="color: #2aa198;">"this"</span>,<span style="color: #2aa198;">"sentence"</span><span style="color: #268bd2;">]</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> words <span style="color: #2aa198;">"hey these are the words in this\nsentence"</span>
+<span style="color: #268bd2;">[</span><span style="color: #2aa198;">"hey"</span>,<span style="color: #2aa198;">"these"</span>,<span style="color: #2aa198;">"are"</span>,<span style="color: #2aa198;">"the"</span>,<span style="color: #2aa198;">"words"</span>,<span style="color: #2aa198;">"in"</span>,<span style="color: #2aa198;">"this"</span>,<span style="color: #2aa198;">"sentence"</span><span style="color: #268bd2;">]</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> unwords <span style="color: #268bd2;">[</span><span style="color: #2aa198;">"hey"</span>,<span style="color: #2aa198;">"there"</span>,<span style="color: #2aa198;">"mate"</span><span style="color: #268bd2;">]</span>
+<span style="color: #2aa198;">"hey there mate"</span>
+</pre>
+</div>
+
+<p>
+我们前面讲到了 *nub*，它可以将一个 List 中的重复元素全部筛掉，使该 List的每个元素都如雪花般独一无二，'nub'的含义就是'一小块'或'一部分'，用在这里觉得很古怪。我觉得，在函数的命名上应该用更确切的词语，而避免使用老掉牙的过时词汇.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> nub <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">1</span><span style="color: #268bd2;">]</span>
+<span style="color: #268bd2;">[</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span><span style="color: #268bd2;">]</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> nub <span style="color: #2aa198;">"Lots of words and stuff"</span>
+<span style="color: #2aa198;">"Lots fwrdanu"</span>
+</pre>
+</div>
+
+<p>
+<b>delete</b> 取一个元素和 List 作参数，会删掉该 List 中首次出现的这一元素.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> delete <span style="color: #2aa198;">'h'</span> <span style="color: #2aa198;">"hey there ghang!"</span>
+<span style="color: #2aa198;">"ey there ghang!"</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> delete <span style="color: #2aa198;">'h'</span> <span style="color: #8787d7;">.</span> delete <span style="color: #2aa198;">'h'</span> <span style="color: #8787d7;">$</span> <span style="color: #2aa198;">"hey there ghang!"</span>
+<span style="color: #2aa198;">"ey tere ghang!"</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> delete <span style="color: #2aa198;">'h'</span> <span style="color: #8787d7;">.</span> delete <span style="color: #2aa198;">'h'</span> <span style="color: #8787d7;">.</span> delete <span style="color: #2aa198;">'h'</span> <span style="color: #8787d7;">$</span> <span style="color: #2aa198;">"hey there ghang!"</span>
+<span style="color: #2aa198;">"ey tere gang!"</span>
+</pre>
+</div>
+
+<p>
+<b>\</b> 表示 List 的差集操作，这与集合的差集很相似，它会从左边 List中的元素扣除存在于右边 List 中的元素一次.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">1</span><span style="color: #8787d7;">..</span><span style="color: #d75fd7;">10</span><span style="color: #268bd2;">]</span> <span style="color: #8787d7;">\\</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">9</span><span style="color: #268bd2;">]</span>
+<span style="color: #268bd2;">[</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">6</span>,<span style="color: #d75fd7;">7</span>,<span style="color: #d75fd7;">8</span>,<span style="color: #d75fd7;">10</span><span style="color: #268bd2;">]</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> <span style="color: #2aa198;">"Im a big baby"</span> <span style="color: #8787d7;">\\</span> <span style="color: #2aa198;">"big"</span>
+<span style="color: #2aa198;">"Im a  baby"</span>
+</pre>
+</div>
+
+<p>
+<b>union</b> 与集合的并集也是很相似，它返回两个 List 的并集，即遍历第二个List 若存在某元素不属于第一个 List，则追加到第一个 List。看，第二个 List中的重复元素就都没了!
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> <span style="color: #2aa198;">"hey man"</span> <span style="color: #8787d7;">`union`</span> <span style="color: #2aa198;">"man what's up"</span>
+<span style="color: #2aa198;">"hey manwt'sup"</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">1</span><span style="color: #8787d7;">..</span><span style="color: #d75fd7;">7</span><span style="color: #268bd2;">]</span> <span style="color: #8787d7;">`union`</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">5</span><span style="color: #8787d7;">..</span><span style="color: #d75fd7;">10</span><span style="color: #268bd2;">]</span>
+<span style="color: #268bd2;">[</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">6</span>,<span style="color: #d75fd7;">7</span>,<span style="color: #d75fd7;">8</span>,<span style="color: #d75fd7;">9</span>,<span style="color: #d75fd7;">10</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+
+<p>
+<b>intersection</b> 相当于集合的交集。它返回两个 List 的相同部分.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">1</span><span style="color: #8787d7;">..</span><span style="color: #d75fd7;">7</span><span style="color: #268bd2;">]</span> <span style="color: #8787d7;">`intersect`</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">5</span><span style="color: #8787d7;">..</span><span style="color: #d75fd7;">10</span><span style="color: #268bd2;">]</span>
+<span style="color: #268bd2;">[</span><span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">6</span>,<span style="color: #d75fd7;">7</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+
+<p>
+<b>insert</b> 可以将一个元素插入一个可排序的List，并将其置于首个大于等于它的元素之前，如果使用 <code>insert</code> 来给一个排过序的 List 插入元素，返回的结果依然是排序的.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> insert <span style="color: #d75fd7;">4</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">6</span>,<span style="color: #d75fd7;">7</span><span style="color: #268bd2;">]</span>
+<span style="color: #268bd2;">[</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">6</span>,<span style="color: #d75fd7;">7</span><span style="color: #268bd2;">]</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> insert <span style="color: #2aa198;">'g'</span> <span style="color: #8787d7;">$</span> <span style="color: #268bd2;">[</span><span style="color: #2aa198;">'a'</span><span style="color: #8787d7;">..</span><span style="color: #2aa198;">'f'</span><span style="color: #268bd2;">]</span> <span style="color: #8787d7;">++</span> <span style="color: #268bd2;">[</span><span style="color: #2aa198;">'h'</span><span style="color: #8787d7;">..</span><span style="color: #2aa198;">'z'</span><span style="color: #268bd2;">]</span>
+<span style="color: #2aa198;">"abcdefghijklmnopqrstuvwxyz"</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> insert <span style="color: #d75fd7;">3</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">1</span><span style="color: #268bd2;">]</span>
+<span style="color: #268bd2;">[</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">1</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+
+<p>
+ <code>length</code> ， <code>take</code> ， <code>drop</code> ， <code>splitAt</code> ， <code>!!</code> 和 <code>replicate</code> 之类的函数有个共同点。那就是它们的参数中都有个 Int值（或者返回Int值），我觉得使用
+Intergal 或 Num型别类会更好，但出于历史原因，修改这些会破坏掉许多既有的代码。在 <code>Data.List</code> 中包含了更通用的替代版，如: <code>genericLength，genericTake，
+   genericDrop，genericSplitAt，genericIndex</code> 和 <code>genericReplicate</code> 。 <code>length</code>
+的型别声明为=length :: [a] -&gt; Int= ，而我们若要像这样求它的平均值， <code>let xs =
+   [1..6] in sum xs / length xs</code> ，就会得到一个型别错误，因为 <code>/</code> 运算符不能对
+Int 型使用! 而 <code>genericLength</code> 的型别声明则为 <code>genericLength :: (Num a) =&gt;
+   [b] -&gt; a</code> ，Num既可以是整数又可以是浮点数， <code>let xs = [1..6] in sum xs /
+   genericLength xs</code> 这样再求平均数就不会有问题了.
+</p>
+
+<p>
+<code>nub</code> , <code>delete</code> , <code>union</code> , <code>intsect</code> 和 <code>group</code> 函数也有各自的通用替代版
+<code>nubBy</code> ， <code>deleteBy</code> ， <code>unionBy</code> ， <code>intersectBy</code> 和 <code>groupBy</code> ，它们的区别就是前一组函数使用 <code>(==)</code> 来测试是否相等，而带 <code>By</code> 的那组则取一个函数作参数来判定相等性， <code>group</code> 就与 <code>groupBy (==)</code> 等价.
+</p>
+
+<p>
+假如有个记录某函数在每秒的值的List，而我们要按照它小于零或者大于零的交界处将其分为一组子 List。如果用 <code>group</code> ，它只能将相邻并相等的元素组到一起，而在这里我们的标准是它们是否互为相反数。 <code>groupBy</code> 登场! 它取一个含两个参数的函数作为参数来判定相等性.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> <span style="color: #268bd2; font-weight: bold;">let</span> values <span style="color: #8787d7;">=</span> <span style="color: #268bd2;">[</span><span style="color: #8787d7;">-</span><span style="color: #d75fd7;">4.3</span><span style="color: #8787d7;">&#65292;-</span><span style="color: #d75fd7;">2.4</span><span style="color: #8787d7;">&#65292;-</span><span style="color: #d75fd7;">1.2</span><span style="color: #8787d7;">&#65292;</span><span style="color: #d75fd7;">0.4</span><span style="color: #8787d7;">&#65292;</span><span style="color: #d75fd7;">2.3</span><span style="color: #8787d7;">&#65292;</span><span style="color: #d75fd7;">5.9</span><span style="color: #8787d7;">&#65292;</span><span style="color: #d75fd7;">10.5</span><span style="color: #8787d7;">&#65292;</span><span style="color: #d75fd7;">29.1</span><span style="color: #8787d7;">&#65292;</span><span style="color: #d75fd7;">5.3</span><span style="color: #8787d7;">&#65292;-</span><span style="color: #d75fd7;">2.4</span><span style="color: #8787d7;">&#65292;-</span><span style="color: #d75fd7;">14.5</span><span style="color: #8787d7;">&#65292;</span><span style="color: #d75fd7;">2.9</span><span style="color: #8787d7;">&#65292;</span><span style="color: #d75fd7;">2.3</span><span style="color: #268bd2;">]</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> groupBy <span style="color: #268bd2;">(</span><span style="color: #8787d7;">\</span>x y <span style="color: #8787d7;">-&gt;</span> <span style="color: #d75fd7;">(</span>x <span style="color: #8787d7;">&gt;</span> <span style="color: #d75fd7;">0</span><span style="color: #d75fd7;">)</span> <span style="color: #8787d7;">==</span> <span style="color: #d75fd7;">(</span>y <span style="color: #8787d7;">&gt;</span> <span style="color: #d75fd7;">0</span><span style="color: #d75fd7;">)</span><span style="color: #268bd2;">)</span> values
+<span style="color: #268bd2;">[</span><span style="color: #d75fd7;">[</span><span style="color: #8787d7;">-</span><span style="color: #d75fd7;">4.3</span>,<span style="color: #8787d7;">-</span><span style="color: #d75fd7;">2.4</span>,<span style="color: #8787d7;">-</span><span style="color: #d75fd7;">1.2</span><span style="color: #d75fd7;">]</span>,<span style="color: #d75fd7;">[</span><span style="color: #d75fd7;">0.4</span>,<span style="color: #d75fd7;">2.3</span>,<span style="color: #d75fd7;">5.9</span>,<span style="color: #d75fd7;">10.5</span>,<span style="color: #d75fd7;">29.1</span>,<span style="color: #d75fd7;">5.3</span><span style="color: #d75fd7;">]</span>,<span style="color: #d75fd7;">[</span><span style="color: #8787d7;">-</span><span style="color: #d75fd7;">2.4</span>,<span style="color: #8787d7;">-</span><span style="color: #d75fd7;">14.5</span><span style="color: #d75fd7;">]</span>,<span style="color: #d75fd7;">[</span><span style="color: #d75fd7;">2.9</span>,<span style="color: #d75fd7;">2.3</span><span style="color: #d75fd7;">]</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+
+<p>
+这样一来我们就可以很清楚地看出哪部分是正数，哪部分是负数，这个判断相等性的函数会在两个元素同时大于零或同时小于零时返回 <code>True</code> 。也可以写作 <code>\x y -&gt; (x
+   &gt; 0) &amp;&amp; (y &gt; 0) || (x &lt;= 0) &amp;&amp; (y &lt;= 0)</code> 。但我觉得第一个写法的可读性更高。
+<code>Data.Function</code> 中还有个 <code>on</code> 函数可以让它的表达更清晰，其定义如下:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #d75fd7; font-weight: bold;">on</span> <span style="color: #8787d7;">::</span> <span style="color: #268bd2;">(</span>b <span style="color: #8787d7;">-&gt;</span> b <span style="color: #8787d7;">-&gt;</span> c<span style="color: #268bd2;">)</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #268bd2;">(</span>a <span style="color: #8787d7;">-&gt;</span> b<span style="color: #268bd2;">)</span> <span style="color: #8787d7;">-&gt;</span> a <span style="color: #8787d7;">-&gt;</span> a <span style="color: #8787d7;">-&gt;</span> c
+f <span style="color: #8787d7;">`</span><span style="color: #d75fd7; font-weight: bold;">on</span><span style="color: #8787d7;">`</span> g <span style="color: #8787d7;">=</span> <span style="color: #8787d7;">\</span>x y <span style="color: #8787d7;">-&gt;</span> f <span style="color: #268bd2;">(</span>g x<span style="color: #268bd2;">)</span> <span style="color: #268bd2;">(</span>g y<span style="color: #268bd2;">)</span>
+</pre>
+</div>
+
+<p>
+执行 <code>(\==) `on` (&gt; 0)</code> 得到的函数就与 <code>\x y -&gt; (x &gt; 0) \== (y &gt; 0)</code> 基本等价。
+<code>on</code> 与带 <code>By</code> 的函数在一起会非常好用，你可以这样写:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> groupBy <span style="color: #268bd2;">(</span><span style="color: #d75fd7;">(</span><span style="color: #8787d7;">==</span><span style="color: #d75fd7;">)</span> <span style="color: #8787d7;">`on`</span> <span style="color: #d75fd7;">(</span><span style="color: #8787d7;">&gt;</span> <span style="color: #d75fd7;">0</span><span style="color: #d75fd7;">)</span><span style="color: #268bd2;">)</span> values
+<span style="color: #268bd2;">[</span><span style="color: #d75fd7;">[</span><span style="color: #8787d7;">-</span><span style="color: #d75fd7;">4.3</span>,<span style="color: #8787d7;">-</span><span style="color: #d75fd7;">2.4</span>,<span style="color: #8787d7;">-</span><span style="color: #d75fd7;">1.2</span><span style="color: #d75fd7;">]</span>,<span style="color: #d75fd7;">[</span><span style="color: #d75fd7;">0.4</span>,<span style="color: #d75fd7;">2.3</span>,<span style="color: #d75fd7;">5.9</span>,<span style="color: #d75fd7;">10.5</span>,<span style="color: #d75fd7;">29.1</span>,<span style="color: #d75fd7;">5.3</span><span style="color: #d75fd7;">]</span>,<span style="color: #d75fd7;">[</span><span style="color: #8787d7;">-</span><span style="color: #d75fd7;">2.4</span>,<span style="color: #8787d7;">-</span><span style="color: #d75fd7;">14.5</span><span style="color: #d75fd7;">]</span>,<span style="color: #d75fd7;">[</span><span style="color: #d75fd7;">2.9</span>,<span style="color: #d75fd7;">2.3</span><span style="color: #d75fd7;">]</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+
+<p>
+可读性很高! 你可以大声念出来: 按照元素是否大于零，给它分类！
+</p>
+
+<p>
+同样， <code>sort</code> ， <code>insert</code> ， <code>maximum</code> 和 <code>min</code> 都有各自的通用版本。如
+<code>groupBy</code> 类似，*sortBy*，*insertBy*，*maximumBy* 和 *minimumBy*都取一个函数来比较两个元素的大小。像 <code>sortBy</code> 的型别声明为: <code>sortBy :: (a -&gt; a -&gt;
+   Ordering) -&gt; [a] -&gt; [a]</code> 。前面提过， <code>Ordering</code> 型别可以有三个值, <code>LT</code> ，
+<code>EQ</code> 和 <code>GT</code> 。 <code>compare</code> 取两个 <code>Ord</code> 型别类的元素作参数，所以 <code>sort</code> 与
+<code>sortBy compare</code> 等价.
+</p>
+
+<p>
+List 是可以比较大小的，且比较的依据就是其中元素的大小。如果按照其子 List的长度为标准当如何? 很好，你可能已经猜到了， <code>sortBy</code> 函数.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> <span style="color: #268bd2; font-weight: bold;">let</span> xs <span style="color: #8787d7;">=</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">[</span><span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">4</span><span style="color: #d75fd7;">]</span>,<span style="color: #d75fd7;">[</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span><span style="color: #d75fd7;">]</span>,<span style="color: #d75fd7;">[</span><span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">3</span><span style="color: #d75fd7;">]</span>,<span style="color: #d75fd7; font-weight: bold;">[]</span>,<span style="color: #d75fd7;">[</span><span style="color: #d75fd7;">2</span><span style="color: #d75fd7;">]</span>,<span style="color: #d75fd7;">[</span><span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">2</span><span style="color: #d75fd7;">]</span><span style="color: #268bd2;">]</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> sortBy <span style="color: #268bd2;">(</span>compare <span style="color: #8787d7;">`on`</span> length<span style="color: #268bd2;">)</span> xs
+<span style="color: #268bd2;">[</span><span style="color: #d75fd7; font-weight: bold;">[]</span>,<span style="color: #d75fd7;">[</span><span style="color: #d75fd7;">2</span><span style="color: #d75fd7;">]</span>,<span style="color: #d75fd7;">[</span><span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">2</span><span style="color: #d75fd7;">]</span>,<span style="color: #d75fd7;">[</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span><span style="color: #d75fd7;">]</span>,<span style="color: #d75fd7;">[</span><span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">3</span><span style="color: #d75fd7;">]</span>,<span style="color: #d75fd7;">[</span><span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">4</span><span style="color: #d75fd7;">]</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+
+<p>
+太绝了! <code>compare `on` length</code> ，乖乖，这简直就是英文! 如果你搞不清楚 <code>on</code> 在这里的原理，就可以认为它与 <code>\x y -&gt; length x `compare` length y</code> 等价。通常，与带 <code>By</code> 的函数打交道时，若要判断相等性，则 <code>(\==) `on` something</code> 。若要判定大小，则 <code>compare `on` something</code> .
+</p>
+</div>
+</div>
+
+<div id="outline-container-org38d2337" class="outline-3">
+<h3 id="org38d2337"><span class="section-number-3">1.3</span> Data.Char</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+如其名， <code>Data.Char</code> 模块包含了一组用于处理字符的函数。由于字串的本质就是一组字符的List，所以往往会在 <code>filter</code> 或是 <code>map</code> 字串时用到它.
+</p>
+
+<p>
+<code>Data.Char</code> 模块中含有一系列用于判定字符范围的函数，如下:
+</p>
+
+
+<div class="figure">
+<p><img src="legochar.png" alt="legochar.png">
+</p>
+</div>
+
+<p>
+<b>isControl</b> 判断一个字符是否是控制字符。 <b>isSpace*判断一个字符是否是空格字符，包括空格，tab，换行符等. *isLower*判断一个字符是否为小写. *isUper</b> 判断一个字符是否为大写。 <b>isAlpha*判断一个字符是否为字母. *isAlphaNum</b> 判断一个字符是否为字母或数字. <b>isPrint</b> 判断一个字符是否是可打印的. <b>isDigit</b> 判断一个字符是否为数字. <b>isOctDigit</b> 判断一个字符是否为八进制数字. <b>isHexDigit*判断一个字符是否为十六进制数字. *isLetter</b> 判断一个字符是否为字母. <b>isMark</b> 判断是否为
+unicode 注音字符，你如果是法国人就会经常用到的. <b>isNumber</b> 判断一个字符是否为数字. <b>isPunctuation*判断一个字符是否为标点符号. *isSymbol*判断一个字符是否为货币符号. *isSeperater</b> 判断一个字符是否为 unicode 空格或分隔符. *isAscii*判断一个字符是否在 unicode 字母表的前 128 位。 *isLatin1*判断一个字符是否在
+unicode 字母表的前 256 位. *isAsciiUpper*判断一个字符是否为大写的 ascii 字符.
+*isAsciiLower*判断一个字符是否为小写的 ascii 字符.
+</p>
+
+<p>
+以上所有判断函数的型别声明皆为 <code>Char -&gt; Bool</code> ，用到它们的绝大多数情况都无非就是过滤字串或类似操作。假设我们在写个进程，它需要一个由字符和数字组成的用户名。要实现对用户名的检验，我们可以结合使用 <code>Data.List</code> 模块的 <code>all</code> 函数与
+<code>Data.Char</code> 的判断函数.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> all isAlphaNum <span style="color: #2aa198;">"bobby283"</span>
+<span style="color: #df005f; font-weight: bold;">True</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> all isAlphaNum <span style="color: #2aa198;">"eddy the fish!"</span>
+<span style="color: #df005f; font-weight: bold;">False</span>
+</pre>
+</div>
+
+<p>
+Kewl~ 免得你忘记， <code>all</code> 函数取一个判断函数和一个 List 做参数，若该 List的所有元素都符合条件，就返回 <code>True</code> .
+</p>
+
+<p>
+也可以使用 <code>isSpace</code> 来实现 <code>Data.List</code> 的 <code>words</code> 函数.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> words <span style="color: #2aa198;">"hey guys its me"</span>
+<span style="color: #268bd2;">[</span><span style="color: #2aa198;">"hey"</span>,<span style="color: #2aa198;">"guys"</span>,<span style="color: #2aa198;">"its"</span>,<span style="color: #2aa198;">"me"</span><span style="color: #268bd2;">]</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> groupBy <span style="color: #268bd2;">(</span><span style="color: #d75fd7;">(</span><span style="color: #8787d7;">==</span><span style="color: #d75fd7;">)</span> <span style="color: #8787d7;">`on`</span> isSpace<span style="color: #268bd2;">)</span> <span style="color: #2aa198;">"hey guys its me"</span>
+<span style="color: #268bd2;">[</span><span style="color: #2aa198;">"hey"</span>,<span style="color: #2aa198;">" "</span>,<span style="color: #2aa198;">"guys"</span>,<span style="color: #2aa198;">" "</span>,<span style="color: #2aa198;">"its"</span>,<span style="color: #2aa198;">" "</span>,<span style="color: #2aa198;">"me"</span><span style="color: #268bd2;">]</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span>
+</pre>
+</div>
+
+<p>
+Hmm，不错，有点 <code>words</code> 的样子了。只是还有空格在里面，恩，该怎么办? 我知道，用 <code>filter</code> 滤掉它们!
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> filter <span style="color: #268bd2;">(</span>not <span style="color: #8787d7;">.</span> any isSpace<span style="color: #268bd2;">)</span> <span style="color: #8787d7;">.</span> groupBy <span style="color: #268bd2;">(</span><span style="color: #d75fd7;">(</span><span style="color: #8787d7;">==</span><span style="color: #d75fd7;">)</span> <span style="color: #8787d7;">`on`</span> isSpace<span style="color: #268bd2;">)</span> <span style="color: #8787d7;">$</span> <span style="color: #2aa198;">"hey guys its me"</span>
+<span style="color: #268bd2;">[</span><span style="color: #2aa198;">"hey"</span>,<span style="color: #2aa198;">"guys"</span>,<span style="color: #2aa198;">"its"</span>,<span style="color: #2aa198;">"me"</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+
+<p>
+啊哈.
+</p>
+
+<p>
+<code>Data.Char</code> 中也含有与 <code>Ordering</code> 相似的型别。 <code>Ordering</code> 可以有三个值，
+<code>LT</code> ， <code>GT</code> 和 <code>EQ</code> 。这就是个枚举，它表示了两个元素作比较可能的结果.
+<code>GeneralCategory</code> 型别也是个枚举，它表示了一个字符可能所在的分类。而得到一个字符所在分类的主要方法就是使用 <code>generalCategory</code> 函数.它的型别为:
+<code>generalCategory :: Char -&gt; GeneralCategory</code> 。那 31个分类就不在此一一列出了，试下这个函数先:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> generalCategory <span style="color: #2aa198;">' '</span>
+<span style="color: #df005f; font-weight: bold;">Space</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> generalCategory <span style="color: #2aa198;">'A'</span>
+<span style="color: #df005f; font-weight: bold;">UppercaseLetter</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> generalCategory <span style="color: #2aa198;">'a'</span>
+<span style="color: #df005f; font-weight: bold;">LowercaseLetter</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> generalCategory <span style="color: #2aa198;">'.'</span>
+<span style="color: #df005f; font-weight: bold;">OtherPunctuation</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> generalCategory <span style="color: #2aa198;">'9'</span>
+<span style="color: #df005f; font-weight: bold;">DecimalNumber</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> map generalCategory <span style="color: #2aa198;">" \t\nA9?|"</span>
+<span style="color: #268bd2;">[</span><span style="color: #df005f; font-weight: bold;">Space</span>,<span style="color: #df005f; font-weight: bold;">Control</span>,<span style="color: #df005f; font-weight: bold;">Control</span>,<span style="color: #df005f; font-weight: bold;">UppercaseLetter</span>,<span style="color: #df005f; font-weight: bold;">DecimalNumber</span>,<span style="color: #df005f; font-weight: bold;">OtherPunctuation</span>,<span style="color: #df005f; font-weight: bold;">MathSymbol</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+
+<p>
+由于 <code>GeneralCategory</code> 型别是 <code>Eq</code> 型别类的一部分，使用类似 <code>generalCategory
+   c == Space</code> 的代码也是可以的.
+</p>
+
+<p>
+<b>toUpper</b> 将一个字符转为大写字母，若该字符不是小写字母，就按原值返回.
+<b>toLower</b> 将一个字符转为小写字母，若该字符不是大写字母，就按原值返回.
+<b>toTitle</b> 将一个字符转为 title-case，对大多数字元而言，title-case就是大写.
+<b>*digitToInt</b> 将一个字符转为 Int 值，而这一字符必须得在 =​'1'..'9','a'..'f'​= 或
+</p>
+<ul class="org-ul">
+<li>=​'A'..'F'​=  的范围之内.</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> map digitToInt <span style="color: #2aa198;">"34538"</span>
+<span style="color: #268bd2;">[</span><span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">8</span><span style="color: #268bd2;">]</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> map digitToInt <span style="color: #2aa198;">"FF85AB"</span>
+<span style="color: #268bd2;">[</span><span style="color: #d75fd7;">15</span>,<span style="color: #d75fd7;">15</span>,<span style="color: #d75fd7;">8</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">10</span>,<span style="color: #d75fd7;">11</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+
+<p>
+ <code>intToDigit</code> 是 <code>digitToInt</code> 的反函数。它取一个 <code>0</code> 到 <code>15</code> 的 <code>Int</code> 值作参数，并返回一个小写的字符.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> intToDigit <span style="color: #d75fd7;">15</span>
+<span style="color: #2aa198;">'f'</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> intToDigit <span style="color: #d75fd7;">5</span>
+<span style="color: #2aa198;">'5'</span>
+</pre>
+</div>
+
+<p>
+<b>ord</b> 与 <b>char</b> 函数可以将字符与其对应的数字相互转换.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> ord <span style="color: #2aa198;">'a'</span>
+<span style="color: #d75fd7;">97</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> chr <span style="color: #d75fd7;">97</span>
+<span style="color: #2aa198;">'a'</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> map ord <span style="color: #2aa198;">"abcdefgh"</span>
+<span style="color: #268bd2;">[</span><span style="color: #d75fd7;">97</span>,<span style="color: #d75fd7;">98</span>,<span style="color: #d75fd7;">99</span>,<span style="color: #d75fd7;">100</span>,<span style="color: #d75fd7;">101</span>,<span style="color: #d75fd7;">102</span>,<span style="color: #d75fd7;">103</span>,<span style="color: #d75fd7;">104</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+
+<p>
+两个字符的 <code>ord</code> 值之差就是它们在 unicode 字符表上的距离.
+</p>
+
+<p>
+<i>Caesar ciphar</i>
+是加密的基础算法，它将消息中的每个字符都按照特定的字母表进行替换。它的实现非常简单，我们这里就先不管字母表了.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #d75fd7; font-weight: bold;">encode</span> <span style="color: #8787d7;">::</span> <span style="color: #df005f; font-weight: bold;">Int</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #df005f; font-weight: bold;">String</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #df005f; font-weight: bold;">String</span>
+<span style="color: #d75fd7; font-weight: bold;">encode</span> shift msg <span style="color: #8787d7;">=</span>
+  <span style="color: #268bd2; font-weight: bold;">let</span> ords <span style="color: #8787d7;">=</span> map ord msg
+      shifted <span style="color: #8787d7;">=</span> map <span style="color: #268bd2;">(</span><span style="color: #8787d7;">+</span> shift<span style="color: #268bd2;">)</span> ords
+  <span style="color: #268bd2; font-weight: bold;">in</span> map chr shifted
+</pre>
+</div>
+
+<p>
+先将一个字串转为一组数字，然后给它加上某数，再转回去。如果你是标准的组合牛仔，大可将函数写为: <code>map (chr . (+ shift) . ord) msg</code> 。试一下它的效果:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> encode <span style="color: #d75fd7;">3</span> <span style="color: #2aa198;">"Heeeeey"</span>
+<span style="color: #2aa198;">"Khhhhh|"</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> encode <span style="color: #d75fd7;">4</span> <span style="color: #2aa198;">"Heeeeey"</span>
+<span style="color: #2aa198;">"Liiiii}"</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> encode <span style="color: #d75fd7;">1</span> <span style="color: #2aa198;">"abcd"</span>
+<span style="color: #2aa198;">"bcde"</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> encode <span style="color: #d75fd7;">5</span> <span style="color: #2aa198;">"Marry Christmas! Ho ho ho!"</span>
+<span style="color: #2aa198;">"Rfww~%Hmwnxyrfx&amp;%Mt%mt%mt&amp;"</span>
+</pre>
+</div>
+
+<p>
+不错。再简单地将它转成一组数字，减去某数后再转回来就是解密了.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #d75fd7; font-weight: bold;">decode</span> <span style="color: #8787d7;">::</span> <span style="color: #df005f; font-weight: bold;">Int</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #df005f; font-weight: bold;">String</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #df005f; font-weight: bold;">String</span>
+<span style="color: #d75fd7; font-weight: bold;">decode</span> shift msg <span style="color: #8787d7;">=</span> encode <span style="color: #268bd2;">(</span>negate shift<span style="color: #268bd2;">)</span> msg
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> encode <span style="color: #d75fd7;">3</span> <span style="color: #2aa198;">"Im a little teapot"</span>
+<span style="color: #2aa198;">"Lp#d#olwwoh#whdsrw"</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> decode <span style="color: #d75fd7;">3</span> <span style="color: #2aa198;">"Lp#d#olwwoh#whdsrw"</span>
+<span style="color: #2aa198;">"Im a little teapot"</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> decode <span style="color: #d75fd7;">5</span> <span style="color: #8787d7;">.</span> encode <span style="color: #d75fd7;">5</span> <span style="color: #8787d7;">$</span> <span style="color: #2aa198;">"This is a sentence"</span>
+<span style="color: #2aa198;">"This is a sentence"</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb6b620d" class="outline-3">
+<h3 id="orgb6b620d"><span class="section-number-3">1.4</span> Data.Map</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+关联列表(也叫做字典)是按照键值对排列而没有特定顺序的一种List。例如，我们用关联列表保存电话号码，号码就是值，人名就是键。我们并不关心它们的存储顺序，只要能按人名得到正确的号码就好.在Haskell 中表示关联列表的最简单方法就是弄一个二元组的List，而这二元组就首项为键，后项为值。如下便是个表示电话号码的关联列表:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #d75fd7; font-weight: bold;">phoneBook</span> <span style="color: #8787d7;">=</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">(</span><span style="color: #2aa198;">"betty"</span>,<span style="color: #2aa198;">"555-2938"</span><span style="color: #d75fd7;">)</span> ,
+             <span style="color: #d75fd7;">(</span><span style="color: #2aa198;">"bonnie"</span>,<span style="color: #2aa198;">"452-2928"</span><span style="color: #d75fd7;">)</span> ,
+             <span style="color: #d75fd7;">(</span><span style="color: #2aa198;">"patsy"</span>,<span style="color: #2aa198;">"493-2928"</span><span style="color: #d75fd7;">)</span> ,
+             <span style="color: #d75fd7;">(</span><span style="color: #2aa198;">"lucille"</span>,<span style="color: #2aa198;">"205-2928"</span><span style="color: #d75fd7;">)</span> ,
+             <span style="color: #d75fd7;">(</span><span style="color: #2aa198;">"wendy"</span>,<span style="color: #2aa198;">"939-8282"</span><span style="color: #d75fd7;">)</span> ,
+             <span style="color: #d75fd7;">(</span><span style="color: #2aa198;">"penny"</span>,<span style="color: #2aa198;">"853-2492"</span><span style="color: #d75fd7;">)</span> <span style="color: #268bd2;">]</span>
+</pre>
+</div>
+
+<p>
+不理这貌似古怪的缩进，它就是一组二元组的 List而已。话说对关联列表最常见的操作就是按键索值，我们就写个函数来实现它。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #d75fd7; font-weight: bold;">findKey</span> <span style="color: #8787d7;">::</span> <span style="color: #268bd2;">(</span><span style="color: #df005f; font-weight: bold;">Eq</span> k<span style="color: #268bd2;">)</span> <span style="color: #8787d7;">=&gt;</span> k <span style="color: #8787d7;">-&gt;</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">(</span>k,v<span style="color: #d75fd7;">)</span><span style="color: #268bd2;">]</span> <span style="color: #8787d7;">-&gt;</span> v
+<span style="color: #d75fd7; font-weight: bold;">findKey</span> key xs <span style="color: #8787d7;">=</span> snd <span style="color: #8787d7;">.</span> head <span style="color: #8787d7;">.</span> filter <span style="color: #268bd2;">(</span><span style="color: #8787d7;">\</span><span style="color: #d75fd7;">(</span>k,v<span style="color: #d75fd7;">)</span> <span style="color: #8787d7;">-&gt;</span> key <span style="color: #8787d7;">==</span> k<span style="color: #268bd2;">)</span> <span style="color: #8787d7;">$</span> xs
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="legomap.png" alt="legomap.png">
+</p>
+</div>
+
+<p>
+简洁漂亮。这个函数取一个键和 List 做参数，过滤这一 List仅保留键匹配的项，并返回首个键值对。但若该关联列表中不存在这个键那会怎样? 哼，那就会在试图从空 List
+中取 <code>head</code> 时引发一个运行时错误。无论如何也不能让进程就这么轻易地崩溃吧，所以就应该用 <code>Maybe</code> 型别。如果没找到相应的键，就返回 <code>Nothing</code> 。而找到了就返回=Just something= 。而这 <code>something</code> 就是键对应的值。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #d75fd7; font-weight: bold;">findKey</span> <span style="color: #8787d7;">::</span> <span style="color: #268bd2;">(</span><span style="color: #df005f; font-weight: bold;">Eq</span> k<span style="color: #268bd2;">)</span> <span style="color: #8787d7;">=&gt;</span> k <span style="color: #8787d7;">-&gt;</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">(</span>k,v<span style="color: #d75fd7;">)</span><span style="color: #268bd2;">]</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #df005f; font-weight: bold;">Maybe</span> v
+<span style="color: #d75fd7; font-weight: bold;">findKey</span> key <span style="color: #268bd2; font-weight: bold;">[]</span> <span style="color: #8787d7;">=</span> <span style="color: #df005f; font-weight: bold;">Nothing</span>
+<span style="color: #d75fd7; font-weight: bold;">findKey</span> key <span style="color: #268bd2;">(</span><span style="color: #d75fd7;">(</span>k,v<span style="color: #d75fd7;">)</span><span style="color: #df005f; font-weight: bold;">:</span>xs<span style="color: #268bd2;">)</span> <span style="color: #8787d7;">=</span>
+     <span style="color: #268bd2; font-weight: bold;">if</span> key <span style="color: #8787d7;">==</span> k <span style="color: #268bd2; font-weight: bold;">then</span>
+         <span style="color: #df005f; font-weight: bold;">Just</span> v
+     <span style="color: #268bd2; font-weight: bold;">else</span>
+         findKey key xs
+</pre>
+</div>
+
+<p>
+看这型别声明，它取一个可判断相等性的键和一个关联列表做参数，可能 (Maybe)得到一个值。听起来不错.这便是个标准的处理 List的递归函数，边界条件，分割 List，递归调用，都有了 &#x2013; 经典的 <code>fold</code> 模式。 看看用 <code>fold</code> 怎样实现吧。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #d75fd7; font-weight: bold;">findKey</span> <span style="color: #8787d7;">::</span> <span style="color: #268bd2;">(</span><span style="color: #df005f; font-weight: bold;">Eq</span> k<span style="color: #268bd2;">)</span> <span style="color: #8787d7;">=&gt;</span> k <span style="color: #8787d7;">-&gt;</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">(</span>k,v<span style="color: #d75fd7;">)</span><span style="color: #268bd2;">]</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #df005f; font-weight: bold;">Maybe</span> v
+<span style="color: #d75fd7; font-weight: bold;">findKey</span> key <span style="color: #8787d7;">=</span> foldr <span style="color: #268bd2;">(</span><span style="color: #8787d7;">\</span><span style="color: #d75fd7;">(</span>k,v<span style="color: #d75fd7;">)</span> acc <span style="color: #8787d7;">-&gt;</span> <span style="color: #268bd2; font-weight: bold;">if</span> key <span style="color: #8787d7;">==</span> k <span style="color: #268bd2; font-weight: bold;">then</span> <span style="color: #df005f; font-weight: bold;">Just</span> v <span style="color: #268bd2; font-weight: bold;">else</span> acc<span style="color: #268bd2;">)</span> <span style="color: #df005f; font-weight: bold;">Nothing</span>
+</pre>
+</div>
+
+<pre class="example">
+*Note*: 通常，使用 ``fold`` 来替代类似的递归函数会更好些。用 ``fold`` 的代码让人一目了然，而看明白递归则得多花点脑子。
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> findKey <span style="color: #2aa198;">"penny"</span> phoneBook
+<span style="color: #df005f; font-weight: bold;">Just</span> <span style="color: #2aa198;">"853-2492"</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> findKey <span style="color: #2aa198;">"betty"</span> phoneBook
+<span style="color: #df005f; font-weight: bold;">Just</span> <span style="color: #2aa198;">"555-2938"</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> findKey <span style="color: #2aa198;">"wilma"</span> phoneBook
+<span style="color: #df005f; font-weight: bold;">Nothing</span>
+</pre>
+</div>
+
+<p>
+如魔咒般灵验! 只要我们有这姑娘的号码就 <code>Just</code> 可以得到，否则就是 <code>Nothing</code> .
+方才我们实现的函数便是 <code>Data.List</code> 模块的 <code>lookup</code> ，如果要按键去寻找相应的值，它就必须得遍历整个List，直到找到为止。而 <code>Data.Map</code> 模块提供了更高效的方式(通过树实现)，并提供了一组好用的函数。从现在开始，我们扔掉关联列表，改用map.由于
+<code>Data.Map</code> 中的一些函数与Prelude和 <code>Data.List</code> 模块存在命名冲突，所以我们使用
+<code>qualified import</code> 。 <code>import qualified Data.Map as Map</code> 在代码中加上这句，并
+<code>load</code> 到 ghci 中.继续前进，看看 <code>Data.Map</code> 是如何的一座宝库! 如下便是其中函数的一瞥:
+</p>
+
+<p>
+<b>fromList</b> 取一个关联列表，返回一个与之等价的 Map。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> Map.fromList <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">(</span><span style="color: #2aa198;">"betty"</span>,<span style="color: #2aa198;">"555-2938"</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #2aa198;">"bonnie"</span>,<span style="color: #2aa198;">"452-2928"</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #2aa198;">"lucille"</span>,<span style="color: #2aa198;">"205-2928"</span><span style="color: #d75fd7;">)</span><span style="color: #268bd2;">]</span>
+<span style="color: #d75fd7; font-weight: bold;">fromList</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">(</span><span style="color: #2aa198;">"betty"</span>,<span style="color: #2aa198;">"555-2938"</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #2aa198;">"bonnie"</span>,<span style="color: #2aa198;">"452-2928"</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #2aa198;">"lucille"</span>,<span style="color: #2aa198;">"205-2928"</span><span style="color: #d75fd7;">)</span><span style="color: #268bd2;">]</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> Map.fromList <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">2</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">2</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">5</span><span style="color: #d75fd7;">)</span><span style="color: #268bd2;">]</span>
+<span style="color: #d75fd7; font-weight: bold;">fromList</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">2</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">2</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">5</span><span style="color: #d75fd7;">)</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+
+<p>
+若其中存在重复的键,就将其忽略。如下即 <code>fromList</code> 的型别声明。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">Map<span style="color: #d75fd7; font-weight: bold;">.</span>fromList <span style="color: #8787d7;">::</span> <span style="color: #268bd2;">(</span><span style="color: #df005f; font-weight: bold;">Ord</span> k<span style="color: #268bd2;">)</span> <span style="color: #8787d7;">=&gt;</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">(</span>k<span style="color: #8787d7;">&#65292;</span>v<span style="color: #d75fd7;">)</span><span style="color: #268bd2;">]</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #df005f; font-weight: bold;">Map.Map</span> k v
+</pre>
+</div>
+
+<p>
+这表示它取一组键值对的 List，并返回一个将 <code>k</code> 映射为 <code>v</code> 的 <code>map</code> 。注意一下，当使用普通的关联列表时，只需要键的可判断相等性就行了。而在这里，它还必须得是可排序的。这在 <code>Data.Map</code> 模块中是强制的。因为它会按照某顺序将其组织在一棵树中.在处理键值对时，只要键的型别属于 <code>Ord</code> 型别类，就应该尽量使用 <code>Data.Map</code> .
+<code>empty</code> 返回一个空 <code>map</code> .
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> Map.empty
+<span style="color: #d75fd7; font-weight: bold;">fromList</span> <span style="color: #268bd2; font-weight: bold;">[]</span>
+</pre>
+</div>
+
+<p>
+<b>insert</b> 取一个键，一个值和一个 <code>map</code> 做参数，给这个 <code>map</code> 插入新的键值对，并返回一个新的 <code>map</code> 。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> Map.empty
+<span style="color: #d75fd7; font-weight: bold;">fromList</span> <span style="color: #268bd2; font-weight: bold;">[]</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> Map.insert <span style="color: #d75fd7;">3</span> <span style="color: #d75fd7;">100</span> Map.empty
+<span style="color: #d75fd7; font-weight: bold;">fromList</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">100</span><span style="color: #d75fd7;">)</span><span style="color: #268bd2;">]</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> Map.insert <span style="color: #d75fd7;">5</span> <span style="color: #d75fd7;">600</span> <span style="color: #268bd2;">(</span>Map.insert <span style="color: #d75fd7;">4</span> <span style="color: #d75fd7;">200</span> <span style="color: #d75fd7;">(</span> Map.insert <span style="color: #d75fd7;">3</span> <span style="color: #d75fd7;">100</span>  Map.empty<span style="color: #d75fd7;">)</span><span style="color: #268bd2;">)</span>
+<span style="color: #d75fd7; font-weight: bold;">fromList</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">100</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">200</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">600</span><span style="color: #d75fd7;">)</span><span style="color: #268bd2;">]</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> Map.insert <span style="color: #d75fd7;">5</span> <span style="color: #d75fd7;">600</span> <span style="color: #8787d7;">.</span> Map.insert <span style="color: #d75fd7;">4</span> <span style="color: #d75fd7;">200</span> <span style="color: #8787d7;">.</span> Map.insert <span style="color: #d75fd7;">3</span> <span style="color: #d75fd7;">100</span> <span style="color: #8787d7;">$</span> Map.empty
+<span style="color: #d75fd7; font-weight: bold;">fromList</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">100</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">200</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">600</span><span style="color: #d75fd7;">)</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+
+<p>
+通过 <code>empty</code> ， <code>insert</code> 与 <code>fold</code> ，我们可以编写出自己的 <code>fromList</code> 。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #d75fd7; font-weight: bold;">fromList'</span> <span style="color: #8787d7;">::</span> <span style="color: #268bd2;">(</span><span style="color: #df005f; font-weight: bold;">Ord</span> k<span style="color: #268bd2;">)</span> <span style="color: #8787d7;">=&gt;</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">(</span>k,v<span style="color: #d75fd7;">)</span><span style="color: #268bd2;">]</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #df005f; font-weight: bold;">Map.Map</span> k v
+<span style="color: #d75fd7; font-weight: bold;">fromList'</span> <span style="color: #8787d7;">=</span> foldr <span style="color: #268bd2;">(</span><span style="color: #8787d7;">\</span><span style="color: #d75fd7;">(</span>k,v<span style="color: #d75fd7;">)</span> acc <span style="color: #8787d7;">-&gt;</span> Map.insert k v acc<span style="color: #268bd2;">)</span> Map.empty
+</pre>
+</div>
+
+<p>
+简洁明了的 <code>fold</code> ！ 从一个空的 <code>map</code> 开始，然后从右折叠，随着遍历不断地往
+ <code>map</code> 中插入新的键值对.
+</p>
+
+<p>
+<b>null</b> 检查一个 <code>map</code> 是否为空.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> Map.null Map.empty
+<span style="color: #df005f; font-weight: bold;">True</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> Map.null <span style="color: #8787d7;">$</span> Map.fromList <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">5</span><span style="color: #d75fd7;">)</span><span style="color: #268bd2;">]</span>
+<span style="color: #df005f; font-weight: bold;">False</span>
+</pre>
+</div>
+
+<p>
+<b>size</b> 返回一个 <code>map</code> 的大小。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> Map.size Map.empty
+<span style="color: #d75fd7;">0</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> Map.size <span style="color: #8787d7;">$</span> Map.fromList <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">4</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">3</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">2</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">4</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">6</span>,<span style="color: #d75fd7;">4</span><span style="color: #d75fd7;">)</span><span style="color: #268bd2;">]</span>
+<span style="color: #d75fd7;">5</span>
+</pre>
+</div>
+
+<p>
+<b>singleton</b> 取一个键值对做参数,并返回一个只含有一个映射的 <code>map</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> Map.singleton <span style="color: #d75fd7;">3</span> <span style="color: #d75fd7;">9</span>
+<span style="color: #d75fd7; font-weight: bold;">fromList</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">9</span><span style="color: #d75fd7;">)</span><span style="color: #268bd2;">]</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> Map.insert <span style="color: #d75fd7;">5</span> <span style="color: #d75fd7;">9</span> <span style="color: #8787d7;">$</span> Map.singleton <span style="color: #d75fd7;">3</span> <span style="color: #d75fd7;">9</span>
+<span style="color: #d75fd7; font-weight: bold;">fromList</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">9</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">9</span><span style="color: #d75fd7;">)</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+
+<p>
+<b>lookup</b> 与 <code>Data.List</code> 的 <code>lookup</code> 很像,只是它的作用对象是 <code>map</code> ，如果它找到键对应的值。就返回 <code>Just something</code> ，否则返回 <code>Nothing</code> 。
+</p>
+
+<p>
+<b>member</b> 是个判断函数，它取一个键与 <code>map</code> 做参数，并返回该键是否存在于该
+<code>map</code> 。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> Map.member <span style="color: #d75fd7;">3</span> <span style="color: #8787d7;">$</span> Map.fromList <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">6</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">3</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">6</span>,<span style="color: #d75fd7;">9</span><span style="color: #d75fd7;">)</span><span style="color: #268bd2;">]</span>
+<span style="color: #df005f; font-weight: bold;">True</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> Map.member <span style="color: #d75fd7;">3</span> <span style="color: #8787d7;">$</span> Map.fromList <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">5</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">5</span><span style="color: #d75fd7;">)</span><span style="color: #268bd2;">]</span>
+<span style="color: #df005f; font-weight: bold;">False</span>
+</pre>
+</div>
+
+<p>
+<b>map</b> 与 <b>filter</b> 与其对应的 <code>List</code> 版本很相似:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> Map.map <span style="color: #268bd2;">(</span><span style="color: #8787d7;">*</span><span style="color: #d75fd7;">100</span><span style="color: #268bd2;">)</span> <span style="color: #8787d7;">$</span> Map.fromList <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">1</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">4</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">9</span><span style="color: #d75fd7;">)</span><span style="color: #268bd2;">]</span>
+<span style="color: #d75fd7; font-weight: bold;">fromList</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">100</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">400</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">900</span><span style="color: #d75fd7;">)</span><span style="color: #268bd2;">]</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> Map.filter isUpper <span style="color: #8787d7;">$</span> Map.fromList <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">1</span>,<span style="color: #2aa198;">'a'</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">2</span>,<span style="color: #2aa198;">'A'</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">3</span>,<span style="color: #2aa198;">'b'</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">4</span>,<span style="color: #2aa198;">'B'</span><span style="color: #d75fd7;">)</span><span style="color: #268bd2;">]</span>
+<span style="color: #d75fd7; font-weight: bold;">fromList</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">2</span>,<span style="color: #2aa198;">'A'</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">4</span>,<span style="color: #2aa198;">'B'</span><span style="color: #d75fd7;">)</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+
+<p>
+<code>toList</code> 是 <code>fromList</code> 的反函数。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> Map.toList <span style="color: #8787d7;">.</span> Map.insert <span style="color: #d75fd7;">9</span> <span style="color: #d75fd7;">2</span> <span style="color: #8787d7;">$</span> Map.singleton <span style="color: #d75fd7;">4</span> <span style="color: #d75fd7;">3</span>
+<span style="color: #268bd2;">[</span><span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">3</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">9</span>,<span style="color: #d75fd7;">2</span><span style="color: #d75fd7;">)</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+
+<p>
+<b>keys</b> 与 <b>elems</b> 各自返回一组由键或值组成的 List， <code>keys</code> 与 <code>map fst .
+   Map.toList</code> 等价， <code>elems</code> 与 <code>map snd . Map.toList</code> 等价. <code>fromListWith</code> 是个很酷的小函数，它与 <code>fromList</code> 很像，只是它不会直接忽略掉重复键，而是交给一个函数来处理它们。假设一个姑娘可以有多个号码，而我们有个像这样的关联列表:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #d75fd7; font-weight: bold;">phoneBook</span> <span style="color: #8787d7;">=</span>
+    <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">(</span><span style="color: #2aa198;">"betty"</span>,<span style="color: #2aa198;">"555-2938"</span><span style="color: #d75fd7;">)</span>
+    ,<span style="color: #d75fd7;">(</span><span style="color: #2aa198;">"betty"</span>,<span style="color: #2aa198;">"342-2492"</span><span style="color: #d75fd7;">)</span>
+    ,<span style="color: #d75fd7;">(</span><span style="color: #2aa198;">"bonnie"</span>,<span style="color: #2aa198;">"452-2928"</span><span style="color: #d75fd7;">)</span>
+    ,<span style="color: #d75fd7;">(</span><span style="color: #2aa198;">"patsy"</span>,<span style="color: #2aa198;">"493-2928"</span><span style="color: #d75fd7;">)</span>
+    ,<span style="color: #d75fd7;">(</span><span style="color: #2aa198;">"patsy"</span>,<span style="color: #2aa198;">"943-2929"</span><span style="color: #d75fd7;">)</span>
+    ,<span style="color: #d75fd7;">(</span><span style="color: #2aa198;">"patsy"</span>,<span style="color: #2aa198;">"827-9162"</span><span style="color: #d75fd7;">)</span>
+    ,<span style="color: #d75fd7;">(</span><span style="color: #2aa198;">"lucille"</span>,<span style="color: #2aa198;">"205-2928"</span><span style="color: #d75fd7;">)</span>
+    ,<span style="color: #d75fd7;">(</span><span style="color: #2aa198;">"wendy"</span>,<span style="color: #2aa198;">"939-8282"</span><span style="color: #d75fd7;">)</span>
+    ,<span style="color: #d75fd7;">(</span><span style="color: #2aa198;">"penny"</span>,<span style="color: #2aa198;">"853-2492"</span><span style="color: #d75fd7;">)</span>
+    ,<span style="color: #d75fd7;">(</span><span style="color: #2aa198;">"penny"</span>,<span style="color: #2aa198;">"555-2111"</span><span style="color: #d75fd7;">)</span>
+    <span style="color: #268bd2;">]</span>
+</pre>
+</div>
+
+<p>
+如果用 <code>fromList</code> 来生成 <code>map</code> ，我们会丢掉许多号码! 如下才是正确的做法:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #d75fd7; font-weight: bold;">phoneBookToMap</span> <span style="color: #8787d7;">::</span> <span style="color: #268bd2;">(</span><span style="color: #df005f; font-weight: bold;">Ord</span> k<span style="color: #268bd2;">)</span> <span style="color: #8787d7;">=&gt;</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">(</span>k, <span style="color: #df005f; font-weight: bold;">String</span><span style="color: #d75fd7;">)</span><span style="color: #268bd2;">]</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #df005f; font-weight: bold;">Map.Map</span> k <span style="color: #df005f; font-weight: bold;">String</span>
+<span style="color: #d75fd7; font-weight: bold;">phoneBookToMap</span> xs <span style="color: #8787d7;">=</span> Map.fromListWith <span style="color: #268bd2;">(</span><span style="color: #8787d7;">\</span>number1 number2 <span style="color: #8787d7;">-&gt;</span> number1 <span style="color: #8787d7;">++</span> <span style="color: #2aa198;">", "</span> <span style="color: #8787d7;">++</span> number2<span style="color: #268bd2;">)</span> xs
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> Map.lookup <span style="color: #2aa198;">"patsy"</span> <span style="color: #8787d7;">$</span> phoneBookToMap phoneBook
+<span style="color: #2aa198;">"827-9162, 943-2929, 493-2928"</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> Map.lookup <span style="color: #2aa198;">"wendy"</span> <span style="color: #8787d7;">$</span> phoneBookToMap phoneBook
+<span style="color: #2aa198;">"939-8282"</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> Map.lookup <span style="color: #2aa198;">"betty"</span> <span style="color: #8787d7;">$</span> phoneBookToMap phoneBook
+<span style="color: #2aa198;">"342-2492&#65292;555-2938"</span>
+</pre>
+</div>
+
+<p>
+一旦出现重复键，这个函数会将不同的值组在一起，同样，也可以缺省地将每个值放到一个单元素的List 中，再用 <code>++</code> 将他们都连接在一起。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #d75fd7; font-weight: bold;">phoneBookToMap</span> <span style="color: #8787d7;">::</span> <span style="color: #268bd2;">(</span><span style="color: #df005f; font-weight: bold;">Ord</span> k<span style="color: #268bd2;">)</span> <span style="color: #8787d7;">=&gt;</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">(</span>k<span style="color: #8787d7;">&#65292;</span>a<span style="color: #d75fd7;">)</span><span style="color: #268bd2;">]</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #df005f; font-weight: bold;">Map.Map</span> k <span style="color: #268bd2;">[</span>a<span style="color: #268bd2;">]</span>
+<span style="color: #d75fd7; font-weight: bold;">phoneBookToMap</span> xs <span style="color: #8787d7;">=</span> Map.fromListWith <span style="color: #268bd2;">(</span><span style="color: #8787d7;">++</span><span style="color: #268bd2;">)</span> <span style="color: #8787d7;">$</span> map <span style="color: #268bd2;">(</span><span style="color: #8787d7;">\</span><span style="color: #d75fd7;">(</span>k,v<span style="color: #d75fd7;">)</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #d75fd7;">(</span>k,<span style="color: #2aa198;">[</span>v<span style="color: #2aa198;">]</span><span style="color: #d75fd7;">)</span><span style="color: #268bd2;">)</span> xs
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> Map.lookup <span style="color: #2aa198;">"patsy"</span> <span style="color: #8787d7;">$</span> phoneBookToMap phoneBook
+<span style="color: #268bd2;">[</span><span style="color: #2aa198;">"827-9162"</span>,<span style="color: #2aa198;">"943-2929"</span>,<span style="color: #2aa198;">"493-2928"</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+
+<p>
+很简洁! 它还有别的玩法，例如在遇到重复元素时，单选最大的那个值.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> Map.fromListWith max <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">5</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">100</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">29</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">22</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">11</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">22</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">15</span><span style="color: #d75fd7;">)</span><span style="color: #268bd2;">]</span>
+<span style="color: #d75fd7; font-weight: bold;">fromList</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">100</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">29</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">22</span><span style="color: #d75fd7;">)</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+
+<p>
+或是将相同键的值都加在一起.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> Map.fromListWith <span style="color: #268bd2;">(</span><span style="color: #8787d7;">+</span><span style="color: #268bd2;">)</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">5</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">100</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">29</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">22</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">11</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">22</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">15</span><span style="color: #d75fd7;">)</span><span style="color: #268bd2;">]</span>
+<span style="color: #d75fd7; font-weight: bold;">fromList</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">108</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">62</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">37</span><span style="color: #d75fd7;">)</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+
+<p>
+<b>insertWith</b> 之于 <code>insert</code> ，恰如 <code>fromListWith</code> 之于 <code>fromList</code> 。它会将一个键值对插入一个 <code>map</code> 之中，而该 <code>map</code> 若已经包含这个键，就问问这个函数该怎么办。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> Map.insertWith <span style="color: #268bd2;">(</span><span style="color: #8787d7;">+</span><span style="color: #268bd2;">)</span> <span style="color: #d75fd7;">3</span> <span style="color: #d75fd7;">100</span> <span style="color: #8787d7;">$</span> Map.fromList <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">103</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">6</span>,<span style="color: #d75fd7;">339</span><span style="color: #d75fd7;">)</span><span style="color: #268bd2;">]</span>
+<span style="color: #d75fd7; font-weight: bold;">fromList</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">104</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">103</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #d75fd7;">6</span>,<span style="color: #d75fd7;">339</span><span style="color: #d75fd7;">)</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+
+<p>
+ <code>Data.Map</code> 里面还有不少函数，
+[<a href="http://www.haskell.org/ghc/docs/latest/html/libraries/containers/Data-Map.html">http://www.haskell.org/ghc/docs/latest/html/libraries/containers/Data-Map.html</a>[
+这个文档]中的列表就很全了.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6f9e443" class="outline-3">
+<h3 id="org6f9e443"><span class="section-number-3">1.5</span> Data.Set</h3>
+<div class="outline-text-3" id="text-1-5">
+
+<div class="figure">
+<p><img src="legosets.png" alt="legosets.png">
+</p>
+</div>
+
+<p>
+ <code>Data.Set</code> 模块提供了对数学中集合的处理。集合既像 List 也像 <code>Map</code> :它里面的每个元素都是唯一的，且内部的数据由一棵树来组织(这和 <code>Data.Map</code> 模块的 <code>map</code>
+很像)，必须得是可排序的。同样是插入,删除,判断从属关系之类的操作，使用集合要比
+List快得多。对一个集合而言，最常见的操作莫过于并集，判断从属或是将集合转为
+List.
+</p>
+
+<p>
+由于 <code>Data.Set</code> 模块与 <code>Prelude</code> 模块和 <code>Data.List</code> 模块中存在大量的命名冲突，所以我们使用 <code>qualified import</code>
+</p>
+
+<p>
+将 <code>import</code> 语句至于代码之中:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #268bd2; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">qualified</span> <span style="color: #df005f; font-weight: bold;">Data.Set</span> <span style="color: #268bd2; font-weight: bold;">as</span> <span style="color: #df005f; font-weight: bold;">Set</span>
+</pre>
+</div>
+
+<p>
+然后在 ghci 中装载
+</p>
+
+<p>
+假定我们有两个字串，要找出同时存在于两个字串的字符
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #d75fd7; font-weight: bold;">text1</span> <span style="color: #8787d7;">=</span> <span style="color: #2aa198;">"I just had an anime dream. Anime... Reality... Are they so different?"</span>
+<span style="color: #d75fd7; font-weight: bold;">text2</span> <span style="color: #8787d7;">=</span> <span style="color: #2aa198;">"The old man left his garbage can out and now his trash is all over my lawn!"</span>
+</pre>
+</div>
+
+<p>
+<b>fromList</b> 函数同你想的一样，它取一个 List 作参数并将其转为一个集合
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> <span style="color: #268bd2; font-weight: bold;">let</span> set1 <span style="color: #8787d7;">=</span> Set.fromList text1
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> <span style="color: #268bd2; font-weight: bold;">let</span> set2 <span style="color: #8787d7;">=</span> Set.fromList text2
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> set1
+<span style="color: #d75fd7; font-weight: bold;">fromList</span> <span style="color: #2aa198;">" .?AIRadefhijlmnorstuy"</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> set2
+<span style="color: #d75fd7; font-weight: bold;">fromList</span> <span style="color: #2aa198;">" !Tabcdefghilmnorstuvwy"</span>
+</pre>
+</div>
+
+<p>
+如你所见，所有的元素都被排了序。而且每个元素都是唯一的。现在我们取它的交集看看它们共同包含的元素:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> Set.intersection set1 set2
+<span style="color: #d75fd7; font-weight: bold;">fromList</span> <span style="color: #2aa198;">" adefhilmnorstuy"</span>
+</pre>
+</div>
+
+<p>
+使用 <code>difference</code> 函数可以得到存在于第一个集合但不在第二个集合的元素
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> Set.difference set1 set2
+<span style="color: #d75fd7; font-weight: bold;">fromList</span> <span style="color: #2aa198;">".?AIRj"</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> Set.difference set2 set1
+<span style="color: #d75fd7; font-weight: bold;">fromList</span> <span style="color: #2aa198;">"!Tbcgvw"</span>
+</pre>
+</div>
+
+<p>
+也可以使用 <code>union</code> 得到两个集合的并集
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> Set.union set1 set2
+<span style="color: #d75fd7; font-weight: bold;">fromList</span> <span style="color: #2aa198;">" !.?AIRTabcdefghijlmnorstuvwy"</span>
+</pre>
+</div>
+
+<p>
+ <code>null</code> ， <code>size</code> ， <code>member</code> ， <code>empty</code> ， <code>singleton</code> ， <code>insert</code> ，
+<code>delete</code> 这几个函数就跟你想的差不多啦
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> Set.null Set.empty
+<span style="color: #df005f; font-weight: bold;">True</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> Set.null <span style="color: #8787d7;">$</span> Set.fromList <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">3</span><span style="color: #268bd2;">]</span>
+<span style="color: #df005f; font-weight: bold;">False</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> Set.size <span style="color: #8787d7;">$</span> Set.fromList <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">5</span><span style="color: #268bd2;">]</span>
+<span style="color: #d75fd7;">3</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> Set.singleton <span style="color: #d75fd7;">9</span>
+<span style="color: #d75fd7; font-weight: bold;">fromList</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">9</span><span style="color: #268bd2;">]</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> Set.insert <span style="color: #d75fd7;">4</span> <span style="color: #8787d7;">$</span> Set.fromList <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">9</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">8</span>,<span style="color: #d75fd7;">1</span><span style="color: #268bd2;">]</span>
+<span style="color: #d75fd7; font-weight: bold;">fromList</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">8</span>,<span style="color: #d75fd7;">9</span><span style="color: #268bd2;">]</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> Set.insert <span style="color: #d75fd7;">8</span> <span style="color: #8787d7;">$</span> Set.fromList <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">5</span><span style="color: #8787d7;">..</span><span style="color: #d75fd7;">10</span><span style="color: #268bd2;">]</span>
+<span style="color: #d75fd7; font-weight: bold;">fromList</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">6</span>,<span style="color: #d75fd7;">7</span>,<span style="color: #d75fd7;">8</span>,<span style="color: #d75fd7;">9</span>,<span style="color: #d75fd7;">10</span><span style="color: #268bd2;">]</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> Set.delete <span style="color: #d75fd7;">4</span> <span style="color: #8787d7;">$</span> Set.fromList <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">5</span><span style="color: #268bd2;">]</span>
+<span style="color: #d75fd7; font-weight: bold;">fromList</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">5</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+
+<p>
+也可以判断子集与真子集，如果集合 A 中的元素都属于集合 B，那么 A 就是 B的子集,
+如果 A 中的元素都属于 B 且 B 的元素比 A 多，那 A 就是 B 的真子集
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> Set.fromList <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span><span style="color: #268bd2;">]</span> <span style="color: #8787d7;">`Set.isSubsetOf`</span> Set.fromList <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">5</span><span style="color: #268bd2;">]</span>
+<span style="color: #df005f; font-weight: bold;">True</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> Set.fromList <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">5</span><span style="color: #268bd2;">]</span> <span style="color: #8787d7;">`Set.isSubsetOf`</span> Set.fromList <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">5</span><span style="color: #268bd2;">]</span>
+<span style="color: #df005f; font-weight: bold;">True</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> Set.fromList <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">5</span><span style="color: #268bd2;">]</span> <span style="color: #8787d7;">`Set.isProperSubsetOf`</span> Set.fromList <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">5</span><span style="color: #268bd2;">]</span>
+<span style="color: #df005f; font-weight: bold;">False</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> Set.fromList <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">8</span><span style="color: #268bd2;">]</span> <span style="color: #8787d7;">`Set.isSubsetOf`</span> Set.fromList <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">1</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">5</span><span style="color: #268bd2;">]</span>
+<span style="color: #df005f; font-weight: bold;">False</span>
+</pre>
+</div>
+
+<p>
+对集合也可以执行 <code>map</code> 和 <code>filter</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> Set.filter odd <span style="color: #8787d7;">$</span> Set.fromList <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">6</span>,<span style="color: #d75fd7;">7</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span><span style="color: #268bd2;">]</span>
+<span style="color: #d75fd7; font-weight: bold;">fromList</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">7</span><span style="color: #268bd2;">]</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> Set.map <span style="color: #268bd2;">(</span><span style="color: #8787d7;">+</span><span style="color: #d75fd7;">1</span><span style="color: #268bd2;">)</span> <span style="color: #8787d7;">$</span> Set.fromList <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">6</span>,<span style="color: #d75fd7;">7</span>,<span style="color: #d75fd7;">2</span>,<span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span><span style="color: #268bd2;">]</span>
+<span style="color: #d75fd7; font-weight: bold;">fromList</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">3</span>,<span style="color: #d75fd7;">4</span>,<span style="color: #d75fd7;">5</span>,<span style="color: #d75fd7;">6</span>,<span style="color: #d75fd7;">7</span>,<span style="color: #d75fd7;">8</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+
+<p>
+集合有一常见用途，那就是先 <code>fromList</code> 删掉重复元素后再 <code>toList</code> 转回去。尽管
+ <code>Data.List</code> 模块的 <code>nub</code> 函数完全可以完成这一工作，但在对付大 List时则会明显的力不从心。使用集合则会快很多， <code>nub</code> 函数只需 List中的元素属于 <code>Eq</code> 型别类就行了，而若要使用集合，它必须得属于 <code>Ord</code> 型别类
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> <span style="color: #268bd2; font-weight: bold;">let</span> setNub xs <span style="color: #8787d7;">=</span> Set.toList <span style="color: #8787d7;">$</span> Set.fromList xs
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> setNub <span style="color: #2aa198;">"HEY WHATS CRACKALACKIN"</span>
+<span style="color: #2aa198;">" ACEHIKLNRSTWY"</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> nub <span style="color: #2aa198;">"HEY WHATS CRACKALACKIN"</span>
+<span style="color: #2aa198;">"HEY WATSCRKLIN"</span>
+</pre>
+</div>
+
+<p>
+在处理较大的 List 时， <code>setNub</code> 要比 <code>nub</code> 快，但也可以从中看出， <code>nub</code> 保留了 List 中元素的原有顺序，而 <code>setNub</code> 不。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org1fdc2a4" class="outline-3">
+<h3 id="org1fdc2a4"><span class="section-number-3">1.6</span> 建立自己的模块</h3>
+<div class="outline-text-3" id="text-1-6">
+<p>
+我们已经见识过了几个很酷的模块，但怎样才能构造自己的模块呢? 几乎所有的编程语言都允许你将代码分成多个文件，Haskell也不例外。在编程时，将功能相近的函数和型别至于同一模块中会是个很好的习惯。这样一来，你就可以轻松地一个 <code>import</code> 来重用其中的函数.
+</p>
+
+<p>
+接下来我们将构造一个由计算机几何图形体积和面积组成的模块，先从新建一个
+ <code>Geometry.hs</code> 的文件开始.
+</p>
+
+<p>
+在模块的开头定义模块的名称，如果文件名叫做 <code>Geometry.hs</code> 那它的名字就得是
+ <code>Geometry</code> 。在声明出它含有的函数名之后就可以编写函数的实现啦，就这样写:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #268bd2; font-weight: bold;">module</span> <span style="color: #df005f; font-weight: bold;">Geometry</span>
+<span style="color: #268bd2;">(</span> sphereVolume
+<span style="color: #8787d7;">&#65292;</span>sphereArea
+<span style="color: #8787d7;">&#65292;</span>cubeVolume
+<span style="color: #8787d7;">&#65292;</span>cubeArea
+<span style="color: #8787d7;">&#65292;</span>cuboidArea
+<span style="color: #8787d7;">&#65292;</span>cuboidVolume
+<span style="color: #268bd2;">)</span> <span style="color: #268bd2; font-weight: bold;">where</span>
+</pre>
+</div>
+
+<p>
+如你所见，我们提供了对球体,立方体和立方体的面积和体积的解法。继续进发，定义函数体:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #268bd2; font-weight: bold;">module</span> <span style="color: #df005f; font-weight: bold;">Geometry</span>
+<span style="color: #268bd2;">(</span> sphereVolume
+<span style="color: #8787d7;">&#65292;</span>sphereArea
+<span style="color: #8787d7;">&#65292;</span>cubeVolume
+<span style="color: #8787d7;">&#65292;</span>cubeArea
+<span style="color: #8787d7;">&#65292;</span>cuboidArea
+<span style="color: #8787d7;">&#65292;</span>cuboidVolume
+<span style="color: #268bd2;">)</span> <span style="color: #268bd2; font-weight: bold;">where</span>
+
+<span style="color: #d75fd7; font-weight: bold;">sphereVolume</span> <span style="color: #8787d7;">::</span> <span style="color: #df005f; font-weight: bold;">Float</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #df005f; font-weight: bold;">Float</span>
+<span style="color: #d75fd7; font-weight: bold;">sphereVolume</span> radius <span style="color: #8787d7;">=</span> <span style="color: #268bd2;">(</span><span style="color: #d75fd7;">4.0</span> <span style="color: #8787d7;">/</span> <span style="color: #d75fd7;">3.0</span><span style="color: #268bd2;">)</span> <span style="color: #8787d7;">*</span> pi <span style="color: #8787d7;">*</span> <span style="color: #268bd2;">(</span>radius <span style="color: #8787d7;">^</span> <span style="color: #d75fd7;">3</span><span style="color: #268bd2;">)</span>
+
+<span style="color: #d75fd7; font-weight: bold;">sphereArea</span> <span style="color: #8787d7;">::</span> <span style="color: #df005f; font-weight: bold;">Float</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #df005f; font-weight: bold;">Float</span>
+<span style="color: #d75fd7; font-weight: bold;">sphereArea</span> radius <span style="color: #8787d7;">=</span> <span style="color: #d75fd7;">4</span> <span style="color: #8787d7;">*</span> pi <span style="color: #8787d7;">*</span> <span style="color: #268bd2;">(</span>radius <span style="color: #8787d7;">^</span> <span style="color: #d75fd7;">2</span><span style="color: #268bd2;">)</span>
+
+<span style="color: #d75fd7; font-weight: bold;">cubeVolume</span> <span style="color: #8787d7;">::</span> <span style="color: #df005f; font-weight: bold;">Float</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #df005f; font-weight: bold;">Float</span>
+<span style="color: #d75fd7; font-weight: bold;">cubeVolume</span> side <span style="color: #8787d7;">=</span> cuboidVolume side side side
+
+<span style="color: #d75fd7; font-weight: bold;">cubeArea</span> <span style="color: #8787d7;">::</span> <span style="color: #df005f; font-weight: bold;">Float</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #df005f; font-weight: bold;">Float</span>
+<span style="color: #d75fd7; font-weight: bold;">cubeArea</span> side <span style="color: #8787d7;">=</span> cuboidArea side side side
+
+<span style="color: #d75fd7; font-weight: bold;">cuboidVolume</span> <span style="color: #8787d7;">::</span> <span style="color: #df005f; font-weight: bold;">Float</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #df005f; font-weight: bold;">Float</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #df005f; font-weight: bold;">Float</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #df005f; font-weight: bold;">Float</span>
+<span style="color: #d75fd7; font-weight: bold;">cuboidVolume</span> a b c <span style="color: #8787d7;">=</span> rectangleArea a b <span style="color: #8787d7;">*</span> c
+
+<span style="color: #d75fd7; font-weight: bold;">cuboidArea</span> <span style="color: #8787d7;">::</span> <span style="color: #df005f; font-weight: bold;">Float</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #df005f; font-weight: bold;">Float</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #df005f; font-weight: bold;">Float</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #df005f; font-weight: bold;">Float</span>
+<span style="color: #d75fd7; font-weight: bold;">cuboidArea</span> a b c <span style="color: #8787d7;">=</span> rectangleArea a b <span style="color: #8787d7;">*</span> <span style="color: #d75fd7;">2</span> <span style="color: #8787d7;">+</span> rectangleArea a c <span style="color: #8787d7;">*</span> <span style="color: #d75fd7;">2</span> <span style="color: #8787d7;">+</span> rectangleArea c b <span style="color: #8787d7;">*</span> <span style="color: #d75fd7;">2</span>
+
+<span style="color: #d75fd7; font-weight: bold;">rectangleArea</span> <span style="color: #8787d7;">::</span> <span style="color: #df005f; font-weight: bold;">Float</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #df005f; font-weight: bold;">Float</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #df005f; font-weight: bold;">Float</span>
+<span style="color: #d75fd7; font-weight: bold;">rectangleArea</span> a b <span style="color: #8787d7;">=</span> a <span style="color: #8787d7;">*</span> b
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="making_modules.png" alt="making_modules.png">
+</p>
+</div>
+
+<p>
+标准的几何公式。有几个地方需要注意一下，由于立方体只是长方体的特殊形式，所以在求它面积和体积的时候我们就将它当作是边长相等的长方体。在这里还定义了一个
+<code>helper</code> 函数， <code>rectangleArea</code> 它可以通过长方体的两条边计算出长方体的面积。它仅仅是简单的相乘而已，份量不大。但请注意我们可以在这一模块中调用这个函数，而它不会被导出! 因为我们这个模块只与三维图形打交道.
+</p>
+
+<p>
+当构造一个模块的时候，我们通常只会导出那些行为相近的函数，而其内部的实现则是隐蔽的。如果有人用到了 <code>Geometry</code> 模块，就不需要关心它的内部实现是如何。我们作为编写者，完全可以随意修改这些函数甚至将其删掉，没有人会注意到里面的变动，因为我们并不把它们导出.
+</p>
+
+<p>
+要使用我们的模块，只需:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #268bd2; font-weight: bold;">import</span> <span style="color: #df005f; font-weight: bold;">Geometry</span>
+</pre>
+</div>
+
+<p>
+将 <code>Geometry.hs</code> 文件至于用到它的进程文件的同一目录之下.
+</p>
+
+<p>
+模块也可以按照分层的结构来组织，每个模块都可以含有多个子模块。而子模块还可以有自己的子模块。我们可以把 <code>Geometry</code> 分成三个子模块，而一个模块对应各自的图形对象.
+</p>
+
+<p>
+首先，建立一个 <code>Geometry</code> 文件夹，注意首字母要大写，在里面新建三个文件
+</p>
+
+<p>
+如下就是各个文件的内容:
+</p>
+
+<p>
+sphere.hs
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #268bd2; font-weight: bold;">module</span> <span style="color: #df005f; font-weight: bold;">Geometry.Sphere</span>
+<span style="color: #268bd2;">(</span> volume
+<span style="color: #8787d7;">&#65292;</span>area
+<span style="color: #268bd2;">)</span> <span style="color: #268bd2; font-weight: bold;">where</span>
+
+<span style="color: #d75fd7; font-weight: bold;">volume</span> <span style="color: #8787d7;">::</span> <span style="color: #df005f; font-weight: bold;">Float</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #df005f; font-weight: bold;">Float</span>
+<span style="color: #d75fd7; font-weight: bold;">volume</span> radius <span style="color: #8787d7;">=</span> <span style="color: #268bd2;">(</span><span style="color: #d75fd7;">4.0</span> <span style="color: #8787d7;">/</span> <span style="color: #d75fd7;">3.0</span><span style="color: #268bd2;">)</span> <span style="color: #8787d7;">*</span> pi <span style="color: #8787d7;">*</span> <span style="color: #268bd2;">(</span>radius <span style="color: #8787d7;">^</span> <span style="color: #d75fd7;">3</span><span style="color: #268bd2;">)</span>
+
+<span style="color: #d75fd7; font-weight: bold;">area</span> <span style="color: #8787d7;">::</span> <span style="color: #df005f; font-weight: bold;">Float</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #df005f; font-weight: bold;">Float</span>
+<span style="color: #d75fd7; font-weight: bold;">area</span> radius <span style="color: #8787d7;">=</span> <span style="color: #d75fd7;">4</span> <span style="color: #8787d7;">*</span> pi <span style="color: #8787d7;">*</span> <span style="color: #268bd2;">(</span>radius <span style="color: #8787d7;">^</span> <span style="color: #d75fd7;">2</span><span style="color: #268bd2;">)</span>
+</pre>
+</div>
+
+<p>
+cuboid.hs
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #268bd2; font-weight: bold;">module</span> <span style="color: #df005f; font-weight: bold;">Geometry.Cuboid</span>
+<span style="color: #268bd2;">(</span> volume
+<span style="color: #8787d7;">&#65292;</span>area
+<span style="color: #268bd2;">)</span> <span style="color: #268bd2; font-weight: bold;">where</span>
+
+<span style="color: #d75fd7; font-weight: bold;">volume</span> <span style="color: #8787d7;">::</span> <span style="color: #df005f; font-weight: bold;">Float</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #df005f; font-weight: bold;">Float</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #df005f; font-weight: bold;">Float</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #df005f; font-weight: bold;">Float</span>
+<span style="color: #d75fd7; font-weight: bold;">volume</span> a b c <span style="color: #8787d7;">=</span> rectangleArea a b <span style="color: #8787d7;">*</span> c
+
+<span style="color: #d75fd7; font-weight: bold;">area</span> <span style="color: #8787d7;">::</span> <span style="color: #df005f; font-weight: bold;">Float</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #df005f; font-weight: bold;">Float</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #df005f; font-weight: bold;">Float</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #df005f; font-weight: bold;">Float</span>
+<span style="color: #d75fd7; font-weight: bold;">area</span> a b c <span style="color: #8787d7;">=</span> rectangleArea a b <span style="color: #8787d7;">*</span> <span style="color: #d75fd7;">2</span> <span style="color: #8787d7;">+</span> rectangleArea a c <span style="color: #8787d7;">*</span> <span style="color: #d75fd7;">2</span> <span style="color: #8787d7;">+</span> rectangleArea c b <span style="color: #8787d7;">*</span> <span style="color: #d75fd7;">2</span>
+
+<span style="color: #d75fd7; font-weight: bold;">rectangleArea</span> <span style="color: #8787d7;">::</span> <span style="color: #df005f; font-weight: bold;">Float</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #df005f; font-weight: bold;">Float</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #df005f; font-weight: bold;">Float</span>
+<span style="color: #d75fd7; font-weight: bold;">rectangleArea</span> a b <span style="color: #8787d7;">=</span> a <span style="color: #8787d7;">*</span> b
+</pre>
+</div>
+
+<p>
+cube.hs
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #268bd2; font-weight: bold;">module</span> <span style="color: #df005f; font-weight: bold;">Geometry.Cube</span>
+<span style="color: #268bd2;">(</span> volume
+<span style="color: #8787d7;">&#65292;</span>area
+<span style="color: #268bd2;">)</span> <span style="color: #268bd2; font-weight: bold;">where</span>
+
+<span style="color: #268bd2; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">qualified</span> <span style="color: #df005f; font-weight: bold;">Geometry.Cuboid</span> <span style="color: #268bd2; font-weight: bold;">as</span> <span style="color: #df005f; font-weight: bold;">Cuboid</span>
+
+<span style="color: #d75fd7; font-weight: bold;">volume</span> <span style="color: #8787d7;">::</span> <span style="color: #df005f; font-weight: bold;">Float</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #df005f; font-weight: bold;">Float</span>
+<span style="color: #d75fd7; font-weight: bold;">volume</span> side <span style="color: #8787d7;">=</span> Cuboid.volume side side side
+
+<span style="color: #d75fd7; font-weight: bold;">area</span> <span style="color: #8787d7;">::</span> <span style="color: #df005f; font-weight: bold;">Float</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #df005f; font-weight: bold;">Float</span>
+<span style="color: #d75fd7; font-weight: bold;">area</span> side <span style="color: #8787d7;">=</span> Cuboid.area side side side
+</pre>
+</div>
+
+<p>
+好的! 先是 <code>Geometry.Sphere</code> 。注意，我们将它置于 <code>Geometry</code> 文件夹之中并将它的名字定为 <code>Geometry.Sphere</code> 。对 Cuboid也是同样，也注意下，在三个模块中我们定义了许多名称相同的函数，因为所在模块不同，所以不会产生命名冲突。若要在
+<code>Geometry.Cube</code> 使用 <code>Geometry.Cuboid</code> 中的函数，就不能直接 <code>import
+   Geometry.Cuboid</code> ，而必须得 <code>qualified import</code> 。因为它们中间的函数名完全相同.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #268bd2; font-weight: bold;">import</span> <span style="color: #df005f; font-weight: bold;">Geometry.Sphere</span>
+</pre>
+</div>
+
+<p>
+然后，调用 <code>area</code> 和 <code>volume</code> ，就可以得到球体的面积和体积，而若要用到两个或更多此类模块，就必须得 <code>qualified import</code> 来避免重名。所以就得这样写:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #268bd2; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">qualified</span> <span style="color: #df005f; font-weight: bold;">Geometry.Sphere</span> <span style="color: #268bd2; font-weight: bold;">as</span> <span style="color: #df005f; font-weight: bold;">Sphere</span>
+<span style="color: #268bd2; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">qualified</span> <span style="color: #df005f; font-weight: bold;">Geometry.Cuboid</span> <span style="color: #268bd2; font-weight: bold;">as</span> <span style="color: #df005f; font-weight: bold;">Cuboid</span>
+<span style="color: #268bd2; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">qualified</span> <span style="color: #df005f; font-weight: bold;">Geometry.Cube</span> <span style="color: #268bd2; font-weight: bold;">as</span> <span style="color: #df005f; font-weight: bold;">Cube</span>
+</pre>
+</div>
+
+<p>
+然后就可以调用 <code>Sphere.area</code> ， <code>Sphere.volume</code> ， <code>Cuboid.area</code> 了，而每个函数都只计算其对应物体的面积和体积.
+</p>
+
+<p>
+以后你若发现自己的代码体积庞大且函数众多，就应该试着找找目的相近的函数能否装入各自的模块，也方便日后的重用.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: 刘向</p>
+<p class="date">Created: 2019-12-13 五 22:01</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

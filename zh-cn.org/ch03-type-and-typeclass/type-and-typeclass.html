@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2018-08-22 三 22:07 -->
+<!-- 2019-12-12 四 13:31 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>&lrm;</title>
+<title>Types and Typeclasses</title>
 <meta name="generator" content="Org mode">
 <meta name="author" content="刘向">
 <style type="text/css">
@@ -159,6 +159,19 @@
   .footdef  { margin-bottom: 1em; }
   .figure { padding: 1em; }
   .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
   .inlinetask {
     padding: 10px;
     border: 2px solid gray;
@@ -189,7 +202,7 @@
 @licstart  The following is the entire license notice for the
 JavaScript code in this tag.
 
-Copyright (C) 2012-2018 Free Software Foundation, Inc.
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
 
 The JavaScript code in this tag is free software: you can
 redistribute it and/or modify it under the terms of the GNU
@@ -233,26 +246,28 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
+<h1 class="title">Types and Typeclasses</h1>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orged39583">1. Types and Typeclasses</a>
+<li><a href="#orgb1d1853">1. Types and Typeclasses</a>
 <ul>
-<li><a href="#orga743aaa">1.1. Type</a></li>
-<li><a href="#org38c0253">1.2. Type variables</a></li>
-<li><a href="#org7bdb376">1.3. Typeclasses入门</a></li>
+<li><a href="#orgbe04589">1.1. Type</a></li>
+<li><a href="#orga6aa63a">1.2. Type variables</a></li>
+<li><a href="#org11d16e2">1.3. Typeclasses入门</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orged39583" class="outline-2">
-<h2 id="orged39583"><span class="section-number-2">1</span> Types and Typeclasses</h2>
+
+<div id="outline-container-orgb1d1853" class="outline-2">
+<h2 id="orgb1d1853"><span class="section-number-2">1</span> Types and Typeclasses</h2>
 <div class="outline-text-2" id="text-1">
 </div>
-<div id="outline-container-orga743aaa" class="outline-3">
-<h3 id="orga743aaa"><span class="section-number-3">1.1</span> Type</h3>
+<div id="outline-container-orgbe04589" class="outline-3">
+<h3 id="orgbe04589"><span class="section-number-3">1.1</span> Type</h3>
 <div class="outline-text-3" id="text-1-1">
 
 <div class="figure">
@@ -272,7 +287,7 @@ Haskell说"它是个数字"，它自己能推导出来。这样我们就不必�
 
 <p>
 型别是每个表达式都有的某种标签，它标明了这一表达式所属的范畴。例如，表达式
-<code>True</code> 是 <code>boolean</code> 型， <code>​"hello"​</code> 是个字串，等等。
+<code>True</code> 是 <code>boolean</code> 型， =​"hello"​= 是个字串，等等。
 </p>
 
 <p>
@@ -301,8 +316,8 @@ ghci<span style="color: #bc6ec5; font-weight: bold;">&gt;</span> <span style="co
 
 <p>
 可以看出， <code>:t</code> 命令处理一个表达式的输出结果为表达式后跟 <code>::</code> 及其型别， <code>::</code>
-读作"它的型别为"。凡是明确的型别，其首字母必为大写。 <code>​'a'​</code> ,如它的样子，是
-<code>Char</code> 型别，易知是个字符 (character)。 <code>True</code> 是 <code>Bool</code> 型别，也靠谱。不过这又是啥，检测 <code>​"hello"​</code> 得一个 =[Char]=这方括号表示一个 List，所以我们可以将其读作"一组字符的 List"。而与 List不同，每个 Tuple 都是独立的型别，于是
+读作"它的型别为"。凡是明确的型别，其首字母必为大写。 =​'a'​= ,如它的样子，是
+<code>Char</code> 型别，易知是个字符 (character)。 <code>True</code> 是 <code>Bool</code> 型别，也靠谱。不过这又是啥，检测 =​"hello"​= 得一个 =[Char]=这方括号表示一个 List，所以我们可以将其读作"一组字符的 List"。而与 List不同，每个 Tuple 都是独立的型别，于是
 <code>(True,'a')</code> 的型别是=(Bool,Char)= ，而 <code>('a','b','c')</code> 的型别为
 <code>(Char,Char,Char)</code> 。 <code>4==5</code> 一定回传 <code>False</code> ，所以它的型别为 Bool。
 </p>
@@ -407,8 +422,8 @@ Tuple 的型别取决于它的长度及其中项的型别。注意，空 Tuple�
 </div>
 </div>
 
-<div id="outline-container-org38c0253" class="outline-3">
-<h3 id="org38c0253"><span class="section-number-3">1.2</span> Type variables</h3>
+<div id="outline-container-orga6aa63a" class="outline-3">
+<h3 id="orga6aa63a"><span class="section-number-3">1.2</span> Type variables</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
 你觉得 <code>head</code> 函数的型别是啥？它可以取任意型别的 List的首项，是怎么做到的呢？我们查一下！
@@ -451,8 +466,8 @@ Tuple 的型别取决于它的长度及其中项的型别。注意，空 Tuple�
 </div>
 </div>
 
-<div id="outline-container-org7bdb376" class="outline-3">
-<h3 id="org7bdb376"><span class="section-number-3">1.3</span> Typeclasses入门</h3>
+<div id="outline-container-org11d16e2" class="outline-3">
+<h3 id="org11d16e2"><span class="section-number-3">1.3</span> Typeclasses入门</h3>
 <div class="outline-text-3" id="text-1-3">
 
 <div class="figure">
@@ -477,8 +492,8 @@ interface。
 </div>
 
 <pre class="example">
-     *Note*: 判断相等的==运算子是函数，``+-*/``之类的运算子也是同样。在缺省条件下，它们多为中缀函数。
-    若要检查它的型别，就必须得用括号括起使之作为另一个函数，或者说以首码函数的形式调用它。
+ *Note*: 判断相等的==运算子是函数，``+-*/``之类的运算子也是同样。在缺省条件下，它们多为中缀函数。
+若要检查它的型别，就必须得用括号括起使之作为另一个函数，或者说以首码函数的形式调用它。
 </pre>
 
 <p>
@@ -724,7 +739,7 @@ Integral 仅包含整数，其中的成员型别有 <code>Int</code> 和 <code>I
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: 刘向</p>
-<p class="date">Created: 2018-08-22 三 22:07</p>
+<p class="date">Created: 2019-12-12 四 13:31</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2019-12-13 五 22:03 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>函数式地思考来解决问题</title>
+<meta name="generator" content="Org mode">
+<meta name="author" content="刘向">
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="https://liuxiang.coding.me/liuxiang/style/org/spacemacs-wide/htmlize.css"/>
+ <script src="https://liuxiang.coding.me/liuxiang/js/org/spacemacs-wide/jquery.min.js"></script>
+ <script src="https://liuxiang.coding.me/liuxiang/js/org/spacemacs-wide/bootstrap.min.js"></script>
+ <script src="https://liuxiang.coding.me/liuxiang/js/org/spacemacs-wide/readtheorg.js"></script>
+ <link rel="stylesheet" type="text/css" href="https://liuxiang.coding.me/liuxiang/style/org/spacemacs-wide/readtheorg.css"/>
+ <link rel="stylesheet" type="text/css" href="https://liuxiang.coding.me/liuxiang/style/org/spacemacs-wide/font-awesome.min.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">函数式地思考来解决问题</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgeccfe77">1. 函数式地思考来解决问题</a>
+<ul>
+<li><a href="#org5bb324d">1.1. 运算逆波兰表示法(Reverse Polish notation form)</a></li>
+<li><a href="#orgc6e0ff2">1.2. 路径规划</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgeccfe77" class="outline-2">
+<h2 id="orgeccfe77"><span class="section-number-2">1</span> 函数式地思考来解决问题</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+在这一章中，我们会查看几个有趣的问题，并尝试用函数式的方式来漂亮地解决他们。我们并不会介绍新的概念，我们只是练习我们刚学到的写程序的技巧。每一节都会探讨不同的问题。会先描述问题，然后用最好的方式解决他。
+</p>
+</div>
+
+<div id="outline-container-org5bb324d" class="outline-3">
+<h3 id="org5bb324d"><span class="section-number-3">1.1</span> 运算逆波兰表示法(Reverse Polish notation form)</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+我们在学校学习数学的时候，我们多半都是用中置(infix)的方式来写数学式。例如说，我们会写 <code>10 - (4 + 3) * 2</code> 。 <code>+</code> , <code>*</code> , <code>-</code> 是中置运算子(infix operators)。在Haskell 中就像是 <code>+</code> 或 <code>elem</code> 一样。这种写法对于人类来说很容易阅读与理解，但缺点是我们必须用括号来描述运算的优先级。
+</p>
+
+<p>
+逆波兰表示法是另外一种数学式的描述方法。乍看之下显得怪异，但他其实很容易理解并使用。因为我们不需要括弧来描述，也很容易放进计算机里面运算。尽管现在的计算机都是用中置的方式让你输入，有些人仍坚持用RPN 的计算机。前述的算式如果表达成
+RPN 的话会是 <code>10 4 3 + 2 * -</code> 。我们要如何计算他的结果呢？可以想想堆叠，基本上你是从左向右阅读算式。每当碰到一个数值，就把他堆上堆叠。当我们碰到一个运算子。就把两个数值从堆叠上拿下来，用运算子运算两个数值然后把结果推回堆叠中。当你消耗完整个算式的时候，而且假设你的算式是合法的，那你就应该只剩一个数值在堆叠中，
+</p>
+
+
+<div class="figure">
+<p><img src="rpn.png" alt="rpn.png">
+</p>
+</div>
+
+<p>
+我们再接着看 <code>10 4 3 + 2 * -</code> 。首先我们把 <code>10</code> 推到堆叠上，所以堆叠现在是
+<code>10</code> 。下一个接着的输入是 <code>4</code> ，我们也把他推上堆叠。堆叠的状态便变成 <code>10, 4</code>
+。接着也对下一个输入 <code>3</code> 做同样的事，所以堆叠变成 <code>10, 4, 3</code> 。然后便碰到了第一个运算子=+= 。我们把堆叠最上层的两个数值取下来（所以堆叠变成 <code>10</code> ）把两个数值加起来然后推回堆叠上。堆叠的状态便变成 <code>10, 7</code> 。我们再把输入 <code>2</code> 推上堆叠，堆叠变成 <code>10, 7, 2</code> 。我们又碰到另一个运算子，所以把 <code>7</code> 跟 <code>2</code> 取下，把他们相乘起来然后推回堆叠上。 <code>7</code> 跟 <code>2</code> 相乘的结果是 <code>14</code> ，所以堆叠的状态是
+<code>10, 14</code> 。最后我们碰到了 <code>-</code> 。我们把 <code>10</code> 跟 <code>14</code> 取下，将他们相减然后推回堆叠上。所以现在堆叠的状态变成 <code>-4</code> 。而我们已经把所有数值跟运算子的消耗完了，所以 <code>-4</code> 便是我们的结果。
+</p>
+
+<p>
+现在我们知道我们如何手算 RPN 运算式了，接下来可以思考一下我们写一个Haskell 的函数，当他接到一个 RPN 运算式，像是 =​"10 4 3 + 2 * -"​= 时，他可以给出结果。
+</p>
+
+<p>
+这个函数的型别会是什么样呢？我们希望他接受一个字串当作参数，并产出一个数值作为结果。所以应该会是 =solveRPN :: (Num a) = &gt; String -&gt; a=。
+</p>
+
+<pre class="example">
+小建议：在你去实作函数之前，先想一下你会怎么宣告这个函数的型别能够帮助你
+厘清问题。在 Haskell 中由于我们有够强的型别系统，光从函数的宣告就可以得到
+许多信息。
+</pre>
+
+
+<div class="figure">
+<p><img src="calculator.png" alt="calculator.png">
+</p>
+</div>
+
+<p>
+当我们要实作一个问题的解法时，你可以先动手一步一步解看看，尝试从里面得到一些灵感。我们这边把每一个用空白隔开的数值或运算子都当作独立的一项。所以把 =​"10 4
+3 + 2 * -"​= 这样一个字串断成一串 list <code>["10","4","3","+","2","*","-"]</code> 应该会有帮助。
+</p>
+
+<p>
+接下来我们要如何应用这个断好的 list呢？我们从左至右来走一遍，并保存一个工作用的堆叠。这样有让你想到些什么可以用的吗？没错，在 <code>folds</code> 的那一章里面，我们提到基本上当你需要从左至右或由右至左走过一遍list 的时候并产生些结果的时候。我们都能用 fold 来实作他。
+</p>
+
+<p>
+在这个 case 中由于我们是从左边走到右边，所以我们采取 left fold。accumulator
+则是选用堆叠，而 fold的结果也会是一个堆叠，只是里面只有一个元素而已。
+</p>
+
+<p>
+另外要多考虑一件事是我们用什么来代表我们的堆叠？我们可以用 list来代替，list
+的 head 就可以当作是堆叠的顶端。毕竟要把一个元素加到 list的 head 要比加到最后要有效率多。所以如果我们有一个堆叠，里面有 <code>10, 4, 3</code> ，那我们可以用
+<code>[3,4,10]</code> 来代表他。
+</p>
+
+<p>
+现在我们有了足够的信息来写出我们的函数。他会接受一个字串 =​"10 4 3 + 2 * -"​=
+，随即用 <code>words</code> 来断成 list <code>["10","4","3","+","2","*","-"]</code> 。接下来我们做一个 left fold来产生出只有一个元素的堆叠，也就是 <code>[-4]</code> 。我们把这个元素从
+list取出便是最后的结果。
+</p>
+
+<p>
+来看看我们的实作：
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #268bd2; font-weight: bold;">import</span> <span style="color: #df005f; font-weight: bold;">Data.List</span>
+
+<span style="color: #d75fd7; font-weight: bold;">solveRPN</span> <span style="color: #8787d7;">::</span> <span style="color: #268bd2;">(</span><span style="color: #df005f; font-weight: bold;">Num</span> a<span style="color: #268bd2;">)</span> <span style="color: #8787d7;">=&gt;</span> <span style="color: #df005f; font-weight: bold;">String</span> <span style="color: #8787d7;">-&gt;</span> a
+<span style="color: #d75fd7; font-weight: bold;">solveRPN</span> expression <span style="color: #8787d7;">=</span> head <span style="color: #268bd2;">(</span>foldl foldingFunction <span style="color: #d75fd7; font-weight: bold;">[]</span> <span style="color: #d75fd7;">(</span>words expression<span style="color: #d75fd7;">)</span><span style="color: #268bd2;">)</span>
+    <span style="color: #268bd2; font-weight: bold;">where</span>   foldingFunction stack item <span style="color: #8787d7;">=</span> <span style="color: #8787d7;">...</span>
+</pre>
+</div>
+
+<p>
+我们接受一个运算式并把他断成一串 List。然后我们用一个 folding 函数来fold 这串
+list。注意到我们用 <code>[]</code> 来当作起始的 accumulator。这个accumulator 就是我们的堆叠，所以 <code>[]</code> 代表一个空的堆叠。在运算之后我们得到一个只有一个元素的堆叠，我们调用 <code>head</code> 来取出他并用 <code>read</code> 来转换他。
+</p>
+
+<p>
+所以我们现在只缺一个接受堆叠的 folding 函数，像是可以接受 <code>[4,10]</code> 跟 =​"3"​=
+，然后得到 <code>[3,4,10]</code> 。如果是 <code>[4,10]</code> 跟 =​"*"​= ，那就会得到 <code>[40]</code> 。但在实作之前，我们先把我们的函数改写成 point-free style，这样可以省下许多括号。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #268bd2; font-weight: bold;">import</span> <span style="color: #df005f; font-weight: bold;">Data.List</span>
+
+<span style="color: #d75fd7; font-weight: bold;">solveRPN</span> <span style="color: #8787d7;">::</span> <span style="color: #268bd2;">(</span><span style="color: #df005f; font-weight: bold;">Num</span> a<span style="color: #268bd2;">)</span> <span style="color: #8787d7;">=&gt;</span> <span style="color: #df005f; font-weight: bold;">String</span> <span style="color: #8787d7;">-&gt;</span> a
+<span style="color: #d75fd7; font-weight: bold;">solveRPN</span> <span style="color: #8787d7;">=</span> head <span style="color: #8787d7;">.</span> foldl foldingFunction <span style="color: #268bd2; font-weight: bold;">[]</span> <span style="color: #8787d7;">.</span> words
+      <span style="color: #268bd2; font-weight: bold;">where</span>   foldingFunction stack item <span style="color: #8787d7;">=</span> <span style="color: #8787d7;">...</span>
+</pre>
+</div>
+
+<p>
+看起来好多了。我们的 folding函数会接受一个堆叠、新的项，并回传一个新的堆叠。我们使用模式匹配的方式来取出堆叠最上层的元素，然后对 =​"*"​= 跟 =​"-"​= 做匹配。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #d75fd7; font-weight: bold;">solveRPN</span> <span style="color: #8787d7;">::</span> <span style="color: #268bd2;">(</span><span style="color: #df005f; font-weight: bold;">Num</span> a, <span style="color: #df005f; font-weight: bold;">Read</span> a<span style="color: #268bd2;">)</span> <span style="color: #8787d7;">=&gt;</span> <span style="color: #df005f; font-weight: bold;">String</span> <span style="color: #8787d7;">-&gt;</span> a
+<span style="color: #d75fd7; font-weight: bold;">solveRPN</span> <span style="color: #8787d7;">=</span> head <span style="color: #8787d7;">.</span> foldl foldingFunction <span style="color: #268bd2; font-weight: bold;">[]</span> <span style="color: #8787d7;">.</span> words
+    <span style="color: #268bd2; font-weight: bold;">where</span>   foldingFunction <span style="color: #268bd2;">(</span>x<span style="color: #df005f; font-weight: bold;">:</span>y<span style="color: #df005f; font-weight: bold;">:</span>ys<span style="color: #268bd2;">)</span> <span style="color: #2aa198;">"*"</span> <span style="color: #8787d7;">=</span> <span style="color: #268bd2;">(</span>x <span style="color: #8787d7;">*</span> y<span style="color: #268bd2;">)</span><span style="color: #df005f; font-weight: bold;">:</span>ys
+            foldingFunction <span style="color: #268bd2;">(</span>x<span style="color: #df005f; font-weight: bold;">:</span>y<span style="color: #df005f; font-weight: bold;">:</span>ys<span style="color: #268bd2;">)</span> <span style="color: #2aa198;">"+"</span> <span style="color: #8787d7;">=</span> <span style="color: #268bd2;">(</span>x <span style="color: #8787d7;">+</span> y<span style="color: #268bd2;">)</span><span style="color: #df005f; font-weight: bold;">:</span>ys
+            foldingFunction <span style="color: #268bd2;">(</span>x<span style="color: #df005f; font-weight: bold;">:</span>y<span style="color: #df005f; font-weight: bold;">:</span>ys<span style="color: #268bd2;">)</span> <span style="color: #2aa198;">"-"</span> <span style="color: #8787d7;">=</span> <span style="color: #268bd2;">(</span>y <span style="color: #8787d7;">-</span> x<span style="color: #268bd2;">)</span><span style="color: #df005f; font-weight: bold;">:</span>ys
+            foldingFunction xs numberString <span style="color: #8787d7;">=</span> read numberString<span style="color: #df005f; font-weight: bold;">:</span>xs
+</pre>
+</div>
+
+<p>
+我们用展开成四个模式匹配。模式会从第一个开始尝试匹配。所以 folding函数会看看目前的项是否是 =​"*"​= 。如果是，那就会将 <code>[3,4,9,3]</code> 的头两个元素绑定到 <code>x</code> ，
+<code>y</code> 两个名称。所以 <code>x</code> 会是 <code>3</code> 而 <code>y</code> 等于 <code>4</code> 。 <code>ys</code> 便会是 <code>[9,3]</code> 。他会回传一个 list，只差在 <code>x</code> 跟 <code>y</code> 相乘的结果为第一个元素。也就是说会把最上层两个元素取出，相乘后再放回去。如果第一个元素不是 =​"*"​= ，那模式匹配就会比对到
+=​"+"​= ，以此类推。
+</p>
+
+<p>
+如果项并未匹配到任何一个运算子，那我们就会假设这个字串是一个数值。如果他是一个数值，我们会用 <code>read</code> 来把字串转换成数值。并把这个数值推到堆叠上。
+</p>
+
+<p>
+另外注意到我们加了 <code>Read a</code> 这像 class constraint，毕竟我们要使用到 <code>read</code> 来转换成数值。所以我们必须要宣告成他要属于 <code>Num</code> 跟 <code>Read</code> 两种typeclass。（譬如说 <code>Int</code> , <code>Float</code> 等）
+</p>
+
+<p>
+我们是从左至右走过 <code>["2","3","+"]</code> 。一开始堆叠的状态是 <code>[]</code> 。首先他会用
+<code>[]</code> 跟 =​"2"​= 来喂给 folding 函数。由于此项并不是一个运算子。他会用 <code>read</code> 读取后加到 <code>[]</code> 的开头。所以堆叠的状态变成 <code>[2]</code> 。接下来就是用 <code>[2]</code> 跟
+<code>["3"]</code> 来喂给 folding 函数，而得到 <code>[3,2]</code> 。最后再用 <code>[3,2]</code> 跟 =​"+"​= 来调用 folding函数。这会堆叠顶端的两个数值，加起来后推回堆叠。最后堆叠变成 <code>[5]</code>
+，这就是我们回传的数值。
+</p>
+
+<p>
+我们来试试看我们新写的函数：
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> solveRPN <span style="color: #2aa198;">"10 4 3 + 2 * -"</span>
+<span style="color: #8787d7;">-</span><span style="color: #d75fd7;">4</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> solveRPN <span style="color: #2aa198;">"2 3 +"</span>
+<span style="color: #d75fd7;">5</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> solveRPN <span style="color: #2aa198;">"90 34 12 33 55 66 + * - +"</span>
+<span style="color: #8787d7;">-</span><span style="color: #d75fd7;">3947</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> solveRPN <span style="color: #2aa198;">"90 34 12 33 55 66 + * - + -"</span>
+<span style="color: #d75fd7;">4037</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> solveRPN <span style="color: #2aa198;">"90 34 12 33 55 66 + * - + -"</span>
+<span style="color: #d75fd7;">4037</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> solveRPN <span style="color: #2aa198;">"90 3 -"</span>
+<span style="color: #d75fd7;">87</span>
+</pre>
+</div>
+
+<p>
+看起来运作良好。这个函数有一个特色就是他很容易改写来支持额外的运算子。他们也不一定要是二元运算子。例如说我们可以写一个运算子叫做 =​"log"​= ，他会从堆叠取出一个数值算出他的 log后推回堆叠。我们也可以用三元运算子来从堆叠取出三个数值，并把结果放回堆叠。甚至是像是 =​"sum"​= 这样的运算子，取出所有数值并把他们的和推回堆叠。
+</p>
+
+<p>
+我们来改写一下我们的函数让他多支持几个运算子。为了简单起见，我们改写宣告让他回传 <code>Float</code> 型别。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #268bd2; font-weight: bold;">import</span> <span style="color: #df005f; font-weight: bold;">Data.List</span>
+
+<span style="color: #d75fd7; font-weight: bold;">solveRPN</span> <span style="color: #8787d7;">::</span> <span style="color: #df005f; font-weight: bold;">String</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #df005f; font-weight: bold;">Float</span>
+<span style="color: #d75fd7; font-weight: bold;">solveRPN</span> <span style="color: #8787d7;">=</span> head <span style="color: #8787d7;">.</span> foldl foldingFunction <span style="color: #268bd2; font-weight: bold;">[]</span> <span style="color: #8787d7;">.</span> words
+<span style="color: #268bd2; font-weight: bold;">where</span>   foldingFunction <span style="color: #268bd2;">(</span>x<span style="color: #df005f; font-weight: bold;">:</span>y<span style="color: #df005f; font-weight: bold;">:</span>ys<span style="color: #268bd2;">)</span> <span style="color: #2aa198;">"*"</span> <span style="color: #8787d7;">=</span> <span style="color: #268bd2;">(</span>x <span style="color: #8787d7;">*</span> y<span style="color: #268bd2;">)</span><span style="color: #df005f; font-weight: bold;">:</span>ys
+        foldingFunction <span style="color: #268bd2;">(</span>x<span style="color: #df005f; font-weight: bold;">:</span>y<span style="color: #df005f; font-weight: bold;">:</span>ys<span style="color: #268bd2;">)</span> <span style="color: #2aa198;">"+"</span> <span style="color: #8787d7;">=</span> <span style="color: #268bd2;">(</span>x <span style="color: #8787d7;">+</span> y<span style="color: #268bd2;">)</span><span style="color: #df005f; font-weight: bold;">:</span>ys
+        foldingFunction <span style="color: #268bd2;">(</span>x<span style="color: #df005f; font-weight: bold;">:</span>y<span style="color: #df005f; font-weight: bold;">:</span>ys<span style="color: #268bd2;">)</span> <span style="color: #2aa198;">"-"</span> <span style="color: #8787d7;">=</span> <span style="color: #268bd2;">(</span>y <span style="color: #8787d7;">-</span> x<span style="color: #268bd2;">)</span><span style="color: #df005f; font-weight: bold;">:</span>ys
+        foldingFunction <span style="color: #268bd2;">(</span>x<span style="color: #df005f; font-weight: bold;">:</span>y<span style="color: #df005f; font-weight: bold;">:</span>ys<span style="color: #268bd2;">)</span> <span style="color: #2aa198;">"/"</span> <span style="color: #8787d7;">=</span> <span style="color: #268bd2;">(</span>y <span style="color: #8787d7;">/</span> x<span style="color: #268bd2;">)</span><span style="color: #df005f; font-weight: bold;">:</span>ys
+        foldingFunction <span style="color: #268bd2;">(</span>x<span style="color: #df005f; font-weight: bold;">:</span>y<span style="color: #df005f; font-weight: bold;">:</span>ys<span style="color: #268bd2;">)</span> <span style="color: #2aa198;">"^"</span> <span style="color: #8787d7;">=</span> <span style="color: #268bd2;">(</span>y <span style="color: #8787d7;">**</span> x<span style="color: #268bd2;">)</span><span style="color: #df005f; font-weight: bold;">:</span>ys
+        foldingFunction <span style="color: #268bd2;">(</span>x<span style="color: #df005f; font-weight: bold;">:</span>xs<span style="color: #268bd2;">)</span> <span style="color: #2aa198;">"ln"</span> <span style="color: #8787d7;">=</span> log x<span style="color: #df005f; font-weight: bold;">:</span>xs
+        foldingFunction xs <span style="color: #2aa198;">"sum"</span> <span style="color: #8787d7;">=</span> <span style="color: #268bd2;">[</span>sum xs<span style="color: #268bd2;">]</span>
+        foldingFunction xs numberString <span style="color: #8787d7;">=</span> read numberString<span style="color: #df005f; font-weight: bold;">:</span>xs
+</pre>
+</div>
+
+<p>
+看起来不错，没有疑问地 <code>/</code> 是除法而 <code>**</code> 是取 exponential。至于 log运算子，我们只需要模式匹配一个元素，毕竟 log 只需要一个元素。而 sum运算子，我们只回传一个仅有一个元素的堆叠，包含了所有元素的和。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> solveRPN <span style="color: #2aa198;">"2.7 ln"</span>
+<span style="color: #d75fd7;">0.9932518</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> solveRPN <span style="color: #2aa198;">"10 10 10 10 sum 4 /"</span>
+<span style="color: #d75fd7;">10.0</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> solveRPN <span style="color: #2aa198;">"10 10 10 10 10 sum 4 /"</span>
+<span style="color: #d75fd7;">12.5</span>
+ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> solveRPN <span style="color: #2aa198;">"10 2 ^"</span>
+<span style="color: #d75fd7;">100.0</span>
+</pre>
+</div>
+
+<p>
+由于 <code>read</code> 知道如何转换浮点数，我们也可在运算适中使用他。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> solveRPN <span style="color: #2aa198;">"43.2425 0.5 ^"</span>
+<span style="color: #d75fd7;">6.575903</span>
+</pre>
+</div>
+
+<p>
+有这样一个容易拓展到浮点数而且动到的代码又在十行以内的函数，我想是非常棒的。
+</p>
+
+<p>
+有一件事要留意的是这个函数对于错误处理并不好。当我们碰到非法输入的时候，他就会直接当掉。之后我们碰到Monad 的时候我们会写一个容错的版本，他的型别会是
+<code>solveRPN :: String -&gt; Maybe Float</code> 。当然我们现在也可以写一个，不过那会有点麻烦，因为会有一大堆检查 <code>Nothing</code> 的动作。如果你希望挑战的话，也可以尽管尝试。（提示：你可以用 <code>reads</code> 来看看一次 read 是否会成功）
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc6e0ff2" class="outline-3">
+<h3 id="orgc6e0ff2"><span class="section-number-3">1.2</span> 路径规划</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+我们接下来的问题是：你的飞机刚刚降落在英格兰的希思罗机场。你接下来有一个会议，你租了一台车希望尽速从机场前往伦敦市中心。
+</p>
+
+<p>
+从希思罗机场到伦敦有两条主要道路，他们中间有很多小路连接彼此。如果你要走小路的话都会花掉一定的时间。你的问题就是要选一条最佳路径让你可以尽快前往伦敦。你从图的最左边出发，中间可能穿越小路来前往右边。
+</p>
+
+
+<div class="figure">
+<p><img src="roads.png" alt="roads.png">
+</p>
+</div>
+
+<p>
+你可以从图中看到，从希思罗机场到伦敦在这个路径配置下的最短路径是先选主要道路B，经由小路到 A 之后，再走一小段，转到 B之后继续往前走。如果采取这个路径的话，会花去 75分钟。如果选其他道路的话，就会花更多时间。
+</p>
+
+<p>
+我们任务就是要写一个程序，他接受道路配置的输入，然后印出对应的最短路径。我们的输入看起来像是这样：
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #d75fd7;">50</span>
+<span style="color: #d75fd7;">10</span>
+<span style="color: #d75fd7;">30</span>
+<span style="color: #d75fd7;">5</span>
+<span style="color: #d75fd7;">90</span>
+<span style="color: #d75fd7;">20</span>
+<span style="color: #d75fd7;">40</span>
+<span style="color: #d75fd7;">2</span>
+<span style="color: #d75fd7;">25</span>
+<span style="color: #d75fd7;">10</span>
+<span style="color: #d75fd7;">8</span>
+<span style="color: #d75fd7;">0</span>
+</pre>
+</div>
+
+<p>
+我们在心中可以把输入的数值三个三个看作一组。每一组由道路 A,道路B,还有交叉的小路组成。而要能够这样组成，我们必须让最后有一条虚拟的交叉小路，只需要走0分钟就可以穿越他。因为我们并不会在意在伦敦里面开车的成本，毕竟我们已经到达伦敦了。
+</p>
+
+<p>
+正如我们在解 RPN 计算机的问题的时候，我们是用三步骤来解题：
+</p>
+
+<ul class="org-ul">
+<li>首先忘掉 Haskell，想想我们自己是怎么一步步解题的。</li>
+<li>想想如何在 Haskell 中表达我们的数据。</li>
+<li>在 Haskell 中要如何对这些数据做运算来产生出解答。</li>
+</ul>
+
+<p>
+在介绍 RPN计算机的章节中，我们首先自己用人脑计算表达式，在心中维持一个堆叠然后一项一项处理。我们决定用一个字串来表达我们的表达式。最后，我们用left fold
+来走过我们这一串 list，并算出结果。
+</p>
+
+<p>
+究竟我们要怎么用手算出从希思罗机场到伦敦的最短路径呢？我们可以观察整章图片，猜测哪一条是最短路径然后希望我们有猜对。这样的作法对于很小的输入可以成功，但如果我们的路径超过10000 组呢？这样我们不知道我们的解法是不是最佳解，我们只能说可能是。
+</p>
+
+<p>
+所以那并不是一个好作法。这边有一张简化过后的图。
+</p>
+
+
+<div class="figure">
+<p><img src="roads_simple.png" alt="roads_simple.png">
+</p>
+</div>
+
+<p>
+你能想出来到道路 A 上第一个交叉点的最短路径吗？（标记成 A1的点）这太容易了。我们只要看看从道路 A 出发或是从道路 B 出发穿越至道路 A两种作法哪种比较短就好。很明显的，从道路 B 出发的比较短，只要花费 40分钟，然而从道路 A 则要花费 50 分钟。那到交叉点 B1呢？同样的作法可以看出从道路 B 出发只要花费 10 分钟，远比从道路 A出发然后穿越小路要花费少，后者要花费 80 分钟！
+</p>
+
+<p>
+现在我们知道要到达 A1 的最短路径是经由 B 然后邹小路到达，共花费40。而我们知道要达到 B1 的最短路径则是直接走 B，花费10。这样的知识有办法帮助我们得知到下一个交叉点的最短路径吗？可以的。
+</p>
+
+<p>
+我们来看看到达 A2 的最短路径是什么。要到达 A2，我们必须要从 A1 走到 A2或是从
+B1 走小路。由于我们知道到达 A1 跟 B1的成本，我们可以很容易的想出到达 A2 的最佳路径。到达 A1 要花费 40，而从A1 到 A2 需要 5。所以 <code>B, C, A</code> 总共要 45。而要到达 B1 只要10，但需要额外花费 110 分钟来到达 B2 然后走小路到达 A2。所以最佳路径就是 <code>B, C, A</code> 。同样地到达 B2 最好的方式就是走 A1 然后走小路。
+</p>
+
+<pre class="example">
+也许你会问如果先在 B1 跨到道路 A 然后走到 A2 的情况呢？我们已经考虑过了从 B1 到
+A1 的情况，所以我们不需要再把他考虑进去。
+</pre>
+
+<p>
+现在我们有了至 A2 跟 B2的最佳路径，我们可以一直重复这个过程直到最右边。一旦我们到达了 A4 跟B4，那其中比较短的就是我们的最佳路径了。
+</p>
+
+<p>
+基本上对于第二组而言，我们只是不断地重复之前的步骤，只是我们考虑进在前面的最佳路径而已。当然我们也可以说在第一步就考虑进了前面的最佳路径，只是他们都是0
+而已。
+</p>
+
+<p>
+总结一下。要得到从希思罗机场到伦敦的最短路径。我们首先看看到达下一个道路A 上的交叉点的最短路径。共有两种选择的路径，一是直接从道路 A出发然后走到交叉点，要不然就是从道路 B出发，走到第一个交叉点然后走小路。得到结果后记住结果。接着再用同样的方法来得到走到道路B 上下一个交叉点的最短路径，并也记住结果。然后我们看看要走到再下一个道路A 上的交叉点，究竟是从这个道路 A 上的交叉点往前走，或是从对应的道路 B上的交叉点往前走再走到对面，两种选择哪种比较好。记下比较好的选择，然后也对对应的道路B上的交叉点做一次这个过程。做完全部组之后就到达最右边。一旦到达最右边，最佳的选择就是我们的最短路径了。
+</p>
+
+<p>
+基本上当我们到达最右边的时候，我们记下了最后停在道路 A的最短路径跟最后停在道路 B的最短路径。其中比较短的是我们真正的最短路径。现在我们已经知道怎么用手算出答案。如果你有闲工夫，你可以拿纸笔对于任何一组道路配置算出他的最短路径。
+</p>
+
+<p>
+接下来的问题是，我们要如何用 Haskell的型别来代表这里的道路配置呢？一种方式就是把起始点跟交叉点都当作图的节点，并连到其他的交叉点。如果我们想像其实起点也有一条长度为1的虚拟道路连接彼此，那每个交叉点或是节点就都连接对面的节点了。同时他们也连到下一个交叉点。唯一的例外是最后一个节点，他们只连接到对面。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #268bd2; font-weight: bold;">data</span> <span style="color: #df005f; font-weight: bold;">Node</span> <span style="color: #8787d7;">=</span> <span style="color: #df005f; font-weight: bold;">Node</span> <span style="color: #df005f; font-weight: bold;">Road</span> <span style="color: #df005f; font-weight: bold;">Road</span> <span style="color: #8787d7;">|</span> <span style="color: #df005f; font-weight: bold;">EndNode</span> <span style="color: #df005f; font-weight: bold;">Road</span>
+<span style="color: #268bd2; font-weight: bold;">data</span> <span style="color: #df005f; font-weight: bold;">Road</span> <span style="color: #8787d7;">=</span> <span style="color: #df005f; font-weight: bold;">Road</span> <span style="color: #df005f; font-weight: bold;">Int</span> <span style="color: #df005f; font-weight: bold;">Node</span>
+</pre>
+</div>
+
+<p>
+一个节点要码是一个普通的节点，他包含有通往下一个交叉点的路径信息，还有往对面道路的信息。或是一个终端点，只包含往对面节点的道路信息。一条道路包含他多长，还有他指向哪里。例如说，道路A 的第一个部份就可写成 <code>Road 50 a1</code> 。其中 <code>a1</code>
+是 <code>Node x y</code> 这样一个节点。而 <code>x</code> 跟 <code>y</code> 则分别指向 B1 跟 A2。
+</p>
+
+<p>
+另一种方式就是用 <code>Maybe</code> 来代表往下一个交叉点走的路。每个节点有指到对面节点的路径部份，但只有不是终端节点的节点才有指向下一个交叉点的路。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #268bd2; font-weight: bold;">data</span> <span style="color: #df005f; font-weight: bold;">Node</span> <span style="color: #8787d7;">=</span> <span style="color: #df005f; font-weight: bold;">Node</span> <span style="color: #df005f; font-weight: bold;">Road</span> <span style="color: #268bd2;">(</span><span style="color: #df005f; font-weight: bold;">Maybe</span> <span style="color: #df005f; font-weight: bold;">Road</span><span style="color: #268bd2;">)</span>
+<span style="color: #268bd2; font-weight: bold;">data</span> <span style="color: #df005f; font-weight: bold;">Road</span> <span style="color: #8787d7;">=</span> <span style="color: #df005f; font-weight: bold;">Road</span> <span style="color: #df005f; font-weight: bold;">Int</span> <span style="color: #df005f; font-weight: bold;">Node</span>
+</pre>
+</div>
+
+<p>
+这些是用 Haskell来代表道路系统的方式，而我们也能靠他们来解决问题。但也许我们可以想出更简单的模型？如果我们想想之前手算的方式，我们每次检查都只有检查三条路径的长度而已。在道路A 的部份，跟在道路 B的部份，还有接触两个部份并将他们连接起来的部份。当我们观察到 A1 跟 B1的最短路径时，我们只考虑第一组的三个部份，他们分别花费 50, 10 跟30。所以道路系统可以用四组来表示： <code>50, 10, 30</code> ， <code>5,
+   90, 20</code> ， <code>40, 2, 25</code> 跟 <code>10, 8, 0</code> 。
+</p>
+
+<p>
+让我们数据型别越简单越好，不过这样已经是极限了。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #268bd2; font-weight: bold;">data</span> <span style="color: #df005f; font-weight: bold;">Section</span> <span style="color: #8787d7;">=</span> <span style="color: #df005f; font-weight: bold;">Section</span> <span style="color: #268bd2;">{</span> getA <span style="color: #8787d7;">::</span> <span style="color: #df005f; font-weight: bold;">Int</span>, getB <span style="color: #8787d7;">::</span> <span style="color: #df005f; font-weight: bold;">Int</span>, getC <span style="color: #8787d7;">::</span> <span style="color: #df005f; font-weight: bold;">Int</span> <span style="color: #268bd2;">}</span> <span style="color: #268bd2; font-weight: bold;">deriving</span> <span style="color: #268bd2;">(</span><span style="color: #df005f; font-weight: bold;">Show</span><span style="color: #268bd2;">)</span>
+<span style="color: #268bd2; font-weight: bold;">type</span> <span style="color: #df005f; font-weight: bold;">RoadSystem</span> <span style="color: #8787d7;">=</span> <span style="color: #268bd2;">[</span><span style="color: #df005f; font-weight: bold;">Section</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+
+<p>
+这样很完美，而且对于我们的实作也有帮助。 <code>Section</code> 是一个 algebraic data type，包含三个整数，分别代表三个不同部份的道路长。我们也定义了型别同义字，说
+<code>RoadSystem</code> 代表包含 section 的 list。
+</p>
+
+<pre class="example">
+当然我们也可以用一个 tuple ``(Int, Int, Int)`` 来代表一个 section。使用 tuple 对
+于一些简单的情况是比较方便，但对于比较复杂的情况定义自己的 algebraic data type
+会比较好。他让型别系统获得比较多的信息。``(Int, Int, Int)`` 毕竟也可能被使用在定
+义三维空间中的一个矢量，只用 tuple 让我们可能把这两种情形混杂起来使用。如果我们
+用 ``Section`` 跟 ``Vector`` 的话就不会不小心搞混了。
+</pre>
+
+<p>
+从希思罗机场到伦敦的道路系统便可以这样表示：
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #d75fd7; font-weight: bold;">heathrowToLondon</span> <span style="color: #8787d7;">::</span> <span style="color: #df005f; font-weight: bold;">RoadSystem</span>
+<span style="color: #d75fd7; font-weight: bold;">heathrowToLondon</span> <span style="color: #8787d7;">=</span> <span style="color: #268bd2;">[</span><span style="color: #df005f; font-weight: bold;">Section</span> <span style="color: #d75fd7;">50</span> <span style="color: #d75fd7;">10</span> <span style="color: #d75fd7;">30</span>, <span style="color: #df005f; font-weight: bold;">Section</span> <span style="color: #d75fd7;">5</span> <span style="color: #d75fd7;">90</span> <span style="color: #d75fd7;">20</span>, <span style="color: #df005f; font-weight: bold;">Section</span> <span style="color: #d75fd7;">40</span> <span style="color: #d75fd7;">2</span> <span style="color: #d75fd7;">25</span>, <span style="color: #df005f; font-weight: bold;">Section</span> <span style="color: #d75fd7;">10</span> <span style="color: #d75fd7;">8</span> <span style="color: #d75fd7;">0</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+
+<p>
+我们现在要做的就是用 Haskell实作我们先前的解法。所以我们应该怎样宣告我们计算最短路径函数的型别呢？他应该接受一个道路系统作为参数，然后回传一个路径。我们会用一个list 来代表我们的路径。我们定义了 <code>Label</code> 来表示 <code>A</code> , <code>B</code> 或 <code>C</code> 。并且也定义一个同义词 <code>Path</code> ：
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #268bd2; font-weight: bold;">data</span> <span style="color: #df005f; font-weight: bold;">Label</span> <span style="color: #8787d7;">=</span> <span style="color: #df005f; font-weight: bold;">A</span> <span style="color: #8787d7;">|</span> <span style="color: #df005f; font-weight: bold;">B</span> <span style="color: #8787d7;">|</span> <span style="color: #df005f; font-weight: bold;">C</span> <span style="color: #268bd2; font-weight: bold;">deriving</span> <span style="color: #268bd2;">(</span><span style="color: #df005f; font-weight: bold;">Show</span><span style="color: #268bd2;">)</span>
+<span style="color: #268bd2; font-weight: bold;">type</span> <span style="color: #df005f; font-weight: bold;">Path</span> <span style="color: #8787d7;">=</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">(</span><span style="color: #df005f; font-weight: bold;">Label</span>, <span style="color: #df005f; font-weight: bold;">Int</span><span style="color: #d75fd7;">)</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+
+<p>
+而我们的函数 <code>optimalPath</code> 应该要有 <code>optimalPath :: RoadSystem -&gt; Path</code> 这样的型别。如果被喂给 <code>heathrowToLondon</code> 这样的道路系统，他应该要回传下列的路径：
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #268bd2;">[</span><span style="color: #d75fd7;">(</span><span style="color: #df005f; font-weight: bold;">B</span>,<span style="color: #d75fd7;">10</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #df005f; font-weight: bold;">C</span>,<span style="color: #d75fd7;">30</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #df005f; font-weight: bold;">A</span>,<span style="color: #d75fd7;">5</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #df005f; font-weight: bold;">C</span>,<span style="color: #d75fd7;">20</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #df005f; font-weight: bold;">B</span>,<span style="color: #d75fd7;">2</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #df005f; font-weight: bold;">B</span>,<span style="color: #d75fd7;">8</span><span style="color: #d75fd7;">)</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+
+<p>
+我们接下来就从左至右来走一遍 list，并沿路上记下 A 的最佳路径跟 B的最佳路径。我们会 accumulate我们的最佳路径。这听起来有没有很熟悉？没错！就是 left fold。
+</p>
+
+<p>
+当我们手动做解答的时候，有一个步骤是我们不断重复的。就是检查现有 A 跟 B的最佳路径以及目前的 section，产生出新的 A 跟 B的最佳路径。举例来说，最开始我们的最佳路径是 <code>[]</code> 跟 <code>[]</code> 。我们看过 <code>Section 50 10 30</code> 后就得到新的到 A1 的最佳路径为 <code>[(B,10),(C,30)]</code> ，而到 B1 的最佳路径是 <code>[(B,10)]</code> 。如果你们把这个步骤看作是一个函数，他接受一对路径跟一个section，并产生出新的一对路径。所以型别是=(Path, Path) -&gt; Section -&gt; (Path, Path)= 。我们接下来继续实作这个函数。
+</p>
+
+<pre class="example">
+提示：把 ``(Path, Path) -&gt; Section -&gt; (Path, Path)`` 当作 left fold 用的二元函数，fold 要求的型态是 ``a -&gt; b -&gt; a``。
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #d75fd7; font-weight: bold;">roadStep</span> <span style="color: #8787d7;">::</span> <span style="color: #268bd2;">(</span><span style="color: #df005f; font-weight: bold;">Path</span>, <span style="color: #df005f; font-weight: bold;">Path</span><span style="color: #268bd2;">)</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #df005f; font-weight: bold;">Section</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #268bd2;">(</span><span style="color: #df005f; font-weight: bold;">Path</span>, <span style="color: #df005f; font-weight: bold;">Path</span><span style="color: #268bd2;">)</span>
+<span style="color: #d75fd7; font-weight: bold;">roadStep</span> <span style="color: #268bd2;">(</span>pathA, pathB<span style="color: #268bd2;">)</span> <span style="color: #268bd2;">(</span><span style="color: #df005f; font-weight: bold;">Section</span> a b c<span style="color: #268bd2;">)</span> <span style="color: #8787d7;">=</span>
+    <span style="color: #268bd2; font-weight: bold;">let</span> priceA <span style="color: #8787d7;">=</span> sum <span style="color: #8787d7;">$</span> map snd pathA
+        priceB <span style="color: #8787d7;">=</span> sum <span style="color: #8787d7;">$</span> map snd pathB
+        forwardPriceToA <span style="color: #8787d7;">=</span> priceA <span style="color: #8787d7;">+</span> a
+        crossPriceToA <span style="color: #8787d7;">=</span> priceB <span style="color: #8787d7;">+</span> b <span style="color: #8787d7;">+</span> c
+        forwardPriceToB <span style="color: #8787d7;">=</span> priceB <span style="color: #8787d7;">+</span> b
+        crossPriceToB <span style="color: #8787d7;">=</span> priceA <span style="color: #8787d7;">+</span> a <span style="color: #8787d7;">+</span> c
+        newPathToA <span style="color: #8787d7;">=</span> <span style="color: #268bd2; font-weight: bold;">if</span> forwardPriceToA <span style="color: #8787d7;">&lt;=</span> crossPriceToA
+                        <span style="color: #268bd2; font-weight: bold;">then</span> <span style="color: #268bd2;">(</span><span style="color: #df005f; font-weight: bold;">A</span>,a<span style="color: #268bd2;">)</span><span style="color: #df005f; font-weight: bold;">:</span>pathA
+                        <span style="color: #268bd2; font-weight: bold;">else</span> <span style="color: #268bd2;">(</span><span style="color: #df005f; font-weight: bold;">C</span>,c<span style="color: #268bd2;">)</span><span style="color: #df005f; font-weight: bold;">:</span><span style="color: #268bd2;">(</span><span style="color: #df005f; font-weight: bold;">B</span>,b<span style="color: #268bd2;">)</span><span style="color: #df005f; font-weight: bold;">:</span>pathB
+        newPathToB <span style="color: #8787d7;">=</span> <span style="color: #268bd2; font-weight: bold;">if</span> forwardPriceToB <span style="color: #8787d7;">&lt;=</span> crossPriceToB
+                        <span style="color: #268bd2; font-weight: bold;">then</span> <span style="color: #268bd2;">(</span><span style="color: #df005f; font-weight: bold;">B</span>,b<span style="color: #268bd2;">)</span><span style="color: #df005f; font-weight: bold;">:</span>pathB
+                        <span style="color: #268bd2; font-weight: bold;">else</span> <span style="color: #268bd2;">(</span><span style="color: #df005f; font-weight: bold;">C</span>,c<span style="color: #268bd2;">)</span><span style="color: #df005f; font-weight: bold;">:</span><span style="color: #268bd2;">(</span><span style="color: #df005f; font-weight: bold;">A</span>,a<span style="color: #268bd2;">)</span><span style="color: #df005f; font-weight: bold;">:</span>pathA
+    <span style="color: #268bd2; font-weight: bold;">in</span>  <span style="color: #268bd2;">(</span>newPathToA, newPathToB<span style="color: #268bd2;">)</span>
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="guycar.png" alt="guycar.png">
+</p>
+</div>
+
+<p>
+上面的程序究竟写了些什么？首先他根据先前 A 的最佳解计算出道路 A的最佳解，之后也如法炮制计算 B 的最佳解。使用 <code>sum $ map snd pathA</code> ，所以如果 <code>pathA</code> 是
+<code>[(A,100),(C,20)]</code> 。 <code>priceA</code> 就是 <code>120</code> 。 <code>forwardPriceToA</code> 就会是我们要付的成本。如果我们是从先前在 A上的交叉点前往。那他就会等于我们至先前交叉点的最佳解加上目前 section 中A 的部份。 <code>crossPriceToA</code> 则是我们从先前在 B 上的交叉点前往 A所要付出的代价。他是先前 B 的最佳解加上 section 中 B 的部份加上 C的长。同样地方式也可以决定 <code>forwardPriceToB</code> 跟 <code>crossPriceToB</code> 。
+</p>
+
+<p>
+现在我们知道了到 A 跟 B 的最佳路径，我们需要根据这些信息来构造到 A 跟 B的整体路径。如果直接走到 A 耗费较少的话，我们就把 <code>newPathToA</code> 设置成 <code>(A,a):pathA</code>
+。这样做的事就是把 <code>Label</code> <code>A</code> 跟 section 的长度 <code>a</code> 接到最佳路径的前面。要记得 <code>A</code> 是一个 label，而 <code>a</code> 的型别是 <code>Int</code> 。我们为什么要接在前面而不是
+<code>pathA ++ [(A,a)]</code> 呢？因为接在 list的前面比起接在后端要有效率多了。不过这样产生出来的 list 就会相反。但要把list 再反过来并不难。如果先走到 B 再穿越小路走到 A 比较短的话，那 <code>newPathToA</code> 就会包含这样走的路线。同样的道理也可以套用在 <code>newPathToB</code> 上。
+</p>
+
+<p>
+最后我们回传 <code>newPathToA</code> 跟 <code>newPathToB</code> 这一对结果。
+</p>
+
+<p>
+我们把 <code>heathrowToLondon</code> 的第一个 section喂给我们的函数。由于他是第一个
+section，所以到 A 跟 B的最佳路径就是一对空的 list。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> roadStep <span style="color: #268bd2;">(</span><span style="color: #d75fd7; font-weight: bold;">[]</span>, <span style="color: #d75fd7; font-weight: bold;">[]</span><span style="color: #268bd2;">)</span> <span style="color: #268bd2;">(</span>head heathrowToLondon<span style="color: #268bd2;">)</span>
+<span style="color: #268bd2;">(</span><span style="color: #d75fd7;">[</span><span style="color: #2aa198;">(</span><span style="color: #df005f; font-weight: bold;">C</span>,<span style="color: #d75fd7;">30</span><span style="color: #2aa198;">)</span>,<span style="color: #2aa198;">(</span><span style="color: #df005f; font-weight: bold;">B</span>,<span style="color: #d75fd7;">10</span><span style="color: #2aa198;">)</span><span style="color: #d75fd7;">]</span>,<span style="color: #d75fd7;">[</span><span style="color: #2aa198;">(</span><span style="color: #df005f; font-weight: bold;">B</span>,<span style="color: #d75fd7;">10</span><span style="color: #2aa198;">)</span><span style="color: #d75fd7;">]</span><span style="color: #268bd2;">)</span>
+</pre>
+</div>
+
+<p>
+要记住包含的路径是反过来的，要从右边往左边读。所以到 A的最佳路径可以解读成从
+B 出发，然后穿越到道路 A。而 B的最佳路径则是直接从 B 出发走到下一个交叉点。
+</p>
+
+<pre class="example">
+优化小技巧：当我们写 ``priceA = sum $ map snd pathA`` 的时候。我们是在计算每步的
+成本。如果我们实作 ``roadStep`` 成 ``(Path, Path, Int, Int) -&gt; Section -&gt; (Path,
+Path, Int, Int)`` 的话就可以不必那么做。其中的整数型别代表 A 跟 B 上的最小成本。
+</pre>
+
+<p>
+现在我们有了一个函数他接受一对路径跟一个section，并产生新的最佳路径。我们可以用一个 left fold 来做。我们用 <code>([],[])</code> 跟第一个 section 来喂给 <code>roadStep</code> 并得到一对最佳路径。然后他又被喂给这个新得到的最佳路径跟下一个section。以此类推。当我们走过全部的 section的时候，我们就会得到一对最佳路径，而其中比较短的那个就是解答。有了这样的想法，我们便可以实作 <code>optimalPath</code> 。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #d75fd7; font-weight: bold;">optimalPath</span> <span style="color: #8787d7;">::</span> <span style="color: #df005f; font-weight: bold;">RoadSystem</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #df005f; font-weight: bold;">Path</span>
+<span style="color: #d75fd7; font-weight: bold;">optimalPath</span> roadSystem <span style="color: #8787d7;">=</span>
+    <span style="color: #268bd2; font-weight: bold;">let</span> <span style="color: #268bd2;">(</span>bestAPath, bestBPath<span style="color: #268bd2;">)</span> <span style="color: #8787d7;">=</span> foldl roadStep <span style="color: #268bd2;">(</span><span style="color: #d75fd7; font-weight: bold;">[]</span>,<span style="color: #d75fd7; font-weight: bold;">[]</span><span style="color: #268bd2;">)</span> roadSystem
+    <span style="color: #268bd2; font-weight: bold;">in</span>  <span style="color: #268bd2; font-weight: bold;">if</span> sum <span style="color: #268bd2;">(</span>map snd bestAPath<span style="color: #268bd2;">)</span> <span style="color: #8787d7;">&lt;=</span> sum <span style="color: #268bd2;">(</span>map snd bestBPath<span style="color: #268bd2;">)</span>
+                <span style="color: #268bd2; font-weight: bold;">then</span> reverse bestAPath
+                <span style="color: #268bd2; font-weight: bold;">else</span> reverse bestBPath
+</pre>
+</div>
+
+<p>
+我们对 <code>roadSystem</code> 做 left fold。而用的起始 accumulator是一对空的路径。fold
+的结果也是一对路径，我们用模式匹配的方式来把路径从结果取出。然后我们检查哪一个路径比较短便回传他。而且在回传之前也顺便把整个结果反过来。因为我们先前提到的我们是用接在前头的方式来构造结果的。
+</p>
+
+<p>
+我们来测试一下吧！
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ghci<span style="color: #d75fd7; font-weight: bold;">&gt;</span> optimalPath heathrowToLondon
+<span style="color: #268bd2;">[</span><span style="color: #d75fd7;">(</span><span style="color: #df005f; font-weight: bold;">B</span>,<span style="color: #d75fd7;">10</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #df005f; font-weight: bold;">C</span>,<span style="color: #d75fd7;">30</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #df005f; font-weight: bold;">A</span>,<span style="color: #d75fd7;">5</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #df005f; font-weight: bold;">C</span>,<span style="color: #d75fd7;">20</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #df005f; font-weight: bold;">B</span>,<span style="color: #d75fd7;">2</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #df005f; font-weight: bold;">B</span>,<span style="color: #d75fd7;">8</span><span style="color: #d75fd7;">)</span>,<span style="color: #d75fd7;">(</span><span style="color: #df005f; font-weight: bold;">C</span>,<span style="color: #d75fd7;">0</span><span style="color: #d75fd7;">)</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+
+<p>
+这正是我们应该得到的结果！不过跟我们预期的结果仍有点差异，在最后有一步
+<code>(C,0)</code> ，那代表我们已经在伦敦了仍然跨越小路。不过由于他的成本是0，所以依然可以算做正确的结果。
+</p>
+
+<p>
+我们找出最佳路径的函数，现在要做的只需要从标准输入读取文本形式道路系统，并把他转成 <code>RoadSystem</code> ，然后用 <code>optimalPath</code> 来把他跑一遍就好了。
+</p>
+
+<p>
+首先，我们写一个函数，他接受一串 list 并把他切成同样大小的group。我们命名他为
+ <code>groupOf</code> 。当参数是 <code>[1..10]</code> 时， <code>groupOf 3</code> 应该回传
+ <code>[[1,2,3],[4,5,6],[7,8,9],[10]]</code> 。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #d75fd7; font-weight: bold;">groupsOf</span> <span style="color: #8787d7;">::</span> <span style="color: #df005f; font-weight: bold;">Int</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #268bd2;">[</span>a<span style="color: #268bd2;">]</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #268bd2;">[</span><span style="color: #d75fd7;">[</span>a<span style="color: #d75fd7;">]</span><span style="color: #268bd2;">]</span>
+<span style="color: #d75fd7; font-weight: bold;">groupsOf</span> <span style="color: #d75fd7;">0</span> <span style="color: #268bd2; font-weight: bold;">_</span> <span style="color: #8787d7;">=</span> undefined
+<span style="color: #d75fd7; font-weight: bold;">groupsOf</span> <span style="color: #268bd2; font-weight: bold;">_</span> <span style="color: #268bd2; font-weight: bold;">[]</span> <span style="color: #8787d7;">=</span> <span style="color: #268bd2; font-weight: bold;">[]</span>
+<span style="color: #d75fd7; font-weight: bold;">groupsOf</span> n xs <span style="color: #8787d7;">=</span> take n xs <span style="color: #df005f; font-weight: bold;">:</span> groupsOf n <span style="color: #268bd2;">(</span>drop n xs<span style="color: #268bd2;">)</span>
+</pre>
+</div>
+
+<p>
+一个标准的递归函数。对于 <code>xs</code> 等于 <code>[1..10]</code> 且 <code>n</code> 等于 <code>3</code> ，这可以写成
+ <code>[1,2,3] : groupsOf 3 [4,5,6,7,8,9,10]</code> 。当这个递归结束的时候，我们的list
+ 就三个三个分好组。而下列是我们的 <code>main</code> 函数，他从标准输入读取数据，构造
+ <code>RoadSystem</code> 并印出最短路径。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #268bd2; font-weight: bold;">import</span> <span style="color: #df005f; font-weight: bold;">Data.List</span>
+
+<span style="color: #d75fd7; font-weight: bold;">main</span> <span style="color: #8787d7;">=</span> <span style="color: #268bd2; font-weight: bold;">do</span>
+    contents <span style="color: #8787d7;">&lt;-</span> getContents
+    <span style="color: #268bd2; font-weight: bold;">let</span> threes <span style="color: #8787d7;">=</span> groupsOf <span style="color: #d75fd7;">3</span> <span style="color: #268bd2;">(</span>map read <span style="color: #8787d7;">$</span> lines contents<span style="color: #268bd2;">)</span>
+        roadSystem <span style="color: #8787d7;">=</span> map <span style="color: #268bd2;">(</span><span style="color: #8787d7;">\</span><span style="color: #d75fd7;">[</span>a,b,c<span style="color: #d75fd7;">]</span> <span style="color: #8787d7;">-&gt;</span> <span style="color: #df005f; font-weight: bold;">Section</span> a b c<span style="color: #268bd2;">)</span> threes
+        path <span style="color: #8787d7;">=</span> optimalPath roadSystem
+        pathString <span style="color: #8787d7;">=</span> concat <span style="color: #8787d7;">$</span> map <span style="color: #268bd2;">(</span>show <span style="color: #8787d7;">.</span> fst<span style="color: #268bd2;">)</span> path
+        pathPrice <span style="color: #8787d7;">=</span> sum <span style="color: #8787d7;">$</span> map snd path
+    putStrLn <span style="color: #8787d7;">$</span> <span style="color: #2aa198;">"The best path to take is: "</span> <span style="color: #8787d7;">++</span> pathString
+    putStrLn <span style="color: #8787d7;">$</span> <span style="color: #2aa198;">"The price is: "</span> <span style="color: #8787d7;">++</span> show pathPrice
+</pre>
+</div>
+
+<p>
+首先，我们从标准输入获取所有的数据。然后我们调用 <code>lines</code> 来把
+=​"50\n10\n30\n&#x2026;= 转换成 <code>["50","10","30"..</code> ，然后我们 map <code>read</code> 来把这些转成包含数值的 list。我们调用 <code>groupsOf 3</code> 来把 list 的list，其中子 list 长度为 3。我们接着对这个 list 来 map 一个 lambda <code>(\[a,b,c] -&gt; Section a b c)</code> 。正如你看到的，这个 lambda 接受一个长度为3 的 list 然后把他变成 Section。所以
+<code>roadSystem</code> 现在就是我们的道路配置，而且是正确的型别 <code>RoadSystem</code> 。我们调用
+<code>optimalPath</code> 而得到一个路径跟对应的代价，之后再印出来。
+</p>
+
+<p>
+我们将下列文本存成文件。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #d75fd7;">50</span>
+<span style="color: #d75fd7;">10</span>
+<span style="color: #d75fd7;">30</span>
+<span style="color: #d75fd7;">5</span>
+<span style="color: #d75fd7;">90</span>
+<span style="color: #d75fd7;">20</span>
+<span style="color: #d75fd7;">40</span>
+<span style="color: #d75fd7;">2</span>
+<span style="color: #d75fd7;">25</span>
+<span style="color: #d75fd7;">10</span>
+<span style="color: #d75fd7;">8</span>
+<span style="color: #d75fd7;">0</span>
+</pre>
+</div>
+
+<p>
+存成一个叫 <code>paths.txt</code> 的文件然后喂给我们的程序。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #8787d7;">$</span> cat paths<span style="color: #8787d7;">.</span>txt <span style="color: #8787d7;">|</span> runhaskell heathrow<span style="color: #8787d7;">.</span>hs
+<span style="color: #df005f; font-weight: bold;">The</span> best path to take is<span style="color: #df005f; font-weight: bold;">:</span> <span style="color: #df005f; font-weight: bold;">BCACBBC</span>
+<span style="color: #df005f; font-weight: bold;">The</span> price is<span style="color: #df005f; font-weight: bold;">:</span> <span style="color: #d75fd7;">75</span>
+</pre>
+</div>
+
+<p>
+执行成功！你可以用你对 <code>Data.Random</code> 的了解来产生一个比较大的路径配置，然后你可以把产生的乱数数据喂给你的程序。如果你碰到堆叠溢出，试试看用 <code>foldl'​</code> 而不要用 <code>foldl</code> 。 <code>foldl'​</code> 是 strict 的可以减少内存消耗。
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: 刘向</p>
+<p class="date">Created: 2019-12-13 五 22:03</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

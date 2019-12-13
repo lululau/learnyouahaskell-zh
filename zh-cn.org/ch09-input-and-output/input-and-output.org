@@ -1,3 +1,4 @@
+#+TITLE: 输入与输出
 * 输入与输出
 
   [[file:dognap.png]]

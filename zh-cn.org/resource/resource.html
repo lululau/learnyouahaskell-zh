@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2019-12-13 五 22:05 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Resource</title>
+<meta name="generator" content="Org mode">
+<meta name="author" content="刘向">
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="https://liuxiang.coding.me/liuxiang/style/org/spacemacs-wide/htmlize.css"/>
+ <script src="https://liuxiang.coding.me/liuxiang/js/org/spacemacs-wide/jquery.min.js"></script>
+ <script src="https://liuxiang.coding.me/liuxiang/js/org/spacemacs-wide/bootstrap.min.js"></script>
+ <script src="https://liuxiang.coding.me/liuxiang/js/org/spacemacs-wide/readtheorg.js"></script>
+ <link rel="stylesheet" type="text/css" href="https://liuxiang.coding.me/liuxiang/style/org/spacemacs-wide/readtheorg.css"/>
+ <link rel="stylesheet" type="text/css" href="https://liuxiang.coding.me/liuxiang/style/org/spacemacs-wide/font-awesome.min.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Resource</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org0067de7">1. Resource</a>
+<ul>
+<li><a href="#orgf2cfeee">1.1. Specification</a></li>
+<li><a href="#orgc42429a">1.2. Tools</a></li>
+<li><a href="#org2fe1948">1.3. Lectures &amp; Articles</a></li>
+<li><a href="#org327f92c">1.4. Forum</a></li>
+<li><a href="#org401aedf">1.5. Online Judge</a></li>
+<li><a href="#org9e66d19">1.6. Books</a></li>
+<li><a href="#org1b275df">1.7. PL Researchers</a></li>
+<li><a href="#orgf7e896d">1.8. Interesting Projects</a></li>
+<li><a href="#orgbfb70b0">1.9. Taiwan Functional Programming User Group</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org0067de7" class="outline-2">
+<h2 id="org0067de7"><span class="section-number-2">1</span> Resource</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+的资源虽不少，但由于目前社区的人力有限。所以比较没能整理成一套能循序渐进的学习方式。常常会在Haskell Wiki上撞到对初学者太过于深入的东西。或是觉得奇怪怎么不断有之前没看过的东西冒出来。造成学习Haskell很大的撞墙期。这边译者会渐渐补充一些自己觉得有用的资源，尝试找到一些中阶的教材能够衔接初学跟高端。
+</p>
+</div>
+
+<div id="outline-container-orgf2cfeee" class="outline-3">
+<h3 id="orgf2cfeee"><span class="section-number-3">1.1</span> Specification</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+的标准，目前 GHC 如果不用任何 Extension，写出来的程序是符合 Haskell 98的标准。
+</p>
+<ul class="org-ul">
+<li><a href="http://www.haskell.org/onlinereport/haskell2010/">Haskell 2010 Report</a>:，最新的标准，有许多已经实作但要开 Extension 才能用。</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgc42429a" class="outline-3">
+<h3 id="orgc42429a"><span class="section-number-3">1.2</span> Tools</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+函数的搜索引擎，不只可以用函数的名称搜索，也可以用函数的型态来搜索。
+</p>
+<ul class="org-ul">
+<li><a href="http://holumbus.fh-wedel.de/hayoo/hayoo.html">Hayoo</a>: 跟 Hoogle同样功能。</li>
+<li><a href="http://hdiff.luite.com/">hdiff</a>: 可以方便查找 package不同版号之间的差异。</li>
+<li><a href="http://packdeps.haskellers.com/">packdeps</a>: 方便查找 Hackage 上面package 之间的相依性。</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org2fe1948" class="outline-3">
+<h3 id="org2fe1948"><span class="section-number-3">1.3</span> Lectures &amp; Articles</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+Wikibook 资源
+</p>
+<ul class="org-ul">
+<li><a href="http://www.scs.stanford.edu/11au-cs240h/notes/">CS240h</a>: David Mazières 跟 Bryan O'Sullivan 在 Stanford 开的课。</li>
+<li><a href="http://itpro.nikkeibp.co.jp/article/COLUMN/20060915/248215/">本物のプログラマはHaskellを使う</a>: Haskell 专栏</li>
+<li><a href="http://en.wikibooks.org/wiki/Write_Yourself_a_Scheme_in_48_Hours">Write Yourself a Scheme in 48 Hours</a>，Audrey Tang 写的教学，教你如何用
+Haskell 写出一个 Scheme。</li>
+<li><a href="http://video.s-inf.de/*FP.2005-SS-Giesl.(COt).HD_Videoaufzeichnung">德国大学的 Functional Programming 课程，语言是用 FP （英文授课）</a></li>
+<li><a href="http://community.haskell.org/~simonmar/slides/cadarache2012/">Simon Marlow 讲解 parallel haskell 的投影片</a></li>
+<li><a href="http://flolac.iis.sinica.edu.tw/flolac12/doku.php?id=zh-tw:start">FLOLAC 2012</a></li>
+<li><a href="http://www.youtube.com/channel/UCP9g4dLR7xt6KzCYntNqYcw?&amp;desktop_uri=%2Fchannel%2FUCP9g4dLR7xt6KzCYntNqYcw">ICFP 2012</a></li>
+<li><a href="http://archive.org/details/ExplanationOfGeneralizedAlgebraicDataTypesgadts">Explanation of Generalized Algebraic Data Types</a></li>
+<li><a href="http://bonus500.github.com/sc2blog/*title-slide">A Quick Intro to Snap</a></li>
+<li><a href="http://www.cs.uoregon.edu/Research/summerschool/summer12/curriculum.html">Logic, Languages, Compilation, and Verification 2012</a></li>
+<li><a href="http://iba-cg.de/hal7.html">Haskell in Halle/Saale</a></li>
+<li><a href="http://bos.github.com/reaktor-dev-day-2012/reaktor-talk-slides.html*(1)">Fast Code Nation</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org327f92c" class="outline-3">
+<h3 id="org327f92c"><span class="section-number-3">1.4</span> Forum</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+著名 stackoverflow 上的*haskell tag
+</p>
+<ul class="org-ul">
+<li><a href="http://www.reddit.com/r/haskell/">Reddit</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org401aedf" class="outline-3">
+<h3 id="org401aedf"><span class="section-number-3">1.5</span> Online Judge</h3>
+<div class="outline-text-3" id="text-1-5">
+<p>
+Haskell Problems]]
+</p>
+<ul class="org-ul">
+<li><a href="http://projecteuler.net/">Project Euler</a>: 已经算非常著名的 Online Judge，可惜只有上传答案。如果问题实在想不出来，Haskell Wiki上也有参考答案。</li>
+<li><a href="http://www.spoj.pl/">SPOJ</a>: 少数的 Online Judge 系统可以上传Haskell 的，题目非常丰富。也是练 ACM
+ICPC 常用的网站。</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org9e66d19" class="outline-3">
+<h3 id="org9e66d19"><span class="section-number-3">1.6</span> Books</h3>
+<div class="outline-text-3" id="text-1-6">
+<p>
+you a Haskell for great good (Japanese Translation)]]
+</p>
+<ul class="org-ul">
+<li><a href="http://book.realworldhaskell.org/">Real World Haskell</a></li>
+<li><a href="http://www.yesodweb.com/book">Yesod Book, 讲解如何使用 Yesod Web Framework</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org1b275df" class="outline-3">
+<h3 id="org1b275df"><span class="section-number-3">1.7</span> PL Researchers</h3>
+<div class="outline-text-3" id="text-1-7">
+<ul class="org-ul">
+<li><a href="http://www.cs.rutgers.edu/~ccshan/">单中杰老师</a></li>
+<li><a href="http://conal.net/">Conal Elliott</a></li>
+<li><a href="http://blog.ezyang.com/">Edward Yang</a></li>
+<li><a href="http://comonad.com/reader/">Edward Kmett</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgf7e896d" class="outline-3">
+<h3 id="orgf7e896d"><span class="section-number-3">1.8</span> Interesting Projects</h3>
+<div class="outline-text-3" id="text-1-8">
+<p>
+语言的子集，直接转译成 Javascript
+</p>
+<ul class="org-ul">
+<li><a href="http://leksah.org/">Leksah</a>: Haskell IDE</li>
+<li><a href="https://github.com/Mokehehe/Monao/">Super Manao Bros</a>: 超级玛利欧</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgbfb70b0" class="outline-3">
+<h3 id="orgbfb70b0"><span class="section-number-3">1.9</span> Taiwan Functional Programming User Group</h3>
+<div class="outline-text-3" id="text-1-9">
+<ul class="org-ul">
+<li><a href="https://docs.google.com/file/d/0BzqwG7n2gs71blE5V2pzR29WUDQ/edit?pli=1">Haskell 高端算子件介绍</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: 刘向</p>
+<p class="date">Created: 2019-12-13 五 22:05</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

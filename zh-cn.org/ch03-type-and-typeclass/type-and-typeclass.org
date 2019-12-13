@@ -1,3 +1,5 @@
+#+TITLE: Types and Typeclasses
+
 * Types and Typeclasses
 
 ** Type

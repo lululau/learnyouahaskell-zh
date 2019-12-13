@@ -1,3 +1,4 @@
+#+TITLE: Functors, Applicative Functors 与 Monoids
 * Functors, Applicative Functors 与 Monoids
 
   Haskell 的一些特色，像是纯粹性，高端函数，algebraic data types，typeclasses，
@@ -1055,7 +1056,7 @@
 
    很酷吧。当我们套用在 =Maybe= 上时， =sequenceA= 创造一个新的 =Maybe= ，他包含
    了一个 list 装有所有结果。如果其中一个值是 =Nothing= ，那整个结果就会是
-   =Nothing= 。如果你有一串 =Maybe=型别的值，但你只在乎当结果不包含任何
+   =Nothing= 。如果你有一串 =Maybe= 型别的值，但你只在乎当结果不包含任何
    =Nothing= 的情况，这样的特性就很方便。
 
    当套用在函数时， =sequenceA= 接受装有一堆函数的 list，并回传一个回传 list的函
@@ -1235,7 +1236,7 @@
    型别而已。有了这个概念，Haskell可以将包裹跟解开来的成本都去除掉。
 
    那为什么我们不是一直使用 =newtype= 呢？当你用 =newtype= 来制作一个新的型别时，
-   你只能定义单一一个值构造子，而且那个构造子只能有一个字段。但使用=data=的话，
+   你只能定义单一一个值构造子，而且那个构造子只能有一个字段。但使用 =data= 的话，
    你可以让那个型别有好几个值构造子，并且每个构造子可以有零个或多个字段。
 
    #+BEGIN_SRC haskell

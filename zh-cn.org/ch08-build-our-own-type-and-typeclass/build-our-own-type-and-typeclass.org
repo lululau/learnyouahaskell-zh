@@ -1,3 +1,5 @@
+#+TITLE: 构造我们自己的 Types 和 Typeclasses
+
 * 构造我们自己的 Types 和 Typeclasses
 
 ** Algebraic Data Types 入门
@@ -1165,7 +1167,7 @@
    我们在这边看到了一些奇怪的语法跟关键字。别担心，你一下子就会了解他们的。首先，
    我们看到 =class Eq a where= ，那代表我们定义了一个新的 typeclass 叫做 =Eq= 。
    =a= 是一个型别变量，他代表 =a= 是任何我们在定义 instance时的型别。他不一定要
-   叫做=a= 。他也不一定非要一个字母不可，只要他是小写就好。然后我们又定义了几个
+   叫做 =a= 。他也不一定非要一个字母不可，只要他是小写就好。然后我们又定义了几个
    函数。我们并不一定要实作函数的本体，不过必须要写出函数的型别宣告。
 
    如果我们写成 =class Eq equatable where= 还有 ~(==) :: equatable -> equatable
