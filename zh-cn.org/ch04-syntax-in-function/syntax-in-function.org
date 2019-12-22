@@ -1,3 +1,4 @@
+#+TITLE: 函数的语法
 * 函数的语法
 
 ** 模式匹配 (Pattern matching)
